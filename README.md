@@ -28,6 +28,7 @@ after those is API calls.
 | 2 | [The tag manager account](docs/02-tag-manager-account.md) | 2 min |
 | 3 | [Authorise once](docs/03-authorise.md) | 3 min |
 | 4 | [Hand it to the agent](docs/04-run-it.md) | the agent's part |
+| 5 | [What the tag manager does not cover](docs/05-what-gtm-does-not-cover.md) | 5 min, and it is the one people skip |
 
 **New to the Google Cloud console?** Section 1.0 of the first document explains what it is,
 what enabling an API means, and what this opens up beyond this one setup. It is worth the ten
@@ -55,6 +56,7 @@ docs/
   02-tag-manager-account.md   the other thing that cannot be automated
   03-authorise.md             the single browser step
   04-run-it.md                the four values, the prompt, the sequence
+  05-what-gtm-does-not-cover.md   image pixels, and the other two gaps
   reference/
     nine-steps.md             every step, and what differs between the two doc trails
     regions.md                region codes, and the case that breaks setups
