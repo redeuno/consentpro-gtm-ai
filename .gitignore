@@ -1,0 +1,43 @@
+# Credentials. Nothing in these families should ever reach a commit.
+#
+# The first line is the one that matters most and the one most .gitignore files miss:
+# Google downloads OAuth clients with an automatic name that starts with client_secret,
+# which patterns like *oauth*.json or credentials.json do not catch.
+client_secret*.json
+client_secret*
+*oauth*client*.json
+*-oauth-*.json
+credentials.json
+service-account*.json
+*.pem
+*.p12
+
+# Refresh and access tokens, whatever they are called
+*refresh*token*
+*-token.txt
+*_token.txt
+token.json
+tokens.json
+.credentials/
+
+# Environment files. The example is committed, the real one never is.
+.env
+.env.*
+!.env.example
+
+# Category maps can carry a customer's tag names, which is their information, not yours
+map.json
+*-map.json
+
+# Audit output can carry container contents
+gtm-consent-audit-*.json
+
+# The usual
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
