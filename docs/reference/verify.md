@@ -6,6 +6,12 @@ you whether it is.
 **The first three read configuration. The last two load the page.** A setup can pass all of
 the first three and fail both of the last two, which is why the order ends where it does.
 
+⭐ **6.4 and 6.5 have their own page now:
+[verify-behaviour.md](verify-behaviour.md)**, with the full procedure, what each of the three
+cookie lists means, and how to trace anything that should not be there. If you only do one
+check on this page, do that one: it is the only one that watches what the browser actually
+did.
+
 ---
 
 ## 6.1 The container is published

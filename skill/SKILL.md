@@ -67,6 +67,7 @@ what is currently set, and read it back after changes to confirm.
 
 | Script | When | What it does |
 |---|---|---|
+| `scripts/inspect-site.py` | **first, always** | reads the public page: which engine is installed, which documentation trail applies, the container, and what loads before the consent layer. **No credential needed**, so there is no reason to skip it |
 | `scripts/authorise.py` | once per machine | opens the Google consent screen and stores a refresh token. The only step that needs a human at a browser |
 | `scripts/audit-container.py` | first, and again last | reports which consent steps are in place. Read only |
 | `scripts/wire-consent.py --scaffold` | before configuring | prints a category map from the container's tags, every line defaulting to the strictest category |
@@ -121,9 +122,15 @@ common shape is tags detected but nothing wired.
 **Work in the order above, one step at a time.** Confirm each one before moving on. A step
 skipped early makes every later step look broken.
 
-**Finish by testing behaviour, not configuration.** Sections 6.4 and 6.5 of
-[`reference/verify.md`](../docs/reference/verify.md) are the only checks that load the page. Everything
-before them reads settings, which is necessary and not sufficient.
+**Finish by testing behaviour, not configuration.**
+[`reference/verify-behaviour.md`](../docs/reference/verify-behaviour.md) is the only check that
+watches what the browser actually did, and **if you have a browser tool, you can run it
+yourself**. Three cookie lists: before touching the banner, after refusing, after accepting.
+Everything else in this skill reads settings, which is necessary and not sufficient.
+
+⛔ **If all three lists are the same, the consent layer is decorative on that site.** It shows
+a banner and changes nothing. No amount of configuration review finds that, and it is the most
+important thing you can tell someone.
 
 **When something does not match, go to
 [`reference/troubleshooting.md`](../docs/reference/troubleshooting.md)** before theorising. Six known

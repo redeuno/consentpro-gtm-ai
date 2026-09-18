@@ -86,14 +86,33 @@ docs/
     regions.md                region codes, and the case that breaks setups
     categories.md             category to consent check, and the essential question
     verify.md                 five checks, three of configuration and two of behaviour
+    verify-behaviour.md       the one check that watches what the browser actually did
     troubleshooting.md        six failure shapes, each with its symptom
 skill/
   SKILL.md                    point an agent at this
 scripts/
+  inspect-site.py             reads a public page: which engine, which trail, load order
   authorise.py                one-time browser authorisation
   audit-container.py          reports which consent steps are in place. Read only
   wire-consent.py             does the configuration. Simulates by default
 ```
+
+## Start by measuring, not by answering
+
+Before reading anything, point this at the site. **No credential, no login, no setup**: it
+reads the public page the way any visitor does.
+
+```bash
+python scripts/inspect-site.py https://example.com
+```
+
+It tells you which engine is installed and therefore **which documentation trail applies**,
+the site id, the tag manager container, whether the `<noscript>` is still there, and what
+loads before the consent layer.
+
+⭐ **This replaces a question people answer wrong.** Every guide starts by asking "Webflow or
+something else?", and a Webflow project managed from the web app follows the web app trail.
+The script address on the page settles it without anyone having to remember.
 
 ---
 
