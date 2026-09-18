@@ -3,6 +3,19 @@
 Everything from here is API calls, so this is the part the agent does. Your job is to supply
 four values and to read one file carefully.
 
+> **Which documentation trail applies to you.** The nine steps are identical either way; the
+> details differ, and the region section differs the most.
+>
+> | Your site | Trail |
+> |---|---|
+> | Built and hosted in Webflow | [the Webflow guide](https://docs.consentpro.com/webflow/google-tag-manager) |
+> | **Astro, Next, Nuxt, SvelteKit, Remix, plain HTML, anything you deploy yourself** | [the web app guide](https://docs.consentpro.com/web-app/google-tag-manager) |
+>
+> ⚠️ **A Webflow project managed from the web app follows the web app trail**, and that case is
+> real rather than hypothetical. **The script address tells you which**, with no guessing:
+> `/v2/cdn/runtime.js` is the Webflow engine, `/cdn/core/` is the web app. Look at your own
+> page source, or ask the agent to.
+
 ## The four values the agent cannot work out
 
 | Value | Where you find it | Why it has to come from you |

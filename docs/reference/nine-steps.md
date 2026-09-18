@@ -9,8 +9,12 @@ Both documentation trails carry the same nine. What changes between them is note
 **Why:** it loads tags without JavaScript, which means outside the consent layer entirely.
 
 - **Webflow:** Site Settings, Custom Code, remove it from the Footer.
-- **Other sites:** wherever the template that renders `<body>` puts it, usually a shared
-  layout.
+- **A framework project** (Astro, Next, Nuxt, SvelteKit, Remix): it is in the shared layout or
+  root document that renders `<body>`, not in a page. In Astro that is usually
+  `src/layouts/*.astro` or `src/pages/_document`-style wrappers; in Next, `app/layout.tsx` or
+  `pages/_document`. **Search your repository for `googletagmanager.com/ns.html`**, which is the
+  string only the `<noscript>` half contains, and you will land on it directly.
+- **A plain site:** wherever your template or include puts it.
 
 ---
 

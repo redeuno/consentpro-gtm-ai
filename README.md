@@ -7,16 +7,34 @@ underneath, so an agent can do it while you supply the handful of decisions only
 
 ---
 
-## The division of labour
+## Where this fits, before anything else
 
-| You, once | The agent, every time |
-|---|---|
-| A Google Cloud project, one credential, the tag manager account. About fifteen minutes | Reads what exists, imports the template, creates the initialization tag and the consent trigger, moves every tag, applies the consent checks, publishes, and reads the result back |
+Setting up Consent Pro is nine stages. **This repository automates one of them**, and it is
+the one users report as the hardest.
 
-**Only two things genuinely cannot be automated.** Creating a tag manager account, because the
-interface demands a container name on the same screen and no API path skips it. And authorising
-a credential, because it ends at a Google consent screen a person has to click. Everything
-after those is API calls.
+| # | Stage | Agent? |
+|---|---|---|
+| 0 | Google Cloud and tag manager account | partly, once |
+| 1 | Sign in, pick a workspace | no, the app |
+| 2 | Connect Domain | no, the app |
+| 3 | Configure Banner | no, the app |
+| 4 | Install the core script | the site half, yes |
+| 5 | Scan the site | no, the app |
+| 6 | Categorise the trackers | no, and your judgement is required |
+| 7 | **Wire Google Tag Manager** | ⭐ **yes, fully. This is what this repo does** |
+| 8 | Publish | no, and production needs a paid plan |
+| 9 | Image pixels and the `<noscript>` | yes, with your codebase |
+
+**Stage 7 is automated because it is the only stage that happens in a system with a public
+API.** The others happen inside the Consent Pro app, which today has no public API and no MCP
+server. An agent cannot press a button on a screen it cannot reach.
+
+⭐ It also happens to be the stage that hurts most: **63% of Consent Pro users use Google Tag
+Manager, and it is reported as the most painful step**.
+
+**[The full map, stage by stage, is in docs/00-the-journey.md](docs/00-the-journey.md)**, built
+by walking the product end to end and capturing every screen in order. Read it before you
+start, so nothing surprises you halfway through.
 
 ---
 
@@ -24,6 +42,7 @@ after those is API calls.
 
 | Step | Document | Time |
 |---|---|---|
+| 0 | [The whole journey](docs/00-the-journey.md) | 5 min, read first |
 | 1 | [Google Cloud, once](docs/01-google-cloud-setup.md) | 15 min |
 | 2 | [The tag manager account](docs/02-tag-manager-account.md) | 2 min |
 | 3 | [Authorise once](docs/03-authorise.md) | 3 min |
@@ -33,6 +52,11 @@ after those is API calls.
 **New to the Google Cloud console?** Section 1.0 of the first document explains what it is,
 what enabling an API means, and what this opens up beyond this one setup. It is worth the ten
 minutes if the console is unfamiliar.
+
+**Two things genuinely cannot be automated by anyone**, and they are both in stage 0. Creating
+a tag manager account, because the interface demands a container name on the same screen and no
+API path skips it. And approving a credential, because it ends at a Google consent screen a
+person clicks.
 
 ---
 

@@ -5,6 +5,33 @@ than from a theory.
 
 ---
 
+## The scan finds fewer trackers than the site actually loads
+
+**The most reported one, and it is documented behaviour rather than a bug.**
+
+**Cause:** the tag is on a trigger the scanner does not read. The documentation is explicit
+that it only detects tags firing on `All Pages` or on a Consent Pro event such as
+`consent-updated`. A tag on a click, a timer, a scroll, one specific page or your own custom
+event is invisible to it.
+
+**What that produces:** the tracker never appears in the app, never gets a category, and
+therefore never gets a consent check. It fires, and nothing in the product says it exists.
+
+**How to confirm it in seconds:**
+
+```bash
+python scripts/audit-container.py --account ID --container GTM-XXX --confirm-name "Name"
+```
+
+It lists every tag with its trigger and prints an explicit block naming the ones the scanner
+cannot see.
+
+**Fix:** move them to `Consent Updated`, which both detects and gates them. Or to `All Pages`
+if you only need them detected and they are handled some other way.
+
+⚠️ **Check this before reporting a scanning bug.** A tracker on an unusual trigger looks
+exactly like a broken scan from the outside, and the two need completely different responses.
+
 ## Trackers appear in the app, and fire regardless of the choice
 
 **The most common one by far.** Detection is working and blocking was never set up.

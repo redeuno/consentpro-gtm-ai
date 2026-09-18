@@ -101,6 +101,32 @@ def has_consent_check(tag):
     return cs.get("consentStatus") == "needed" or bool(cs.get("consentType"))
 
 
+def scanner_can_see(tag, consent_updated_ids):
+    """Can the Consent Pro scanner see this tag at all?
+
+    ⛔ THIS IS THE CHECK THAT EXPLAINS 'THE SCAN MISSED MY TRACKER'.
+    The official documentation is explicit: the scanner only detects scripts from Google Tag
+    Manager that fire on 'All Pages' or on a Consent Pro custom event such as
+    'consent-updated'. A tag on any other trigger (a click, a timer, a scroll, one specific
+    page, a custom event of your own) is INVISIBLE to it.
+
+    The consequence people hit: that tracker never appears in the app, never gets a category,
+    and therefore never gets a consent check. It fires, and nothing in the product mentions
+    it exists. This is documented behaviour, not a bug, and it is the single most common
+    reason a scan comes back with fewer trackers than the site actually loads.
+    """
+    triggers = set(tag.get("firingTriggerId") or [])
+    if not triggers:
+        return False
+    # ⛔ The initialization tag is NOT a tracker, it is the consent layer itself. It belongs on
+    # Consent Initialization by design, and the scanner has no reason to see it. Flagging it
+    # would be a false alarm, and a checker that cries wolf on its own correct setup is a
+    # checker people stop reading.
+    if TRIGGER_CONSENT_INIT in triggers:
+        return True
+    return bool(triggers & ({TRIGGER_ALL_PAGES} | consent_updated_ids))
+
+
 def main():
     p = argparse.ArgumentParser()
     p.add_argument("--account", required=True, help="account id")
@@ -185,10 +211,29 @@ def main():
         print("  %s  %-48s %s" % ("[x]" if ok else "[ ]", name, detail))
 
     print("\nHOW EACH TAG FIRES TODAY:")
+    invisible = []
     for t in tags:
         names = [trigger_name(g, triggers) for g in (t.get("firingTriggerId") or [])]
-        mark = "" if has_consent_check(t) else "   (no consent check)"
+        flags = []
+        if not has_consent_check(t):
+            flags.append("no consent check")
+        if not scanner_can_see(t, cu_ids):
+            flags.append("SCANNER CANNOT SEE THIS")
+            invisible.append((t.get("name", "?"), ", ".join(names) or "no trigger"))
+        mark = ("   (" + "; ".join(flags) + ")") if flags else ""
         print("  %-40s %s%s" % (t.get("name", "?")[:40], ", ".join(names) or "no trigger", mark))
+
+    if invisible:
+        print("\n⛔ %d TAG(S) THE CONSENT PRO SCANNER CANNOT SEE:" % len(invisible))
+        for name, trg in invisible:
+            print("   %-40s fires on: %s" % (name[:40], trg))
+        print("   The docs are explicit: the scanner only detects tags that fire on 'All Pages'")
+        print("   or on a Consent Pro event such as 'consent-updated'. These will never appear")
+        print("   in the app, never get a category, and never get a consent check. They fire,")
+        print("   and nothing in the product says they exist.")
+        print("   This is documented behaviour, and it is the usual reason a scan returns fewer")
+        print("   trackers than the site loads. Fix: move them to 'Consent Updated', or to")
+        print("   'All Pages' if you only need them detected.")
 
     done = sum(1 for _, ok, _ in steps if ok)
     print("\nRESULT: %d of %d consent steps are in place." % (done, len(steps)))
