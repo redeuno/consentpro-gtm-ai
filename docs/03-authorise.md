@@ -1,7 +1,10 @@
 # 3. Authorise once
 
-The last step with a human in it. After this the agent renews its own access and you do not
-return to a browser.
+**For API automation only.** The manual
+[Gallery path](reference/nine-steps.md#2-add-the-consent-pro-template-from-the-gallery) does not
+use this script or a custom OAuth client JSON. For the scripts, browser authorisation lets
+the agent renew access while the refresh token remains valid; Testing mode or revocation can
+require authorisation again.
 
 ## What is about to happen
 

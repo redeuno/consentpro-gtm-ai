@@ -13,14 +13,14 @@ are the product's own labels.
 
 | # | Stage | Where it happens | Can an agent do it today? |
 |---|---|---|---|
-| 0 | **Google Cloud and tag manager account** | Google consoles | **partly.** The account is manual; the credential is manual once. [Docs 1](01-google-cloud-setup.md) and [2](02-tag-manager-account.md) |
+| 0 | **Tag manager account; Google Cloud for automation only** | Google consoles | The GTM interface needs container access. Scripts also need an OAuth credential. [Docs 1](01-google-cloud-setup.md) and [2](02-tag-manager-account.md) |
 | 1 | **Sign in, pick a workspace** | the app | no. SSO, in the browser |
 | 2 | **Connect Domain** | the app, setup step 1 | no |
 | 3 | **Configure Banner** | the app, setup step 2 | no |
 | 4 | **Install** the core script | the app gives it, your site takes it | **the app half, no. Putting the snippet in your site, yes**, if the agent has your codebase |
 | 5 | **Scan** the site | the app | no. One button, and it drives stages 6 and 8 |
 | 6 | **Categorise the trackers** | the app, with `Fill with AI` | no |
-| 7 | **Wire Google Tag Manager** | **the Google API** | ⭐ **yes, fully. This repository** |
+| 7 | **Wire Google Tag Manager** | the GTM interface or API | yes, the container configuration; site checks remain separate |
 | 8 | **Publish** | the app | no. **Publishing a production domain requires a paid plan** |
 | 9 | **Image trackers and the `<noscript>`** | your site's code | **yes**, if the agent has your codebase. [Doc 5](05-what-gtm-does-not-cover.md) |
 
@@ -45,8 +45,14 @@ Consent Pro users use Google Tag Manager, and it is the most painful step of the
 
 ### Stage 0. Google Cloud and the tag manager account
 
-Fifteen minutes, once per Google account, and never again for that account. Covered in
-[docs 1](01-google-cloud-setup.md) and [2](02-tag-manager-account.md).
+**Manual setup:** sign in to GTM and use an existing container or create one with
+[doc 2](02-tag-manager-account.md). Add Consent Pro from the Gallery in
+[step 2](reference/nine-steps.md#2-add-the-consent-pro-template-from-the-gallery).
+This path needs no custom OAuth client and no template download.
+
+**API automation:** also complete [Google Cloud setup](01-google-cloud-setup.md) and
+[authorisation](03-authorise.md). The OAuth client JSON and refresh token let the scripts act
+on your behalf; installing a Gallery template does not authorise those scripts.
 
 **Two things here cannot be automated by anyone.** Creating a tag manager account, because
 the interface demands a container name on the same screen and no API path skips it. And
@@ -100,9 +106,19 @@ only category that skips consent entirely. Read that list yourself.
 
 ### Stage 7. The tag manager
 
-**This is what the rest of this repository is about.** Nine steps, all API calls, detailed in
-[reference/nine-steps.md](reference/nine-steps.md), run by
-[scripts/wire-consent.py](../scripts/wire-consent.py).
+**This is what the rest of this repository is about.** Follow the
+[nine steps](reference/nine-steps.md) in the GTM interface, or use
+[scripts/wire-consent.py](../scripts/wire-consent.py) for the container configuration.
+Removing the site's `<noscript>`, testing browser behaviour and marking the app's checklist
+still need their own checks.
+
+For [browser verification](reference/verify-behaviour.md), identify the trackers and actions
+being exercised, then compare requests, storage and consent state across choices. Equal
+cookie lists or a change in their count alone cannot establish whether consent gating works.
+
+The Gallery changes how step 2 installs the template. It does not configure regional
+defaults, move triggers, add consent checks or test the site for you. Existing manual
+templates are not migrated automatically by this repository.
 
 ⚠️ **It depends on stage 6.** The consent check applied to each tag mirrors the category the
 app gave that tracker, so a wrong category here becomes a firing rule there.

@@ -60,15 +60,17 @@ container's own tag list against the map** rather than assuming the scan found e
 
 ## The honest summary to give someone
 
-After the wiring is done and verified, what you can say is:
+After [testing browser behaviour](reference/verify-behaviour.md), report the scope observed:
 
-> Trackers arriving through the tag manager are held until the visitor chooses, and that has
-> been verified by loading the site and refusing.
+> For [named trackers], we exercised [pages and actions] in [browser, region and consent
+> mode]. We observed [requests and storage] before choice, after refusal and after acceptance.
+> The observed result was [result for each tracker].
 
-What you cannot say without checking these three:
+Do not turn that scoped observation into:
 
 > Every tracker on the site is held.
 
-The difference is image pixels, the `<noscript>` block, and anything the scan did not see.
-Three checks, a few minutes, and the second sentence becomes true or you find out why it is
-not.
+Image pixels, the `<noscript>` block, trackers the scan missed and untested interactions can
+all lie outside that observation. Record those limits. A cookie count cannot prove that
+requests or other storage were blocked, and absence after acceptance makes the result
+inconclusive when the expected tracker was never exercised.

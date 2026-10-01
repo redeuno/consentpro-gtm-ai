@@ -1,7 +1,7 @@
 """
 What it does: checks a Google Tag Manager container against the Consent Pro setup guide and
-          reports which of the consent steps are in place. Answers "is this container wired
-          to consent, or does it just have tags in it?".
+          reports configuration signals and per-tag counts. These signals do not establish
+          that every tag is correctly configured or that consent works in the browser.
 READS or WRITES: **READS ONLY.** There is no write path in this file, by design. An audit
           that fixes things on its own hides what was wrong. With --save it writes one JSON
           diagnostic to the current directory, which is local disk.
@@ -24,8 +24,10 @@ Usage:
 """
 
 import argparse
+import importlib.util
 import json
 import os
+from pathlib import Path
 import sys
 import time
 import urllib.error
@@ -35,6 +37,9 @@ from datetime import datetime, timezone
 
 API = "https://tagmanager.googleapis.com/tagmanager/v2"
 TOKEN_URL = "https://oauth2.googleapis.com/token"
+_spec = importlib.util.spec_from_file_location("consent_template", Path(__file__).with_name("consent-template.py"))
+template_support = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(template_support)
 
 CLIENT_FILE = os.environ.get("GTM_OAUTH_CLIENT")
 TOKEN_FILE = os.environ.get("GTM_OAUTH_TOKEN")
@@ -150,13 +155,14 @@ def main():
         raise SystemExit(
             "Account %s is named '%s', not '%s'. Stopping." % (a.account, live_name, a.confirm_name))
 
-    containers = read(tok, "/accounts/%s/containers" % a.account).get("container", [])
+    inventory = lambda path, key: template_support.list_all(lambda url: read(tok, url), path, key)
+    containers = inventory("/accounts/%s/containers" % a.account, "container")
     target = next((c for c in containers if c.get("publicId") == a.container), None)
     if target is None:
         raise SystemExit("container %s not found in account %s" % (a.container, a.account))
 
-    wss = read(tok, "/accounts/%s/containers/%s/workspaces"
-               % (a.account, target["containerId"])).get("workspace", [])
+    wss = inventory("/accounts/%s/containers/%s/workspaces"
+                    % (a.account, target["containerId"]), "workspace")
     if a.workspace:
         ws = next((w for w in wss if w.get("workspaceId") == a.workspace), None)
         if ws is None:
@@ -169,17 +175,19 @@ def main():
 
     base = "/accounts/%s/containers/%s/workspaces/%s" % (
         a.account, target["containerId"], ws["workspaceId"])
-    tags = read(tok, base + "/tags").get("tag", [])
-    triggers = read(tok, base + "/triggers").get("trigger", [])
-    templates = read(tok, base + "/templates").get("template", [])
+    tags = inventory(base + "/tags", "tag")
+    triggers = inventory(base + "/triggers", "trigger")
+    templates = inventory(base + "/templates", "template")
 
     print("\nACCOUNT   %s (%s)" % (live_name, a.account))
     print("CONTAINER %s (%s), workspace %s" % (a.container, target.get("name", "?"), ws.get("name", "?")))
     print("%d tags, %d workspace triggers, %d templates\n" % (len(tags), len(triggers), len(templates)))
 
-    tpl = [t for t in templates
-           if "consent" in (t.get("name", "") + json.dumps(t.get("templateData", ""))).lower()]
-    init = [t for t in tags if TRIGGER_CONSENT_INIT in (t.get("firingTriggerId") or [])]
+    tpl, identity = template_support.select(templates)
+    print("TEMPLATE SOURCE: " + template_support.describe(identity))
+    tag_type = "cvt_%s_%s" % (target["containerId"], tpl["templateId"]) if tpl else None
+    init = [t for t in tags if tag_type and t.get("type") == tag_type
+            and TRIGGER_CONSENT_INIT in (t.get("firingTriggerId") or [])]
 
     def is_consent_updated(t):
         if t.get("type") != "customEvent":
@@ -197,16 +205,16 @@ def main():
 
     steps = [
         ("2. Consent Pro template imported", bool(tpl),
-         "%d template(s)" % len(tpl) if tpl else "no templates in this workspace"),
+         template_support.describe(identity)),
         ("3. Init tag on Consent Initialization", bool(init),
-         "%d tag(s)" % len(init) if init else "no tag uses the initialization trigger"),
+         "%d tag(s)" % len(init) if init else "no verified Consent Pro tag uses the initialization trigger"),
         ("5. Consent Updated trigger (consent-updated)", bool(cu),
          "%d trigger(s)" % len(cu) if cu else "no custom event trigger for that event"),
         ("6. Tags moved onto that trigger", bool(on_cu), "%d of %d tags" % (len(on_cu), len(tags))),
         ("7. Per-tag consent check", bool(checked), "%d of %d tags" % (len(checked), len(tags))),
     ]
 
-    print("CONSENT STEPS FROM THE OFFICIAL GUIDE:")
+    print("CONFIGURATION SIGNALS FROM THE OFFICIAL GUIDE:")
     for name, ok, detail in steps:
         print("  %s  %-48s %s" % ("[x]" if ok else "[ ]", name, detail))
 
@@ -236,15 +244,16 @@ def main():
         print("   'All Pages' if you only need them detected.")
 
     done = sum(1 for _, ok, _ in steps if ok)
-    print("\nRESULT: %d of %d consent steps are in place." % (done, len(steps)))
+    print("\nRESULT: %d of %d configuration signals found." % (done, len(steps)))
     if done == 0:
         print("  The container has tags in it and no consent integration at all.")
         print("  The scanner still DETECTS those tags, because detection works on All Pages.")
         print("  Blocking does not happen: they fire before the visitor chooses.")
     elif done < len(steps):
-        print("  Partially wired. The unchecked steps above are what is missing.")
+        print("  Some configuration signals are missing. Review the unchecked items above.")
     else:
-        print("  All steps present. This reads configuration, not behaviour:")
+        print("  All configuration signals found. This does not verify every tag's settings.")
+        print("  Review the per-tag counts and configuration, then test behaviour:")
         print("  load the site, refuse, and inspect cookies to test what actually happens.")
 
     if a.save:
@@ -255,6 +264,7 @@ def main():
                 "read_at": datetime.now(timezone.utc).isoformat(),
                 "account": a.account, "account_name": live_name, "container": a.container,
                 "workspace": ws.get("workspaceId"),
+                "template_identity": identity,
                 "steps": [{"step": n, "done": ok, "detail": d} for n, ok, d in steps],
                 "tags": tags, "triggers": triggers, "templates": templates,
             }, f, ensure_ascii=False, indent=2)

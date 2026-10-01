@@ -101,6 +101,9 @@ container.
 **The container reports no recent data.** This is ambiguous and worth not guessing about. It
 can mean the consent layer is holding the tags, which is correct behaviour, or that the tags
 are not firing for an unrelated reason. **Separating the two requires accepting the banner and
-watching the container afterwards**, which is checks 6.4 and 6.5 in [`verify.md`](verify.md).
+exercising a named tracker's expected action afterwards**, which is checks 6.4 and 6.5 in
+[`verify.md`](verify.md). Observe its requests and storage, not just the cookie total. If the
+tracker remains absent after acceptance, its earlier absence cannot yet be credited to
+consent blocking.
 An explanation that credits the result to the product working correctly is the one to be most
 sceptical about, because it is the most comfortable and needs the same evidence as any other.

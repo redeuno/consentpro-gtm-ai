@@ -1,7 +1,9 @@
 # 4. Hand it to the agent
 
-Everything from here is API calls, so this is the part the agent does. Your job is to supply
-four values and to read one file carefully.
+This is the API automation path. Complete the
+[OAuth setup](01-google-cloud-setup.md) and [authorisation](03-authorise.md), then supply four
+values and review the category map. For setup through the GTM interface, use the
+[nine steps](reference/nine-steps.md); that path needs no custom OAuth client.
 
 > **Which documentation trail applies to you.** The nine steps are identical either way; the
 > details differ, and the region section differs the most.
@@ -28,8 +30,8 @@ four values and to read one file carefully.
 ## A prompt that works
 
 ```
-Wire my Google Tag Manager container to Consent Pro, following the official
-documentation. Read skill/SKILL.md in this repository first.
+Wire my Google Tag Manager container to Consent Pro. Read skill/SKILL.md in this
+repository first, including the Gallery installation and existing-template rules.
 
   account:    1234567890
   container:  GTM-XXXXXXX
@@ -78,7 +80,7 @@ python scripts/wire-consent.py ... --map map.json --apply
 # 6. publish
 python scripts/wire-consent.py ... --map map.json --apply --publish
 
-# 7. prove it
+# 7. read back configuration; browser verification follows separately
 python scripts/audit-container.py --account 123 --container GTM-XXX \
     --confirm-name "Your Account Name"
 ```
@@ -113,18 +115,28 @@ that measures, attributes or personalises does not, however convenient it would 
 
 ## What the agent does with all that
 
-Steps two through eight of the official guide, detailed in
-[reference/nine-steps.md](reference/nine-steps.md): imports the template, creates the
-initialization tag with your regional defaults, creates the `consent-updated` trigger, moves
-each tag onto it, applies the consent checks from your map, creates a version and publishes.
+The container operations are detailed in [reference/nine-steps.md](reference/nine-steps.md).
+For a new template, the script imports from the Gallery with owner `finsweet`, repository
+`gtm-template-consent-pro` and pinned SHA `8a551897e5bfdecf03de59fa00058be442b7ac29`.
+It preserves recognised existing templates, including compatible manual imports, with no
+automatic migration. A modified or unrecognised template stops the run before configuration
+writes. Review the audit's source and version before approving changes.
 
-The write calls themselves take a few seconds. Most of the elapsed time is you reading the map.
+With `--apply`, it configures the initialization tag and regional defaults, creates the
+`consent-updated` trigger, applies the category map and creates an unpublished version.
+Only `--apply --publish` also publishes that version. New Gallery imports acknowledge template permissions as part of
+`--apply`; review them before approving the simulation.
+
+The Gallery path in this revision has not been exercised in a live GTM workspace. Local tests
+and official API documentation do not substitute for readback and browser checks on your
+target site.
 
 ## Then verify, and two of the checks are yours
 
-[reference/verify.md](reference/verify.md) has five. The agent can do three, because they read
-configuration. **Only you can do the last two**, because they mean loading the site in a private
-window, refusing, and looking at what cookies are there.
+[reference/verify.md](reference/verify.md) separates configuration from browser behaviour.
+The audit reports template identity and configuration signals; it cannot prove that a page
+respects consent. A person or an agent with browser access must load the site, refuse and
+accept, and inspect the resulting behaviour.
 
 ⛔ **Do not accept "the setup is compliant" from an agent.** It configured a container and it
 can prove what it configured. Compliance is a judgement about a whole site. Ask for two separate
