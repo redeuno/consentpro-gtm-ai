@@ -195,7 +195,16 @@ For new templates, the script pins Gallery version
 `8a551897e5bfdecf03de59fa00058be442b7ac29`. Recognised existing templates are preserved;
 there is no automatic migration from a manual import. See
 [the import and update rules](docs/reference/nine-steps.md#2-add-the-consent-pro-template-from-the-gallery).
-The Gallery path in this revision has local implementation tests and official-source checks;
-it has not been exercised in a live GTM workspace or validated on a live site.
+On 2026-10-01, a real Gallery import and configuration were completed in an isolated QA
+container. Testing exposed and corrected two API differences: the Gallery's rewritten brand
+and its public tag type. A version was created without publishing; a second application
+published the configuration while retaining the same template, initialization tag and trigger.
+The local suite passed 39 tests and 16 mutation controls. See [the captured-response
+coverage](tests/README.md) and [the live check's scope](docs/04-run-it.md#live-check-on-2026-10-01).
+
+Chrome on Windows exercised refusal, acceptance, revocation, Analytics-only consent and reload
+persistence with two local QA markers. The browser substituted the QA container in the received
+lab HTML; the public lab's existing container was unchanged. This does not validate every
+tracker, region, browser or customer installation.
 
 This is an independent guide. It is not published by Finsweet and carries no warranty.

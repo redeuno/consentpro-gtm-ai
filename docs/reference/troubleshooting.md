@@ -94,6 +94,28 @@ consent layer.
 
 ## Two more that are not in the six
 
+### Gallery import stops with "Consent Pro INFO identity does not match"
+
+The live Gallery response captured on 2026-10-01 changed `INFO.brand.id` from the public
+file's `finsweet_consent_pro` to `github.com_finsweet`. The earlier validator stopped after
+importing the template and before configuring tags. The corrected helper accepts the Gallery
+shape only with its verified host, owner, repository, pinned version and content hash.
+
+Use the corrected package, audit the workspace and review the simulation before resuming.
+A recognised imported template is reused. Do not delete it or bypass identity checks to
+retry. The same error can also identify an unexpected template; the
+[captured-response tests](../../tests/README.md) define the case that was reproduced.
+
+### Creating the initialization tag fails with "Unknown entity type"
+
+The Gallery template uses the public type `cvt_WRGND`. Constructing it from the container ID
+and the workspace template ID, as manual imports require, caused this API rejection in the
+same live test. Use the corrected writer and auditor, which share the verified type by
+template origin. Audit the existing workspace and review a new simulation before resuming.
+The failed tag creation did not create an initialization tag or container version.
+
+### Other causes
+
 **The scan is old.** The categories mapped in step seven describe trackers the site no longer
 has, or miss ones it gained. Re-scan before mapping, and re-scan after adding anything to the
 container.

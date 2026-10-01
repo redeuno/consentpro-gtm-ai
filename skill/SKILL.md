@@ -95,8 +95,11 @@ or unrecognised content must stop configuration before writes. Review the reason
 person. `--apply` includes acknowledgement of a new template's permissions.
 
 The audit's `template_identity` reports source/version evidence and configuration signals.
-Its `verified` status does not prove runtime behaviour. The Gallery path in this revision
-has not been exercised in a live workspace. Do not describe local tests as a live setup test.
+Its `verified` status does not prove runtime behaviour. The Gallery path was exercised in a
+real isolated QA container on 2026-10-01, including creation without publication and a repeated
+application with publication. Browser checks used two local markers on a test runtime in Chrome
+on Windows, with the QA container substituted only in the received HTML. This is a bounded lab
+result, not validation of the person's site. Do not describe local tests as a live setup test.
 For future publisher updates, follow the review, accept, test and publish sequence in
 [`nine-steps.md`](../docs/reference/nine-steps.md#2-add-the-consent-pro-template-from-the-gallery).
 

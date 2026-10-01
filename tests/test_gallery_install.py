@@ -22,9 +22,10 @@ def load(name):
     return module
 
 
-def template_data():
-    info = {"type": "TAG", "id": "cvt_temp_public_id", "displayName": "Consent Pro - GTM Template",
-            "brand": {"id": "finsweet_consent_pro"}, "containerContexts": ["WEB"]}
+def template_data(gallery=False):
+    info = {"type": "TAG", "id": "cvt_WRGND" if gallery else "cvt_temp_public_id", "displayName": "Consent Pro - GTM Template",
+            "brand": {"id": "github.com_finsweet" if gallery else "finsweet_consent_pro"},
+            "containerContexts": ["WEB"]}
     sections = {"INFO": json.dumps(info), "TEMPLATE_PARAMETERS": "[]",
                 "SANDBOXED_JS_FOR_WEB_TEMPLATE": "data.gtmOnSuccess();", "WEB_PERMISSIONS": "[]"}
     return "\n\n".join("___%s___\n%s" % pair for pair in sections.items())
@@ -43,10 +44,11 @@ class FakeAPI:
         self.repeat_token = False
 
     def template(self, gallery=True):
-        result = {"templateId": "15", "name": self.helper.NAME, "templateData": template_data()}
+        result = {"templateId": "15", "name": self.helper.NAME, "templateData": template_data(gallery)}
         if gallery:
-            result["galleryReference"] = {"owner": self.helper.OWNER, "repository": self.helper.REPOSITORY,
-                                          "version": self.helper.VERSION, "isModified": False}
+            result["galleryReference"] = {"host": self.helper.HOST, "owner": self.helper.OWNER, "repository": self.helper.REPOSITORY,
+                                          "version": self.helper.VERSION, "isModified": False,
+                                          "galleryTemplateId": "WRGND"}
         return result
 
     def __call__(self, token, path, method="GET", body=None):
@@ -61,10 +63,12 @@ class FakeAPI:
                     self.templates.append(copy.deepcopy(result))
                 return copy.deepcopy(result)
             if resource.endswith("/tags"):
+                self.validate_tag_type(body)
                 tag = dict(body, tagId="2")
                 self.tags.append(tag)
                 return tag
             if "/tags/" in resource:
+                self.validate_tag_type(body)
                 tag = next(tag for tag in self.tags if tag["tagId"] == resource.rsplit("/", 1)[1])
                 tag.update(body)
                 return tag
@@ -89,6 +93,14 @@ class FakeAPI:
         if self.repeat_token:
             return {key: items, "nextPageToken": "second page"}
         return {key: copy.deepcopy(items)}
+
+    def validate_tag_type(self, tag):
+        if str(tag.get("type", "")).startswith("cvt_"):
+            valid = {"cvt_" + template["galleryReference"]["galleryTemplateId"]
+                     if template.get("galleryReference") else "cvt_456_" + template["templateId"]
+                     for template in self.templates}
+            if tag["type"] not in valid:
+                raise SystemExit("vendorTemplate.key: Unknown entity type")
 
 
 class GalleryInstallTests(unittest.TestCase):
@@ -132,7 +144,7 @@ class GalleryInstallTests(unittest.TestCase):
                                  "gallerySha": [self.wire.template_support.VERSION], "acknowledgePermissions": ["true"]})
         self.assertIsNone(imports[0][2])
         self.assertFalse(any(path.endswith(":publish") for path, _, _ in self.api.writes))
-        self.assertEqual(self.api.tags[1]["type"], "cvt_456_15")
+        self.assertEqual(self.api.tags[1]["type"], "cvt_WRGND")
         self.assertEqual(self.api.tags[0]["consentSettings"]["consentStatus"], "needed")
 
     def test_legacy_is_preserved_and_repeated_run_does_not_duplicate(self):
@@ -143,11 +155,12 @@ class GalleryInstallTests(unittest.TestCase):
         self.assertIn("origin and version unverified", output)
         self.assertEqual(self.api.templates, [original])
         self.assertEqual(len(self.api.tags), 2)
+        self.assertEqual(self.api.tags[1]["type"], "cvt_456_15")
         self.assertFalse(any("/templates" in path for path, _, _ in self.api.writes))
 
     def test_renamed_gallery_init_is_reused(self):
         self.api.templates = [self.api.template()]
-        self.api.tags += [{"tagId": "2", "name": "Existing consent", "type": "cvt_456_15"}]
+        self.api.tags += [{"tagId": "2", "name": "Existing consent", "type": "cvt_WRGND"}]
         self.run_main(apply=True)
         self.assertEqual(len(self.api.tags), 2)
         self.assertEqual(self.api.tags[1]["name"], "Existing consent")
@@ -261,6 +274,114 @@ class GalleryInstallTests(unittest.TestCase):
             with self.assertRaises(SystemExit):
                 self.wire.call("fake", "/templates:import_from_gallery", "POST")
         self.assertEqual(request.call_count, 1)
+
+    def captured_template(self):
+        template = json.loads((ROOT / "tests" / "fixtures" / "gallery-import-2026-10-01.json").read_text(encoding="utf-8"))
+        expected = load("consent-template").CONTENT_HASH
+        for module in (self.wire, self.audit):
+            module.template_support.CONTENT_HASH = expected
+        return template
+
+    def test_captured_gallery_response_uses_production_hash(self):
+        template = self.captured_template()
+        helper = self.wire.template_support
+        self.assertEqual(helper.content_hash(template["templateData"]), helper.CONTENT_HASH)
+        self.assertEqual(helper.inspect(template)["status"], "verified")
+        self.api.import_response = template
+        try:
+            self.run_main(apply=True)
+        except SystemExit as exc:
+            self.fail("Captured Gallery response must configure successfully: " + str(exc))
+        self.assertEqual(self.api.tags[1]["type"], "cvt_WRGND")
+        self.assertTrue(any(path.endswith(":create_version") for path, _, _ in self.api.writes))
+        self.assertFalse(any(path.endswith(":publish") for path, _, _ in self.api.writes))
+
+    def test_captured_gallery_can_resume_without_reimport(self):
+        self.api.templates = [self.captured_template()]
+        self.run_main(apply=True)
+        self.assertFalse(any("/templates" in path for path, _, _ in self.api.writes))
+        self.api.writes.clear()
+        self.assertIn("source=gallery", self.run_main(audit=True))
+        self.assertEqual(self.api.writes, [])
+
+    def test_gallery_brand_without_link_is_not_manual(self):
+        template = self.captured_template()
+        for missing in (True, False):
+            with self.subTest(missing=missing):
+                unlinked = copy.deepcopy(template)
+                if missing:
+                    del unlinked["galleryReference"]
+                else:
+                    unlinked["galleryReference"] = None
+                self.api.templates = [unlinked]
+                with self.assertRaisesRegex(SystemExit, "INFO identity"):
+                    self.run_main(apply=True)
+                self.assertEqual(self.api.writes, [])
+
+    def test_captured_gallery_requires_complete_origin(self):
+        template = self.captured_template()
+        for field in ("host", "owner", "repository", "version"):
+            for value in (None, "unexpected"):
+                with self.subTest(field=field, value=value):
+                    changed = copy.deepcopy(template)
+                    if value is None:
+                        del changed["galleryReference"][field]
+                    else:
+                        changed["galleryReference"][field] = value
+                    self.api.templates = [changed]
+                    with self.assertRaises(SystemExit):
+                        self.run_main(apply=True)
+                    self.assertEqual(self.api.writes, [])
+
+    def test_captured_gallery_modified_content_stops(self):
+        template = self.captured_template()
+        for section in ("TEMPLATE_PARAMETERS", "SANDBOXED_JS_FOR_WEB_TEMPLATE", "WEB_PERMISSIONS"):
+            with self.subTest(section=section):
+                changed = copy.deepcopy(template)
+                parts = self.wire.template_support.sections(changed["templateData"])
+                parts[section] = "[]" if section != "SANDBOXED_JS_FOR_WEB_TEMPLATE" else "data.gtmOnFailure();"
+                changed["templateData"] = "\n\n".join("___%s___\n%s" % pair for pair in parts.items())
+                self.api.templates = [changed]
+                with self.assertRaisesRegex(SystemExit, "differ"):
+                    self.run_main(apply=True)
+                self.assertEqual(self.api.writes, [])
+
+    def test_captured_gallery_modified_flag_stops(self):
+        template = self.captured_template()
+        for value in (True, None, "false", 0):
+            with self.subTest(value=value):
+                changed = copy.deepcopy(template)
+                changed["galleryReference"]["isModified"] = value
+                self.api.templates = [changed]
+                with self.assertRaisesRegex(SystemExit, "modified"):
+                    self.run_main(apply=True)
+                self.assertEqual(self.api.writes, [])
+
+    def test_gallery_public_id_must_match_pinned_info(self):
+        template = self.captured_template()
+        for field in ("galleryTemplateId", "INFO.id", "both"):
+            for value in (None, "OTHER"):
+                with self.subTest(field=field, value=value):
+                    changed = copy.deepcopy(template)
+                    if field in ("galleryTemplateId", "both"):
+                        changed["galleryReference"]["galleryTemplateId"] = value
+                    if field in ("INFO.id", "both"):
+                        parts = self.wire.template_support.sections(changed["templateData"])
+                        info = json.loads(parts["INFO"])
+                        info["id"] = "cvt_" + value if value else None
+                        parts["INFO"] = json.dumps(info)
+                        changed["templateData"] = "\n\n".join("___%s___\n%s" % pair for pair in parts.items())
+                    self.api.templates = [changed]
+                    self.assertEqual(self.wire.template_support.inspect(changed)["status"], "blocked")
+                    with self.assertRaisesRegex(SystemExit, "public template id"):
+                        self.run_main(apply=True)
+                    self.assertEqual(self.api.writes, [])
+
+    def test_fake_api_rejects_manual_type_for_gallery_template(self):
+        self.api.templates = [self.captured_template()]
+        with self.assertRaisesRegex(SystemExit, "Unknown entity type"):
+            self.api("fake", "/accounts/123/containers/456/workspaces/7/tags", "POST",
+                     {"name": "Consent Pro Init", "type": "cvt_456_5"})
 
 
 if __name__ == "__main__":
