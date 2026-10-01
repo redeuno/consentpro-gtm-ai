@@ -5,6 +5,12 @@ Wire Google Tag Manager to Consent Pro by handing the work to an AI agent.
 Connecting the two is nine steps of clicking through menus. Almost all of it is an API call
 underneath, so an agent can do it while you supply the handful of decisions only you can make.
 
+**The template is available in the [GTM Community Template Gallery](https://tagmanager.google.com/gallery/#/owners/finsweet/templates/gtm-template-consent-pro).**
+For a manual setup, use **Templates > Search Gallery > Consent Pro by Finsweet > Add to
+workspace**, review the permissions, and confirm **Add**. No template download or custom OAuth
+client is needed for this path. Continue with the [nine steps](docs/reference/nine-steps.md).
+Gallery availability alone does not establish Google CMP certification.
+
 ---
 
 ## Where this fits, before anything else
@@ -14,14 +20,14 @@ the one users report as the hardest.
 
 | # | Stage | Agent? |
 |---|---|---|
-| 0 | Google Cloud and tag manager account | partly, once |
+| 0 | Tag manager account; Google Cloud only for API automation | partly, once |
 | 1 | Sign in, pick a workspace | no, the app |
 | 2 | Connect Domain | no, the app |
 | 3 | Configure Banner | no, the app |
 | 4 | Install the core script | the site half, yes |
 | 5 | Scan the site | no, the app |
 | 6 | Categorise the trackers | no, and your judgement is required |
-| 7 | **Wire Google Tag Manager** | ⭐ **yes, fully. This is what this repo does** |
+| 7 | **Wire Google Tag Manager** | yes, the container configuration; site checks remain separate |
 | 8 | Publish | no, and production needs a paid plan |
 | 9 | Image pixels and the `<noscript>` | yes, with your codebase |
 
@@ -39,6 +45,14 @@ start, so nothing surprises you halfway through.
 ---
 
 ## Start here
+
+Choose how you want to configure the container:
+
+- **In the GTM interface:** read [the whole journey](docs/00-the-journey.md), then follow the
+  [nine steps](docs/reference/nine-steps.md). Sign in to GTM with container access. Skip Google
+  Cloud setup and this repository's authorisation script.
+- **With the scripts:** follow the table below. API automation still needs your own OAuth
+  client JSON and browser authorisation. Gallery installation does not remove that requirement.
 
 | Step | Document | Time |
 |---|---|---|
@@ -66,7 +80,7 @@ person clicks.
   pass. Wiring a container to a consent layer that is not there produces a trigger nothing
   fires. See the [installation docs](https://docs.consentpro.com/web-app/install).
 - **A recent scan.** The agent maps each tracker's category, and categories come from the scan.
-- **Python 3.** The scripts use only the standard library.
+- **Python 3, for the scripts.** They use only the standard library; manual GTM setup does not need Python.
 - **An agent that can run commands**, for the automated path. A web chat can still generate
   every exact value for you to type; section 06 of the guide covers that.
 
@@ -95,6 +109,9 @@ scripts/
   authorise.py                one-time browser authorisation
   audit-container.py          reports which consent steps are in place. Read only
   wire-consent.py             does the configuration. Simulates by default
+  consent-template.py         shared template identity and version checks
+tests/
+  README.md                   validation commands, fixtures and their limits
 ```
 
 ## Start by measuring, not by answering
@@ -129,7 +146,10 @@ The app says so on its own screen, in the Configure GTM panel: until the contain
 consent, the tags it fires ignore the visitor's choice. That sentence is a task, not a
 disclaimer.
 
-Run `scripts/audit-container.py` to find out which side of that line a container is on.
+Run `scripts/audit-container.py` to inspect configuration signals, including template source
+and version. It does not observe the site or prove that blocking works. Finish with the
+[browser checks](docs/reference/verify-behaviour.md): exercise named trackers and compare
+requests, storage and consent state across choices. Cookie totals alone are inconclusive.
 
 ---
 
@@ -163,7 +183,19 @@ app trail, read in September 2026. **The emphasis comes from carrying the setup 
 and measuring the result**, including getting the region wrong on the first attempt in exactly
 the way `docs/reference/regions.md` warns about.
 
-**Where this disagrees with the documentation, the documentation is right and this is out of
-date.** Check [docs.consentpro.com](https://docs.consentpro.com) before relying on a detail.
+**Source check on 2026-10-01:** the official
+[Webflow](https://docs.consentpro.com/webflow/google-tag-manager) and
+[web app](https://docs.consentpro.com/web-app/google-tag-manager) guides still described a
+template download. Step 2 here follows the published
+[Finsweet template repository](https://github.com/finsweet/gtm-template-consent-pro) and
+[Google's Gallery instructions](https://support.google.com/tagmanager/answer/9454109?hl=en).
+The rest of the setup still requires regional defaults, triggers, consent checks and testing.
+
+For new templates, the script pins Gallery version
+`8a551897e5bfdecf03de59fa00058be442b7ac29`. Recognised existing templates are preserved;
+there is no automatic migration from a manual import. See
+[the import and update rules](docs/reference/nine-steps.md#2-add-the-consent-pro-template-from-the-gallery).
+The Gallery path in this revision has local implementation tests and official-source checks;
+it has not been exercised in a live GTM workspace or validated on a live site.
 
 This is an independent guide. It is not published by Finsweet and carries no warranty.

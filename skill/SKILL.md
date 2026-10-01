@@ -18,10 +18,19 @@ with the parts that are easy to get wrong called out.
 | **Terminal** with the person's Google credentials | Read the container over the API and report exactly what is set. Guide the changes; see the write policy below |
 | **Web chat** (no credentials) | Generate every exact value the person types, and check what they report back. You cannot read their container, so never claim you verified it |
 
-**2. Which documentation trail applies?** The nine steps are identical; the details differ.
+**2. Which documentation trail applies?** Inspect the installed script with
+`scripts/inspect-site.py` rather than deciding from the site's hosting platform alone.
 
-- A **Webflow** site: `https://docs.consentpro.com/webflow/google-tag-manager`
-- **Any other** site: `https://docs.consentpro.com/web-app/google-tag-manager`
+- The **Webflow engine**: `https://docs.consentpro.com/webflow/google-tag-manager`
+- The **web app engine**, including Webflow sites managed there:
+  `https://docs.consentpro.com/web-app/google-tag-manager`
+
+For a manual setup, use **Templates > Search Gallery > Consent Pro by Finsweet > Add to
+workspace**, review permissions, then confirm **Add**. This path needs no custom OAuth client
+or template download. API automation still needs the OAuth client JSON and `authorise.py`.
+The [Gallery listing](https://tagmanager.google.com/gallery/#/owners/finsweet/templates/gtm-template-consent-pro)
+and [publisher repository](https://github.com/finsweet/gtm-template-consent-pro) govern step 2.
+The product guides still showed the download flow when checked on 2026-10-01.
 
 ⛔ **Read the region section of BOTH.** Only the web app trail explains how to write region
 codes, and that is where most setups fail. This is not redundancy, it is the single most
@@ -68,14 +77,28 @@ what is currently set, and read it back after changes to confirm.
 | Script | When | What it does |
 |---|---|---|
 | `scripts/inspect-site.py` | **first, always** | reads the public page: which engine is installed, which documentation trail applies, the container, and what loads before the consent layer. **No credential needed**, so there is no reason to skip it |
-| `scripts/authorise.py` | once per machine | opens the Google consent screen and stores a refresh token. The only step that needs a human at a browser |
+| `scripts/authorise.py` | for API automation | opens the Google consent screen and stores a refresh token; skip for manual GTM setup |
 | `scripts/audit-container.py` | first, and again last | reports which consent steps are in place. Read only |
 | `scripts/wire-consent.py --scaffold` | before configuring | prints a category map from the container's tags, every line defaulting to the strictest category |
 | `scripts/wire-consent.py` | to configure | simulates by default. `--apply` writes, `--publish` ships, and they are separate on purpose |
+| `scripts/consent-template.py` | shared helper | checks template identity and the pinned Gallery version; called by the audit and configuration scripts |
 
 **The sequence that works:** authorise once, audit to see the current state, scaffold the map,
 **go through the map with the person line by line**, simulate, show the simulation, apply on
-their yes, publish on a second yes, then audit again and compare.
+their yes, publish on a second yes, then audit again and compare. Finish with browser checks.
+
+**Template identity:** new imports use the Gallery API and pin
+`finsweet/gtm-template-consent-pro` to SHA `8a551897e5bfdecf03de59fa00058be442b7ac29`.
+Preserve recognised existing templates; a compatible manual import stays manual. Do not
+migrate or update it automatically. Unexpected Gallery identity/version, modified templates
+or unrecognised content must stop configuration before writes. Review the reason with the
+person. `--apply` includes acknowledgement of a new template's permissions.
+
+The audit's `template_identity` reports source/version evidence and configuration signals.
+Its `verified` status does not prove runtime behaviour. The Gallery path in this revision
+has not been exercised in a live workspace. Do not describe local tests as a live setup test.
+For future publisher updates, follow the review, accept, test and publish sequence in
+[`nine-steps.md`](../docs/reference/nine-steps.md#2-add-the-consent-pro-template-from-the-gallery).
 
 ⛔ **The map is where the person's judgement is required, not yours.** Essential is the only
 category that fires without asking, so read those lines aloud with them. The scaffold defaults
@@ -88,7 +111,7 @@ Full detail in [`reference/nine-steps.md`](../docs/reference/nine-steps.md). The
 three and five create the pieces everything else depends on.
 
 1. Remove the tag manager `<noscript>`
-2. Import the Consent Pro template
+2. Add Consent Pro by Finsweet from the Gallery; preserve recognised existing templates
 3. Create the initialization tag, on **Consent Initialization, All Pages**
 4. Set the regional defaults
 5. Create the `Consent Updated` trigger for the event `consent-updated`
@@ -110,8 +133,8 @@ refusal while looking correctly configured. Automatic suggestions are a fine sta
 a poor final answer for this one field.
 
 **Verification.** See [`reference/verify.md`](../docs/reference/verify.md). The app's own checkbox
-records that someone said it was done; it tests nothing. Only loading the page, refusing, and
-inspecting cookies tests behaviour.
+records that someone said it was done; it tests nothing. Test behaviour by exercising named
+trackers and comparing their requests, relevant storage and consent state across choices.
 
 ## How to run this with someone
 
@@ -125,12 +148,15 @@ skipped early makes every later step look broken.
 **Finish by testing behaviour, not configuration.**
 [`reference/verify-behaviour.md`](../docs/reference/verify-behaviour.md) is the only check that
 watches what the browser actually did, and **if you have a browser tool, you can run it
-yourself**. Three cookie lists: before touching the banner, after refusing, after accepting.
-Everything else in this skill reads settings, which is necessary and not sufficient.
+yourself**. Identify the expected trackers and actions first. Observe their requests and
+storage before choosing, after refusal and after acceptance in fresh, comparable sessions.
+Record browser, region and consent mode, and use acceptance to confirm that the test can
+exercise and detect each tracker. Configuration checks alone are insufficient.
 
-⛔ **If all three lists are the same, the consent layer is decorative on that site.** It shows
-a banner and changes nothing. No amount of configuration review finds that, and it is the most
-important thing you can tell someone.
+**Equal cookie lists are inconclusive without runtime evidence.** A cookie added on refusal
+may store the CMP choice, and an increase after acceptance does not prove that all trackers
+were blocked beforehand. Identify each cookie or request by source and purpose. Report only
+the trackers and actions tested; do not infer a working or broken consent layer from counts.
 
 **When something does not match, go to
 [`reference/troubleshooting.md`](../docs/reference/troubleshooting.md)** before theorising. Six known
@@ -142,5 +168,7 @@ shapes cover most of it, and each one has a distinct symptom.
   specific site. Lay out what the tracker does and let the person decide.
 - **Promise compliance.** A correctly wired container is one part of it. Say what was
   configured and what was verified, and let the person draw the conclusion.
+- **Infer Google CMP certification from Gallery approval.** Report only the approval or
+  certification supported by its own source.
 - **Claim to have verified anything you did not read yourself.** In web chat you cannot see
   their container. Report what they told you as what they told you.

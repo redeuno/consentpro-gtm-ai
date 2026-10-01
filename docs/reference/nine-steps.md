@@ -1,6 +1,7 @@
 # The nine steps, in order
 
-Both documentation trails carry the same nine. What changes between them is noted per step.
+Both documentation trails carry the same nine. Step 2 now uses the Gallery; the remaining
+configuration and browser checks still apply to both trails.
 
 ---
 
@@ -18,20 +19,54 @@ Both documentation trails carry the same nine. What changes between them is note
 
 ---
 
-## 2. Import the Consent Pro template
+## 2. Add the Consent Pro template from the Gallery
 
-Download the `.tpl` from the documentation page, then in the container: **Templates**, the
-**Templates** tab, **New**, the three dots in the top right, **Import**. Accept the Community
-Template Gallery terms and save.
+Open your GTM workspace and follow **Templates > Search Gallery > Consent Pro by Finsweet >
+Add to workspace**. Review the requested permissions, then choose **Add** if you approve.
+Check the publisher and linked repository against the
+[Consent Pro Gallery listing](https://tagmanager.google.com/gallery/#/owners/finsweet/templates/gtm-template-consent-pro)
+and [Finsweet's repository](https://github.com/finsweet/gtm-template-consent-pro).
+
+This manual path does not need a `.tpl` download, Google Cloud setup or a custom OAuth
+client. It needs a Google login with access to the target container.
+[Google documents the Gallery flow](https://support.google.com/tagmanager/answer/9454109?hl=en).
 
 **What it gives you:** a tag type that the next step uses. Nothing fires yet.
+
+**For API automation:** the script uses
+[`templates.import_from_gallery`](https://developers.google.com/tag-platform/tag-manager/api/reference/rest/v2/accounts.containers.workspaces.templates/import_from_gallery)
+for a new template, with owner `finsweet`, repository `gtm-template-consent-pro` and version
+`8a551897e5bfdecf03de59fa00058be442b7ac29`. This path still needs the
+[OAuth setup](../01-google-cloud-setup.md) and [authorisation](../03-authorise.md).
+Simulation shows the planned import; `--apply` acknowledges its permissions and performs it.
+Publishing remains separate.
+
+**Already installed:** audit first. The script preserves recognised existing templates and
+their IDs. A compatible manual import stays manual; it does not gain Gallery provenance or
+update notifications from being recognised. Unexpected Gallery owner, repository or version,
+modified templates, and unrecognised content stop configuration before writes. Review the
+reported reason instead of deleting a working template to force the script through.
+
+**Future updates:** GTM can notify you of publisher updates to a Gallery template. Open the
+notification, compare the changes, accept the update when appropriate, test the workspace and
+publish it. Saving an update does not publish it. Editing the template can disconnect it from
+publisher updates. See [Google's update instructions](https://support.google.com/tagmanager/answer/9454109?hl=en).
+The scripts do not automatically update or migrate templates; a new Gallery version also
+needs review against this repository's pinned version.
+
+**Source status, 2026-10-01:** the official
+[Webflow](https://docs.consentpro.com/webflow/google-tag-manager) and
+[web app](https://docs.consentpro.com/web-app/google-tag-manager) pages still showed the older
+download flow when checked. For installation in this step, use the Gallery and publisher
+sources above. Gallery approval does not by itself establish Google CMP certification or
+prove that a site's consent behaviour works.
 
 ---
 
 ## 3. Create the initialization tag
 
-**Tags**, **New**, **Tag Configuration**, pick **Consent Pro - GTM Template** from the Custom
-section. Then **Triggering**, and select **Consent Initialization - All Pages**.
+**Tags**, **New**, **Tag Configuration**, pick the Consent Pro template installed in step 2
+from the Custom section. Then **Triggering**, and select **Consent Initialization - All Pages**.
 
 ⛔ **Not `All Pages`.** They are two different built-in triggers and the names are one word
 apart. Consent Initialization runs before everything else in the container, which is the entire

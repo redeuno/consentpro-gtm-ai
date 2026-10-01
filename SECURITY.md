@@ -5,13 +5,17 @@ properties. That deserves a page rather than a footnote.
 
 ## Read the scripts before you run them
 
-There are three, they are short, and they use only the Python standard library so there is no
-dependency tree to audit. Reading them takes about ten minutes and you do it once.
+The scripts and their shared `consent-template.py` helper use only the Python standard
+library. Read the code that will receive your credential before authorising it.
 
 **This applies to any repository that asks for a credential, not just this one.** If a project
 discourages you from reading its code, that is the finding.
 
 ## What the credential actually reaches
+
+This credential is needed for **API automation**. Adding the template through the GTM
+interface needs a Google login with container access, but no OAuth client JSON created for
+this repository. See the [manual path](docs/reference/nine-steps.md).
 
 **A Tag Manager write scope covers every container that Google account can access.** Not the
 one you had in mind. Every one, including other clients and unrelated production properties.
@@ -40,8 +44,22 @@ These are enforced in code, not suggested in documentation:
 | Nothing is published without a **second** flag, `--publish` | `wire-consent.py` |
 | A version is not created when any tag failed to update, because a version made of half-applied state reads as complete in the history | `wire-consent.py` |
 | A compile error stops the run loudly instead of printing an empty version id | `wire-consent.py` |
-| Writes are not retried on server errors, because the result is undefined and retrying can duplicate | all three |
+| Writes are not retried on server errors, because the result is undefined and retrying can duplicate | API scripts |
 | There is no write path at all in the audit script | `audit-container.py` |
+| New templates come from `finsweet/gtm-template-consent-pro` at a pinned Gallery SHA | `wire-consent.py`, `consent-template.py` |
+| Unrecognised or modified template identity stops configuration before writes | `wire-consent.py`, `consent-template.py` |
+
+The pinned version is `8a551897e5bfdecf03de59fa00058be442b7ac29`. The
+[Gallery import API](https://developers.google.com/tag-platform/tag-manager/api/reference/rest/v2/accounts.containers.workspaces.templates/import_from_gallery)
+requires acknowledgement of template permissions. Review the
+[publisher's template](https://github.com/finsweet/gtm-template-consent-pro/blob/8a551897e5bfdecf03de59fa00058be442b7ac29/template.tpl)
+before approving `--apply`; that approval includes the template import and its permissions.
+The script does not choose the latest Gallery release automatically.
+
+Recognised existing templates keep their IDs and source. A recognised manual import is not
+converted to a Gallery installation, and its publisher/version are not proven by its name.
+Read the audit's `template_identity` and any blocking reason before continuing. Those checks
+describe template identity and configuration, not runtime behaviour or certification.
 
 **Why the account guard checks the name and not just the id.** An id is easy to mistype and
 impossible to check by eye. A name check alone would be worse, because names are mutable and
@@ -64,9 +82,11 @@ failure is visible.**
 - **Decide whether a tracker is essential.** Legal and product judgement about a specific site.
 - **Assert that a site is compliant.** The scripts configure a container and can prove what
   they configured. That is one input to a judgement, not the judgement.
-- **Store or transmit anything.** Everything runs locally against Google's API. There is no
-  telemetry, no analytics and no external endpoint other than Google and the public Consent Pro
-  documentation, which is where the tag manager template is downloaded from.
+- **Send telemetry.** The scripts run locally. The API scripts call Google for authorisation
+  and container operations; `inspect-site.py` reads the public site URL you supply. The
+  Gallery API imports new templates from the pinned publisher
+  repository. The scripts no longer fetch a template download from the Consent Pro docs.
+  OAuth tokens and optional reports are stored locally at the paths you choose.
 
 ## Reporting something
 

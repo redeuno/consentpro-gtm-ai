@@ -7,8 +7,8 @@ READS or WRITES: ⛔ **WRITES to Google Tag Manager**, which is a live external 
 How to apply: --apply. Without it, prints every call it would make and touches nothing.
           Publishing needs a SECOND flag, --publish, because publishing is what reaches the
           site and saving is not.
-Safe to run again? Yes for the objects, no for the history. Template, trigger and the
-          initialization tag are matched by name and updated rather than duplicated, and the
+Safe to run again? Yes for the objects, no for the history. Templates are verified by identity
+          and content and preserved. The initialization tag is linked to that template, and the
           tag edits write final state. What accumulates is one container VERSION per run,
           which is harmless and visible in the history.
 
@@ -38,8 +38,10 @@ Typical run:
 """
 
 import argparse
+import importlib.util
 import json
 import os
+from pathlib import Path
 import sys
 import time
 import urllib.error
@@ -49,7 +51,9 @@ from datetime import datetime, timezone
 
 API = "https://tagmanager.googleapis.com/tagmanager/v2"
 TOKEN_URL = "https://oauth2.googleapis.com/token"
-TEMPLATE_URL = "https://docs.consentpro.com/gtm/templates/Consent%20Pro%20-%20GTM%20Template.tpl"
+_spec = importlib.util.spec_from_file_location("consent_template", Path(__file__).with_name("consent-template.py"))
+template_support = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(template_support)
 
 CLIENT_FILE = os.environ.get("GTM_OAUTH_CLIENT")
 TOKEN_FILE = os.environ.get("GTM_OAUTH_TOKEN")
@@ -137,12 +141,6 @@ def consent_settings(category):
                             "list": [{"type": "template", "value": c} for c in checks]}}
 
 
-def fetch_template():
-    req = urllib.request.Request(TEMPLATE_URL)
-    with urllib.request.urlopen(req, timeout=60) as r:
-        return r.read().decode("utf-8-sig")
-
-
 def main():
     p = argparse.ArgumentParser()
     p.add_argument("--account", required=True)
@@ -179,13 +177,14 @@ def main():
     if a.confirm_name != live:
         raise SystemExit("Account %s is named '%s', not '%s'. Stopping." % (a.account, live, a.confirm_name))
 
-    containers = call(tok, "/accounts/%s/containers" % a.account).get("container", [])
+    inventory = lambda path, key: template_support.list_all(lambda url: call(tok, url), path, key)
+    containers = inventory("/accounts/%s/containers" % a.account, "container")
     target = next((c for c in containers if c.get("publicId") == a.container), None)
     if target is None:
         raise SystemExit("container %s not found in account %s" % (a.container, a.account))
 
-    wss = call(tok, "/accounts/%s/containers/%s/workspaces"
-               % (a.account, target["containerId"])).get("workspace", [])
+    wss = inventory("/accounts/%s/containers/%s/workspaces"
+                    % (a.account, target["containerId"]), "workspace")
     ws = next((w for w in wss if w.get("workspaceId") == a.workspace), None) if a.workspace \
         else (wss[0] if len(wss) == 1 else None)
     if ws is None:
@@ -194,9 +193,18 @@ def main():
 
     base = "/accounts/%s/containers/%s/workspaces/%s" % (
         a.account, target["containerId"], ws["workspaceId"])
-    tags = call(tok, base + "/tags").get("tag", [])
-    triggers = call(tok, base + "/triggers").get("trigger", [])
-    templates = call(tok, base + "/templates").get("template", [])
+    tags = inventory(base + "/tags", "tag")
+    triggers = inventory(base + "/triggers", "trigger")
+    templates = inventory(base + "/templates", "template")
+    tpl, identity = template_support.require_valid(templates)
+    tag_type = "cvt_%s_%s" % (target["containerId"], tpl["templateId"]) if tpl else None
+    existing_init = [tag for tag in tags if tag.get("name") == INIT_TAG_NAME
+                     or tag_type and tag.get("type") == tag_type]
+    if len(existing_init) > 1:
+        raise SystemExit("Multiple Consent Pro initialization tags; resolve before changing anything")
+    init = existing_init[0] if existing_init else None
+    if init and (not tag_type or init.get("type") != tag_type):
+        raise SystemExit("Initialization tag references an unverified template; no changes made")
 
     if a.scaffold:
         # ⛔ THE DEFAULT IS THE STRICTEST CATEGORY, NOT THE COMMONEST ONE.
@@ -206,7 +214,7 @@ def main():
         # the failure this whole setup exists to prevent. Defaulting to 'marketing' means the
         # unread case over-blocks instead. That error is visible within minutes, and nobody's
         # visitor is tracked without consent while it lasts.
-        skeleton = {t["name"]: "marketing" for t in tags if t.get("name") != INIT_TAG_NAME}
+        skeleton = {t["name"]: "marketing" for t in tags if t is not init}
         print(json.dumps(skeleton, indent=2, ensure_ascii=False))
         print("\n// Every line defaults to 'marketing', the strictest category, so an unread",
               file=sys.stderr)
@@ -235,15 +243,23 @@ def main():
     state = "denied" if a.banner == "opt-in" else "granted"
 
     # step 2, template
-    tpl = next((t for t in templates if t.get("name") == TEMPLATE_NAME), None)
     if tpl:
-        print("  step 2  template already present, templateId %s" % tpl.get("templateId"))
+        print("  step 2  existing template preserved: " + template_support.describe(identity))
     elif a.apply:
-        tpl = call(tok, base + "/templates", "POST",
-                   {"name": TEMPLATE_NAME, "templateData": fetch_template()})
-        print("  step 2  template imported, templateId %s" % tpl.get("templateId"))
+        imported = call(tok, template_support.import_path(base), "POST")
+        if not isinstance(imported, dict):
+            raise SystemExit("Invalid gallery import response; inspect workspace before retrying")
+        expected_location = {"accountId": a.account, "containerId": target["containerId"],
+                             "workspaceId": ws["workspaceId"]}
+        if any(key in imported and imported[key] != value for key, value in expected_location.items()):
+            raise SystemExit("Gallery import returned a different workspace; inspect before retrying")
+        tpl, identity = template_support.require_valid([imported])
+        if not tpl or identity["source"] != "gallery":
+            raise SystemExit("Gallery import identity unverified; inspect workspace before retrying")
+        print("  step 2  gallery template imported: " + template_support.describe(identity))
     else:
-        print("  step 2  would download and import the official template")
+        print("  step 2  would import gallery %s/%s at %s (permissions acknowledged on --apply)"
+              % (template_support.OWNER, template_support.REPOSITORY, template_support.VERSION))
 
     tag_type = "cvt_%s_%s" % (target["containerId"], tpl["templateId"]) if tpl else "cvt_<pending>"
 
@@ -261,9 +277,8 @@ def main():
             {"type": "template", "key": "waitForUpdate", "value": a.wait},
         ],
     }
-    init = next((t for t in tags if t.get("name") == INIT_TAG_NAME), None)
     if init and a.apply:
-        body = dict(init_body); body["tagId"] = init["tagId"]
+        body = dict(init_body); body["tagId"] = init["tagId"]; body["name"] = init["name"]
         call(tok, base + "/tags/%s" % init["tagId"], "PUT", body)
         print("  steps 3+4  init tag updated, regions '%s', all %s" % (a.regions, state))
     elif init:
@@ -295,7 +310,7 @@ def main():
     failures, counts = [], {}
     for t in tags:
         name = t.get("name", "?")
-        if name == INIT_TAG_NAME:
+        if t is init:
             continue
         cat = mapping.get(name)
         if cat is None:

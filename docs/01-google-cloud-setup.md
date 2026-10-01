@@ -1,5 +1,10 @@
 # 1. Google Cloud, once
 
+**For API automation only.** If you are configuring GTM by hand, skip this document and
+[authorisation](03-authorise.md). Use the [Gallery path in step 2](reference/nine-steps.md#2-add-the-consent-pro-template-from-the-gallery)
+with your Google login. The OAuth JSON download below is still required by the scripts;
+it is a credential, separate from the template that no longer needs downloading.
+
 This is the longest part and you do it once per Google account, not once per site. Everything
 here happens at [console.cloud.google.com](https://console.cloud.google.com). Budget fifteen
 minutes the first time.

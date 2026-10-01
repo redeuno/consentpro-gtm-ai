@@ -25,9 +25,12 @@ Usage:
 """
 
 import argparse
+from html.parser import HTMLParser
+from pathlib import Path
 import re
 import sys
 import urllib.error
+import urllib.parse
 import urllib.request
 
 UA = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
@@ -49,10 +52,40 @@ TRAIL = {
     "web-app": "https://docs.consentpro.com/web-app/google-tag-manager",
 }
 
-# Anything with a host that is not the site itself. Deliberately broad: a font or a widget
-# loading before the consent layer matters as much as an obvious tracker.
-THIRD_PARTY = re.compile(r"""src=["'](?:https?:)?//([a-z0-9][a-z0-9.-]*\.[a-z]{2,})""", re.I)
-CONSENT_HOSTS = re.compile(r"consentpro|consent-pro", re.I)
+class PageElements(HTMLParser):
+    def __init__(self, html):
+        super().__init__()
+        self.line_offsets = [0] + [match.end() for match in re.finditer("\n", html)]
+        self.scripts = []
+        self.resources = []
+        self.feed(html)
+
+    def handle_starttag(self, tag, attrs):
+        src = dict(attrs).get("src")
+        if src:
+            line, column = self.getpos()
+            resource = (self.line_offsets[line - 1] + column, src)
+            self.resources.append(resource)
+            if tag == "script":
+                self.scripts.append(resource)
+
+
+def parse_src(src):
+    try:
+        return urllib.parse.urlsplit(src)
+    except ValueError:
+        return None
+
+
+def find_consent_script(elements):
+    for position, src in elements.scripts:
+        parsed = parse_src(src)
+        if parsed is None:
+            continue
+        for label, pattern, trail in ENGINES:
+            if re.search(pattern, parsed.path):
+                return label, trail, position
+    return None, None, None
 
 
 def fetch(url, attempts=3):
@@ -84,13 +117,8 @@ def main():
         raise SystemExit("The page did not return content, so nothing below can be measured.")
 
     # --- which engine, which trail -------------------------------------------------
-    engine = trail = None
-    pos_consent = None
-    for label, pattern, key in ENGINES:
-        m = re.search(pattern, html)
-        if m:
-            engine, trail, pos_consent = label, key, m.start()
-            break
+    elements = PageElements(html)
+    engine, trail, pos_consent = find_consent_script(elements)
 
     if engine is None:
         print("CONSENT PRO      not found on this page")
@@ -122,22 +150,27 @@ def main():
         print("LOAD ORDER       cannot be checked without the consent layer on the page")
     else:
         before = []
-        for m in THIRD_PARTY.finditer(html):
-            if m.start() < pos_consent:
-                host = m.group(1)
-                if CONSENT_HOSTS.search(host):
+        invalid_before = 0
+        for position, src in elements.resources:
+            if position < pos_consent:
+                parsed = parse_src(src)
+                if parsed is None:
+                    invalid_before += 1
                     continue
-                if host not in before:
+                host = parsed.hostname
+                if host and parsed.scheme in ("", "http", "https"):
                     before.append(host)
         if before:
-            print("⛔ LOAD ORDER    %d third-party request(s) load BEFORE the consent layer:" % len(before))
+            print("⛔ LOAD ORDER    %d external resource declaration(s) appear BEFORE the consent script:" % len(before))
             for h in before:
                 print("                 %s" % h)
-            print("                 The consent script must be the first thing in <head>.")
-            print("                 Anything above it runs before consent is known, and that")
-            print("                 includes fonts and widgets, not only obvious trackers.")
-        else:
-            print("✅ LOAD ORDER    nothing third-party loads before the consent layer")
+            print("                 Review these earlier declarations when checking consent initialization.")
+            print("                 HTML order alone does not prove request or execution order.")
+        elif not invalid_before:
+            print("✅ LOAD ORDER    no earlier external src declarations found")
+        if invalid_before:
+            print("LOAD ORDER       %d resource(s) before consent have invalid URLs; hosts could not be classified."
+                  % invalid_before)
 
     # --- image trackers -------------------------------------------------------------
     gated = len(re.findall(r"fs-consent-src=", html))
@@ -153,7 +186,8 @@ def main():
     print()
     print("NEXT             This read declarations, not behaviour. A page can look correct")
     print("                 here and still fire trackers before consent.")
-    print("                 Run the behaviour check: docs/reference/verify-behaviour.md")
+    reference_dir = "docs/reference" if (Path(__file__).resolve().parent.parent / "docs/reference").is_dir() else "reference"
+    print("                 Run the behaviour check: " + reference_dir + "/verify-behaviour.md")
     if containers:
         print("                 And audit the container: scripts/audit-container.py")
     print()

@@ -7,8 +7,8 @@ you whether it is.
 the first three and fail both of the last two, which is why the order ends where it does.
 
 ⭐ **6.4 and 6.5 have their own page now:
-[verify-behaviour.md](verify-behaviour.md)**, with the full procedure, what each of the three
-cookie lists means, and how to trace anything that should not be there. If you only do one
+[verify-behaviour.md](verify-behaviour.md)**, with the full procedure for comparing named
+trackers, requests and storage across consent choices. If you only do one
 check on this page, do that one: it is the only one that watches what the browser actually
 did.
 
@@ -28,6 +28,29 @@ mean nothing.
 
 It must be **Consent Initialization - All Pages**, not **All Pages**.
 
+Also check which template that tag uses. `audit-container.py` prints `TEMPLATE SOURCE` and
+adds `template_identity` to its JSON report:
+
+| Field | What it tells you |
+|---|---|
+| `status` | `missing`, `verified` or `blocked` according to the script's identity checks |
+| `source` | `gallery` or `manual` when identified |
+| `version` | the Gallery SHA, or `null` for a manual import |
+| `templateId` | the template the tag should reference |
+| `detail` | the evidence or reason that needs attention |
+
+Here, `verified` describes the script's template identity checks, not live consent behaviour.
+A recognised manual template has compatible content but no proven Gallery origin or version.
+An unexpected Gallery identity/version or modified template blocks configuration. The
+auditor must not confirm the initialization tag from its display name alone.
+
+For this revision the accepted Gallery version is
+`8a551897e5bfdecf03de59fa00058be442b7ac29`, from
+[`finsweet/gtm-template-consent-pro`](https://github.com/finsweet/gtm-template-consent-pro).
+Read the [existing-template and update rules](nine-steps.md#2-add-the-consent-pro-template-from-the-gallery)
+before replacing or updating anything. Local tests of the importer do not prove that this
+Gallery version has run in a live workspace or on a live site.
+
 **What failure looks like:** intermittent. Sometimes tags are held, sometimes not, depending on
 what loaded first. Intermittent consent behaviour almost always traces back to this.
 
@@ -45,23 +68,30 @@ the visitors they were meant for.
 
 ## 6.4 Load the site and refuse everything
 
-Private window, load the page, decline in the banner. Then open the browser's cookie list for
-that domain.
+Start with a fresh session and developer tools open before loading. Record the untouched
+state, decline in the banner, and exercise the expected trackers with the same page actions.
+Inspect named cookies, relevant storage and network requests, then reload to check that the
+refusal is retained. Record the browser, region and consent mode.
 
-**What you are looking for:** anything non-essential that is present has not been held.
+**What you are looking for:** a known tracker acting against the configured rule for its
+denied category. A new cookie that remembers refusal is not itself evidence of tracking.
+Identify names, destinations and purposes rather than comparing cookie totals.
 
 **This is the first check that tests behaviour rather than configuration**, and it is the one
 that cannot be skipped. Everything above reads settings.
 
 ---
 
-## 6.5 Accept, and watch them arrive
+## 6.5 Accept, and exercise the expected trackers
 
-Same window, accept. The cookies that were absent should appear.
+In another fresh session, accept and repeat the same page actions and observation period.
+Check that the expected tracker actually runs and that you can observe its requests or
+storage. This positive control makes the earlier absence interpretable.
 
-**If nothing changes either way**, the trigger is not receiving the event and the container is
-effectively inert. Check the event name in step five, and confirm the core script is actually
-loading on the page.
+Equal cookie lists are inconclusive: the tracker may use no cookies, lack a firing event or
+be blocked by the browser. More cookies after acceptance also do not prove that every tracker
+was blocked beforehand. Follow [the full procedure](verify-behaviour.md) and report results
+per tracker, within the tested pages, actions and consent mode.
 
 ---
 
@@ -71,8 +101,8 @@ It reports runtime state, whether the banner is correct, and what is blocked by 
 and after the choice. It is reached by adding a parameter to the site URL; the debugger
 documentation page has the exact form.
 
-It is also the natural tool for an automated agent to check its own work, because it reports
-state rather than requiring someone to read a cookie list.
+Use it to compare the reported consent state with browser requests and storage. The debugger
+does not replace observation of the named trackers.
 
 ---
 
@@ -83,8 +113,9 @@ state rather than requiring someone to read a cookie list.
 - "The container is published with the initialization tag on Consent Initialization, the region
   row matching the banner, and consent checks on the marketing and analytics tags." That is
   configuration, read from the container.
-- "Loading the site and declining leaves no non-essential cookies." That is behaviour, observed
-  on the page.
+- "For the named trackers and actions tested, the expected requests and storage were absent
+  after refusal and present after acceptance." Use this only when both branches were
+  observed, and include browser, region, consent mode and any untested cases.
 
 ⛔ **Never merge the two into "the setup is compliant".** Compliance is a legal conclusion about
 a specific site, and a correctly wired container is one input to it. Report the inputs.
