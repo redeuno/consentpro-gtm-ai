@@ -127,9 +127,36 @@ With `--apply`, it configures the initialization tag and regional defaults, crea
 Only `--apply --publish` also publishes that version. New Gallery imports acknowledge template permissions as part of
 `--apply`; review them before approving the simulation.
 
-The Gallery path in this revision has not been exercised in a live GTM workspace. Local tests
-and official API documentation do not substitute for readback and browser checks on your
-target site.
+A live import on 2026-10-01 exposed a rewritten INFO brand in Google's response. The template
+was imported, then the older identity check stopped before tag configuration or version
+creation. The validator now checks the captured Gallery shape with the pinned origin and
+content. A second attempt revealed that Gallery tags use a public template type; the writer
+and auditor now share that checked type instead of the manual-import formula.
+[The regression fixture](../tests/README.md) records both differences. Completed live
+configuration and browser behaviour still require readback and checks on the target site.
+
+## Live check on 2026-10-01
+
+An isolated QA container received the pinned Gallery template through the real API. The two
+compatibility failures above interrupted setup before an initialization tag or a new version
+was created. After the fixes, the same imported template was reused. The first completed
+application created version 2 while version 1 remained live. Repeating with `--apply --publish`
+published version 3 without duplicating the template, initialization tag or consent trigger.
+The existing lab container was read before and after, and its canonical state and live version
+were unchanged. This was an audited recovery, not a single uninterrupted installation.
+
+Chrome 154 on Windows tested the QA container with two local markers, one Analytics and one
+Marketing, on a Web App test runtime version 2.4.2 using global opt-in defaults. The container
+ID was substituted only in the browser's received HTML; the public lab installation was not
+changed. Both markers stayed blocked before a choice and after refusal. Acceptance enabled
+both, Analytics-only enabled only Analytics, and revocation caused no new marker execution.
+Reloads preserved each choice and blocked both markers after revocation.
+
+The synthetic marker cookies were not registered with the CMP and remained after revocation;
+their presence does not mean a tag fired again. The check observed new executions and Google
+consent state, with five seconds per stage. It does not cover every tracker, other regions or
+consent modes, the Webflow runtime, Mac/Safari, a physical mobile device, or importing through
+the signed-in GTM interface. Test the actual target site before making a broader claim.
 
 ## Then verify, and two of the checks are yours
 

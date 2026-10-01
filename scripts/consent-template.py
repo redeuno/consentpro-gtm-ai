@@ -6,8 +6,10 @@ import re
 import urllib.parse
 
 OWNER = "finsweet"
+HOST = "github.com"
 REPOSITORY = "gtm-template-consent-pro"
 VERSION = "8a551897e5bfdecf03de59fa00058be442b7ac29"
+GALLERY_TEMPLATE_ID = "WRGND"
 NAME = "Consent Pro - GTM Template"
 # Medido em 2026-10-01 na versão fixada e no .tpl oficial anterior. Só a ajuda difere nos parâmetros.
 CONTENT_HASH = "775bb1ebc2f88242cc7fab3f7a4833175bd9b0f84582a1af4e3e4bb78773f8a7"
@@ -69,6 +71,8 @@ def inspect(template):
     except (ValueError, TypeError):
         info = {}
     gallery = template.get("galleryReference")
+    # A galeria reescreve a marca do INFO. Importação manual mantém a marca do arquivo público.
+    expected_brand = "github.com_finsweet" if gallery is not None else "finsweet_consent_pro"
     name = str(template.get("name", ""))
     brand = info.get("brand") if isinstance(info.get("brand"), dict) else {}
     candidate = ("consent pro" in name.lower() or "consent pro" in str(info.get("displayName", "")).lower()
@@ -83,7 +87,7 @@ def inspect(template):
     if not str(template.get("templateId", "")).isdigit():
         reason = "Template id missing or invalid"
     elif (info.get("type") != "TAG" or info.get("displayName") != NAME
-          or brand.get("id") != "finsweet_consent_pro" or info.get("containerContexts") != ["WEB"]):
+          or brand.get("id") != expected_brand or info.get("containerContexts") != ["WEB"]):
         reason = "Consent Pro INFO identity does not match the reviewed template"
     else:
         try:
@@ -94,14 +98,30 @@ def inspect(template):
     if reason is None and gallery is not None:
         if not isinstance(gallery, dict) or gallery.get("owner") != OWNER or gallery.get("repository") != REPOSITORY:
             reason = "Gallery owner or repository does not match"
+        elif gallery.get("host") != HOST:
+            reason = "Gallery host does not match"
         elif gallery.get("isModified", False) is not False:
             reason = "Gallery template is modified or its modification state is invalid"
         elif gallery.get("version") != VERSION:
             reason = "Gallery version is not the reviewed pinned release"
+        elif (gallery.get("galleryTemplateId") != GALLERY_TEMPLATE_ID
+              or info.get("id") != "cvt_" + GALLERY_TEMPLATE_ID):
+            reason = "Gallery public template id does not match the reviewed identity"
     result["status"] = "blocked" if reason else "verified"
     result["detail"] = reason or ("Gallery identity and pinned content verified" if gallery is not None
                                   else "Manual template content matches reviewed release; origin and version unverified; preserved")
     return result
+
+
+def tag_type(template, container_id):
+    if template is None:
+        return None
+    identity = inspect(template)
+    if not identity or identity["status"] != "verified":
+        raise SystemExit("Cannot derive a tag type from an unverified template")
+    if identity["source"] == "gallery":
+        return "cvt_" + GALLERY_TEMPLATE_ID
+    return "cvt_%s_%s" % (container_id, template["templateId"])
 
 
 def select(templates):

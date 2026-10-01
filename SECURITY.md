@@ -61,6 +61,15 @@ converted to a Gallery installation, and its publisher/version are not proven by
 Read the audit's `template_identity` and any blocking reason before continuing. Those checks
 describe template identity and configuration, not runtime behaviour or certification.
 
+The Gallery response captured on 2026-10-01 rewrote the INFO brand to `github.com_finsweet`.
+That identity is accepted only with `galleryReference.host=github.com`, the expected owner,
+repository and pinned version, unmodified status, and the reviewed content hash. Manual
+imports still require `finsweet_consent_pro`; removing the Gallery link does not make its
+rewritten brand a recognised manual template. The [captured fixture and tests](tests/README.md)
+record this API compatibility check and its limits.
+Gallery tags use the pinned public type `cvt_WRGND`, with `galleryTemplateId=WRGND` and
+`INFO.id=cvt_WRGND` required together. Manual imports keep the container/template-derived type.
+
 **Why the account guard checks the name and not just the id.** An id is easy to mistype and
 impossible to check by eye. A name check alone would be worse, because names are mutable and
 because a list of forbidden names defaults to permitting, which is the wrong default for a

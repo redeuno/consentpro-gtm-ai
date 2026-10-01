@@ -197,7 +197,7 @@ def main():
     triggers = inventory(base + "/triggers", "trigger")
     templates = inventory(base + "/templates", "template")
     tpl, identity = template_support.require_valid(templates)
-    tag_type = "cvt_%s_%s" % (target["containerId"], tpl["templateId"]) if tpl else None
+    tag_type = template_support.tag_type(tpl, target["containerId"])
     existing_init = [tag for tag in tags if tag.get("name") == INIT_TAG_NAME
                      or tag_type and tag.get("type") == tag_type]
     if len(existing_init) > 1:
@@ -261,7 +261,7 @@ def main():
         print("  step 2  would import gallery %s/%s at %s (permissions acknowledged on --apply)"
               % (template_support.OWNER, template_support.REPOSITORY, template_support.VERSION))
 
-    tag_type = "cvt_%s_%s" % (target["containerId"], tpl["templateId"]) if tpl else "cvt_<pending>"
+    tag_type = template_support.tag_type(tpl, target["containerId"]) or "cvt_<pending>"
 
     # steps 3 and 4, init tag.
     # ⛔ The parameter key is regionDefaults, which is the table. regionSettings is only the

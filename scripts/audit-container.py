@@ -185,7 +185,7 @@ def main():
 
     tpl, identity = template_support.select(templates)
     print("TEMPLATE SOURCE: " + template_support.describe(identity))
-    tag_type = "cvt_%s_%s" % (target["containerId"], tpl["templateId"]) if tpl else None
+    tag_type = template_support.tag_type(tpl, target["containerId"])
     init = [t for t in tags if tag_type and t.get("type") == tag_type
             and TRIGGER_CONSENT_INIT in (t.get("firingTriggerId") or [])]
 
