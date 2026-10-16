@@ -77,7 +77,7 @@ class SkillPackages(unittest.TestCase):
                                             cwd=folder, capture_output=True, text=True)
                     self.assertEqual(result.returncode, 0, result.stderr)
                 for path in root.rglob("*.md"):
-                    for match in package.LINK.finditer(path.read_text()):
+                    for match in package.LINK.finditer(path.read_text(encoding="utf-8")):
                         target = package.urlsplit(match[2])
                         if not target.scheme and target.path:
                             resolved = (path.parent / target.path).resolve()
@@ -89,10 +89,10 @@ class SkillPackages(unittest.TestCase):
             output = Path(folder)
             package.install(output, apply=True)
             target = output / "consent-pro/SKILL.md"
-            target.write_text("local customization")
+            target.write_text("local customization", encoding="utf-8")
             with self.assertRaisesRegex(ValueError, "Refusing"):
                 package.install(output, apply=True)
-            self.assertEqual(target.read_text(), "local customization")
+            self.assertEqual(target.read_text(encoding="utf-8"), "local customization")
 
     def test_symlink_install_is_rejected(self):
         with tempfile.TemporaryDirectory() as folder:
@@ -172,7 +172,7 @@ class SkillPackages(unittest.TestCase):
             output = Path(folder).resolve()
             package.install(output, True)
             extra = output / "consent-pro/private-policy.md"
-            extra.write_text("not distributed")
+            extra.write_text("not distributed", encoding="utf-8")
             with self.assertRaisesRegex(ValueError, "Refusing"):
                 package.install(output, True)
             extra.unlink()
@@ -268,7 +268,7 @@ class SkillPackages(unittest.TestCase):
         with tempfile.TemporaryDirectory() as folder:
             root = Path(folder).resolve()
             (root / "docs/reference").mkdir(parents=True)
-            (root / "docs/reference/private-policy.md").write_text("private")
+            (root / "docs/reference/private-policy.md").write_text("private", encoding="utf-8")
             with mock.patch.object(package, "ROOT", root):
                 selected = package.source_map("consent-pro")
                 self.assertNotIn(root / "docs/reference/private-policy.md", selected)
@@ -296,7 +296,7 @@ class SkillPackages(unittest.TestCase):
         with tempfile.TemporaryDirectory() as folder:
             root = Path(folder).resolve()
             target = root / "private-policy.md"
-            target.write_text("synthetic private material")
+            target.write_text("synthetic private material", encoding="utf-8")
             with mock.patch.object(package, "ROOT", root), self.assertRaisesRegex(ValueError, "not approved"):
                 package.read_source(target, {"SECURITY.md"})
 
@@ -344,7 +344,7 @@ class SkillPackages(unittest.TestCase):
                 self.assertFalse(manifest["source"]["dirty"])
                 self.assertEqual(manifest["channel"], "preview")
                 git("update-index", "--assume-unchanged", "LICENSE")
-                (root / "LICENSE").write_text("hidden edit")
+                (root / "LICENSE").write_text("hidden edit", encoding="utf-8")
                 with self.assertRaisesRegex(ValueError, "does not match the recorded commit"):
                     package.build_files("consent-pro", "preview")
 
@@ -389,7 +389,7 @@ class SkillPackages(unittest.TestCase):
 
     def test_distribution_guard_mutations_are_detected(self):
         path = ROOT / "scripts/package-skills.py"
-        source = path.read_text()
+        source = path.read_text(encoding="utf-8")
         controls = (
             ("source allowlist",
              "if not path.is_relative_to(ROOT) or path.relative_to(ROOT).as_posix() not in approved:",
@@ -435,18 +435,18 @@ class CatalogueDrift(unittest.TestCase):
             before, after = root / "before.json", root / "after.json"
             payload = {"tools": [{"name": "read", "inputSchema": {"type": "object"},
                                   "annotations": {"readOnlyHint": True}}]}
-            before.write_text(json.dumps(payload))
-            after.write_text(json.dumps(payload))
+            before.write_text(json.dumps(payload), encoding="utf-8")
+            after.write_text(json.dumps(payload), encoding="utf-8")
             argv = ["check-mcp-catalogue.py", str(before), str(after)]
             with mock.patch.object(sys, "argv", argv), contextlib.redirect_stdout(io.StringIO()), \
                     contextlib.redirect_stderr(io.StringIO()):
                 catalogue.main()
                 payload["tools"][0]["annotations"]["readOnlyHint"] = False
-                after.write_text(json.dumps(payload))
+                after.write_text(json.dumps(payload), encoding="utf-8")
                 with self.assertRaises(SystemExit) as changed:
                     catalogue.main()
                 self.assertEqual(changed.exception.code, 1)
-                after.write_text('{"tools": []}')
+                after.write_text('{"tools": []}', encoding="utf-8")
                 with self.assertRaises(SystemExit) as invalid:
                     catalogue.main()
                 self.assertEqual(invalid.exception.code, 2)
@@ -462,7 +462,7 @@ class CatalogueDrift(unittest.TestCase):
         with tempfile.TemporaryDirectory() as folder:
             path = Path(folder) / "catalogue.json"
             tool = {"name": "read", "inputSchema": {"type": "object"}}
-            path.write_text(json.dumps({"tools": [tool, tool]}))
+            path.write_text(json.dumps({"tools": [tool, tool]}), encoding="utf-8")
             with self.assertRaisesRegex(ValueError, "duplicate"):
                 catalogue.contracts(path)
 
@@ -472,10 +472,10 @@ class RepositoryChecks(unittest.TestCase):
         with tempfile.TemporaryDirectory() as folder, contextlib.redirect_stdout(io.StringIO()), \
                 contextlib.redirect_stderr(io.StringIO()):
             root = Path(folder)
-            (root / "README.md").write_text("Valid guide\n")
+            (root / "README.md").write_text("Valid guide\n", encoding="utf-8")
             with mock.patch.object(sys, "argv", ["check-repository.py", "--root", str(root)]):
                 repository.main()
-                (root / "README.md").write_text("[Missing](missing.md)\n")
+                (root / "README.md").write_text("[Missing](missing.md)\n", encoding="utf-8")
                 with self.assertRaises(SystemExit) as broken:
                     repository.main()
                 self.assertEqual(broken.exception.code, 1)
@@ -483,11 +483,11 @@ class RepositoryChecks(unittest.TestCase):
     def test_missing_link_and_authored_dash_are_rejected(self):
         with tempfile.TemporaryDirectory() as folder:
             root = Path(folder)
-            (root / "README.md").write_text("[Guide](guide.md)\n")
+            (root / "README.md").write_text("[Guide](guide.md)\n", encoding="utf-8")
             self.assertEqual(len(repository.check(root)[1]), 1)
-            (root / "guide.md").write_text("Valid guide\n")
+            (root / "guide.md").write_text("Valid guide\n", encoding="utf-8")
             self.assertEqual(repository.check(root), (1, []))
-            (root / "guide.md").write_text("Invalid " + chr(0x2014) + " punctuation\n")
+            (root / "guide.md").write_text("Invalid " + chr(0x2014) + " punctuation\n", encoding="utf-8")
             self.assertEqual(len(repository.check(root)[1]), 1)
 
 
