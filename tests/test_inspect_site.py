@@ -12,13 +12,13 @@ CORE = "/cdn/core/ff20b7f1ebf6e7a37d6ca909.js"
 
 
 class InspectSiteTests(unittest.TestCase):
-    def run_page(self, html):
+    def run_page(self, html, *args):
         spec = importlib.util.spec_from_file_location("inspect_site", ROOT / "scripts" / "inspect-site.py")
         module = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(module)
         output = io.StringIO()
         with mock.patch.object(module, "fetch", return_value=(200, html)), \
-                mock.patch.object(sys, "argv", [module.__file__, "https://example.com"]), \
+                mock.patch.object(sys, "argv", [module.__file__, "https://example.com", *args]), \
                 contextlib.redirect_stdout(output):
             module.main()
         return output.getvalue()
@@ -98,6 +98,51 @@ class InspectSiteTests(unittest.TestCase):
                                '<script src="https://api.consentpro.com' + CORE + '"></script>')
         self.assertIn("invalid URLs", output)
         self.assertNotIn("no earlier external src declarations found", output)
+
+    def test_core_attributes_and_confirmed_project(self):
+        output = self.run_page('<head><script src="' + CORE + '" data-consentpro-script="runtime" '
+                               'data-consentpro-site-id="ff20b7f1ebf6e7a37d6ca909"></script></head>',
+                               "--expected-site-id", "ff20b7f1ebf6e7a37d6ca909")
+        self.assertIn("both required attributes present", output)
+        self.assertIn("site ID matches the confirmed project", output)
+        self.assertIn("inside head", output)
+        self.assertNotIn("MISMATCH", output)
+
+    def test_another_elements_site_id_cannot_mask_missing_core_attributes(self):
+        output = self.run_page('<div data-consentpro-site-id="project-a"></div>'
+                               '<script src="' + CORE + '"></script>',
+                               "--expected-site-id", "project-a")
+        self.assertIn("missing/empty: data-consentpro-script, data-consentpro-site-id", output)
+        self.assertIn("PROJECT MATCH    MISMATCH", output)
+        self.assertIn("not inside an explicit head", output)
+
+    def test_wrong_marker_and_duplicate_runtime_are_reported(self):
+        output = self.run_page('<script src="' + CORE + '" data-consentpro-script="other"></script>'
+                               '<script src="/v2/cdn/runtime"></script>')
+        self.assertIn("expected data-consentpro-script=runtime", output)
+        self.assertIn("2 runtime declarations", output)
+
+    def test_core_url_and_attribute_mismatch_is_reported(self):
+        output = self.run_page('<script src="' + CORE + '" data-consentpro-script="runtime" '
+                               'data-consentpro-site-id="another-project"></script>')
+        self.assertIn("MISMATCH: script URL and data-consentpro-site-id differ", output)
+
+    def test_image_requires_plural_categories_and_no_src(self):
+        output = self.run_page('<img fs-consent-src="https://example.com/pixel" fs-consent-categories="marketing">')
+        self.assertIn("1 gated with fs-consent-src, 0 ungated", output)
+        self.assertNotIn("IMAGE ATTRIBUTES", output)
+        invalid = self.run_page('<img src="https://example.com/pixel" '
+                                'fs-consent-src="https://example.com/pixel" fs-consent-category="marketing">')
+        self.assertIn("retain src or lack fs-consent-categories", invalid)
+
+    def test_valueless_or_empty_image_src_does_not_hide_a_tracker(self):
+        try:
+            output = self.run_page('<img src><img src=""><img>'
+                                   '<img src="https://example.com/pixel.gif">')
+        except TypeError as error:
+            self.fail("A valueless image attribute aborted inspection: " + str(error))
+        self.assertIn("0 gated with fs-consent-src, 1 ungated candidate(s) seen", output)
+        self.assertIn("NEXT", output)
 
 
 if __name__ == "__main__":

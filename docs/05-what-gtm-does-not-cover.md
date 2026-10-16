@@ -1,15 +1,15 @@
 # 5. What the tag manager does not cover
 
-Finishing the wiring feels like finishing the job. It is not, and the gap is easy to miss
-because nothing on any screen mentions it.
+Container configuration covers one delivery path. Inspect the site's other sources and
+finish with browser checks before reporting installation complete.
 
-**Everything in this repository is about trackers that arrive through Google Tag Manager.** A
-site usually has three ways trackers get in, and the container is only one of them.
+A site can receive trackers through several paths, and the container is only one of them.
+The [operations guide](06-agent-readiness/operations.md) covers installation and diagnosis.
 
 | How it arrives | Covered by the wiring? | What handles it |
 |---|---|---|
 | A tag inside the container | **yes**, once wired | this repository |
-| A script written straight into the page | **yes**, the consent layer intercepts it | Consent Pro, automatically |
+| A script written straight into the page | separate runtime path | verify category, load order and observed blocking |
 | **An image request** | **no** | a manual attribute change. Below |
 
 ---
@@ -29,13 +29,16 @@ product puts it back when the visitor accepts the matching category:
 
 <!-- after: held until consent, then restored -->
 <img fs-consent-src="https://example.com/pixel.gif?id=123"
-     fs-consent-category="marketing" width="1" height="1" alt="">
+     fs-consent-categories="marketing" width="1" height="1" alt="">
 ```
 
 The exact attribute names and the available categories are in the official page:
 [docs.consentpro.com/web-app/image-trackers](https://docs.consentpro.com/web-app/image-trackers).
-The app's **Block tracking images** panel also lists the pixel URLs it found on your site,
-which is the fastest way to know whether you have any.
+In **Consent manager**, open a tracker with the **from Image** badge to find its attributed
+URL and generated snippet. Multiple comma-separated categories require all listed choices.
+Verify no live `src` before consent, release after acceptance, and removal after revocation.
+Images setting only reviewed Essential cookies can keep `src`; still disclose them in the
+manager. Source: [runtime image reference](https://docs.consentpro.com/runtime/image-trackers).
 
 > **A pixel carries more than the tracker you meant to add.** One measured case: a LinkedIn
 > pixel planted for a test also set a Cloudflare bot management cookie, which then appeared in
@@ -59,6 +62,10 @@ container's own tag list against the map** rather than assuming the scan found e
 ---
 
 ## The honest summary to give someone
+
+Keep a working [preferences control](https://docs.consentpro.com/web-app/preferences-link)
+on every page, including when the floating control is hidden. Test partial consent,
+revocation and reload as well as first-time acceptance and refusal.
 
 After [testing browser behaviour](reference/verify-behaviour.md), report the scope observed:
 

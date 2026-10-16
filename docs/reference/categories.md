@@ -45,7 +45,9 @@ with whoever owns the legal position, not a checkbox.
 
 ## Google tags and built-in checks
 
-Google's own tags carry built-in consent checks. For GA4 with Basic Consent Mode, leave the
-built-in checks alone and do not add `analytics_storage` to the additional checks, because that
-blocks the tag entirely instead of adjusting how it sends. With Advanced Consent Mode the
-configuration differs, and the Basic versus Advanced page covers it.
+Google's own tags carry built-in consent checks. **Basic GA4** uses `Consent Updated` and
+requires the additional `analytics_storage` consent. **Advanced GA4** uses Consent
+Initialization and does not add that requirement, allowing cookieless requests while storage
+is denied. Preserve built-in checks in both cases. Agree the mode before editing. See
+[the mode contract](consent-mode.md) and the
+[official guide](https://docs.consentpro.com/web-app/google-consent-mode).

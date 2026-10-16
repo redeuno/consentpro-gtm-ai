@@ -1,0 +1,64 @@
+{
+  "links": [
+    {
+      "url": "https://docs.consentpro.com/web-app/consent-logs",
+      "title": "Consent Logs",
+      "description": "Consent logs collects what visitors chose when they responded to the banner. It has three tabs: Consent logs, Analytics, and Advanced Settings."
+    },
+    {
+      "url": "https://docs.consentpro.com/web-app/debugger",
+      "title": "Debugger",
+      "description": "The Consent Pro Debugger is an overlay that runs on your own site and reports what the runtime actually loaded — the banner it chose, whether ..."
+    },
+    {
+      "url": "https://docs.consentpro.com/web-app/google-consent-mode"
+    },
+    {
+      "url": "https://docs.consentpro.com/web-app/google-tag-manager",
+      "title": "How to Set Up Google Tag Manager",
+      "description": "How to Set Up Google Tag Manager ​. Follow this step-by-step guide to set up Google Tag Manager with Consent Pro."
+    },
+    {
+      "url": "https://docs.consentpro.com/web-app/image-trackers",
+      "title": "Image Trackers",
+      "description": "Find and block third-party images that set cookies on a custom site, using the tracker list in Consent manager."
+    },
+    {
+      "url": "https://docs.consentpro.com/web-app/install",
+      "title": "Install the Core Script",
+      "description": "Add the Consent Pro core script to a custom site, verify the installation, and review the script Consent Pro expects on your domain."
+    },
+    {
+      "url": "https://docs.consentpro.com/web-app/licenses",
+      "title": "Licenses and Domains",
+      "description": "Each production domain requires its own license. Domains and subdomains are treated as different domains. Example: example.com and app.example."
+    },
+    {
+      "url": "https://docs.consentpro.com/web-app/publishing",
+      "title": "Publishing Changes",
+      "description": "How Consent Pro serves your configuration to visitors, why changes require a publish, and how to confirm a publish reached your production ..."
+    },
+    {
+      "url": "https://docs.consentpro.com/web-app/sitemap",
+      "title": "Sitemap Setup for Accurate Scans",
+      "description": "A sitemap is recommended for a more precise scan. Without one, the scanner works from the pages it can discover and crawls linked pages,"
+    },
+    {
+      "url": "https://docs.consentpro.com/web-app/storing-consents",
+      "title": "Store Consents in Your Database",
+      "description": "Store a copy of Consent Pro logs in your own database using the consent schema and a Cloudflare Workers example."
+    },
+    {
+      "url": "https://docs.consentpro.com/web-app/troubleshooting",
+      "title": "Troubleshooting | Consent Pro Docs",
+      "description": "This section covers common issues and their solutions when implementing Consent Pro on a custom site. Scans fail, stall, or come back ..."
+    },
+    {
+      "url": "https://docs.consentpro.com/web-app/preferences-link",
+      "title": "Open Preferences from a Link",
+      "description": "If you would rather give visitors a link in your footer (or anywhere else on the page), you can add your own link and hide the floating button."
+    }
+  ],
+  "id": "01a145f5-99ab-73cc-b2b9-fdfaecf27fbb"
+}
+

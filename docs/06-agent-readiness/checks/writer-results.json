@@ -1,0 +1,117 @@
+{
+  "evidence_kind": "historical_pre_fix_reproduction",
+  "baseline_commit": "d33d2e06bfa07b5dd2fda4d8d9e3ad7962b8899b",
+  "interpretation": "These results reproduce unsafe baseline behavior. They are not a passing regression test or approval of the current implementation.",
+  "field_names_translated_to_english": true,
+  "results": {
+    "wrong_event_under_matching_trigger_name": {
+      "existing_event": "purchase",
+      "triggers_after": [
+        "88"
+      ],
+      "reused_existing_trigger_id": true,
+      "created_mock_version": true,
+      "published_mock_version": false,
+      "real_network_calls": 0,
+      "correct_event_criterion": false
+    },
+    "correct_trigger_control": {
+      "existing_event": "consent-updated",
+      "triggers_after": [
+        "88"
+      ],
+      "reused_existing_trigger_id": true,
+      "created_mock_version": true,
+      "published_mock_version": false,
+      "real_network_calls": 0,
+      "correct_event_criterion": true
+    },
+    "purchase_event_tag": {
+      "original_trigger": "77",
+      "original_event": "purchase",
+      "triggers_after": [
+        "88"
+      ],
+      "preserved_original_trigger": false,
+      "created_mock_version": true,
+      "published_mock_version": false,
+      "real_network_calls": 0
+    },
+    "all_pages_control": {
+      "original_trigger": "2147479553",
+      "original_event": "All Pages",
+      "triggers_after": [
+        "88"
+      ],
+      "preserved_original_trigger": false,
+      "created_mock_version": true,
+      "published_mock_version": false,
+      "real_network_calls": 0
+    },
+    "multiple_regions": {
+      "rows_before": [
+        {
+          "regions": "GB",
+          "analyticsStorage": "denied",
+          "adStorage": "denied",
+          "functionalityStorage": "denied",
+          "personalizationStorage": "denied",
+          "adUserData": "denied",
+          "adPersonalization": "denied"
+        },
+        {
+          "regions": "US-CA",
+          "analyticsStorage": "granted",
+          "adStorage": "granted",
+          "functionalityStorage": "granted",
+          "personalizationStorage": "granted",
+          "adUserData": "granted",
+          "adPersonalization": "granted"
+        }
+      ],
+      "rows_after": [
+        {
+          "regions": "GB",
+          "analyticsStorage": "denied",
+          "adStorage": "denied",
+          "functionalityStorage": "denied",
+          "personalizationStorage": "denied",
+          "adUserData": "denied",
+          "adPersonalization": "denied"
+        }
+      ],
+      "preserved_all_rows": false,
+      "created_mock_version": true,
+      "published_mock_version": false,
+      "real_network_calls": 0
+    },
+    "single_region_control": {
+      "rows_before": [
+        {
+          "regions": "GB",
+          "analyticsStorage": "denied",
+          "adStorage": "denied",
+          "functionalityStorage": "denied",
+          "personalizationStorage": "denied",
+          "adUserData": "denied",
+          "adPersonalization": "denied"
+        }
+      ],
+      "rows_after": [
+        {
+          "regions": "GB",
+          "analyticsStorage": "denied",
+          "adStorage": "denied",
+          "functionalityStorage": "denied",
+          "personalizationStorage": "denied",
+          "adUserData": "denied",
+          "adPersonalization": "denied"
+        }
+      ],
+      "preserved_all_rows": true,
+      "created_mock_version": true,
+      "published_mock_version": false,
+      "real_network_calls": 0
+    }
+  }
+}

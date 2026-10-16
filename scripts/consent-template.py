@@ -1,4 +1,8 @@
-"""Identidade do template e leitura completa do inventário, sem rede própria."""
+"""Check template identity and complete inventory pagination through a supplied reader.
+
+Reads supplied data only; no independent network or write path. Safe to repeat.
+No apply flag: callers own authorization and external operations.
+"""
 
 import hashlib
 import json
@@ -11,7 +15,8 @@ REPOSITORY = "gtm-template-consent-pro"
 VERSION = "8a551897e5bfdecf03de59fa00058be442b7ac29"
 GALLERY_TEMPLATE_ID = "WRGND"
 NAME = "Consent Pro - GTM Template"
-# Medido em 2026-10-01 na versão fixada e no .tpl oficial anterior. Só a ajuda difere nos parâmetros.
+# Measured on 2026-10-01 in the pinned release and previous official template.
+# Only parameter help text differs.
 CONTENT_HASH = "775bb1ebc2f88242cc7fab3f7a4833175bd9b0f84582a1af4e3e4bb78773f8a7"
 SOURCE_URL = "https://raw.githubusercontent.com/%s/%s/%s/template.tpl" % (OWNER, REPOSITORY, VERSION)
 
@@ -71,7 +76,7 @@ def inspect(template):
     except (ValueError, TypeError):
         info = {}
     gallery = template.get("galleryReference")
-    # A galeria reescreve a marca do INFO. Importação manual mantém a marca do arquivo público.
+    # Gallery rewrites the INFO brand; manual imports retain the public file's brand.
     expected_brand = "github.com_finsweet" if gallery is not None else "finsweet_consent_pro"
     name = str(template.get("name", ""))
     brand = info.get("brand") if isinstance(info.get("brand"), dict) else {}

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Consent Pro"
+  short_description: "Set up and diagnose website consent with evidence"
+  default_prompt: "Use $consent-pro to inspect my test website and explain the next steps without publishing."

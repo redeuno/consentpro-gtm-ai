@@ -3,8 +3,8 @@
 The app's own checkbox records that someone said it was done. These are the checks that tell
 you whether it is.
 
-**The first three read configuration. The last two load the page.** A setup can pass all of
-the first three and fail both of the last two, which is why the order ends where it does.
+The numbered checks start with configuration and end with browser behaviour. Complete the
+partial-consent, revocation and reload branches in the linked browser procedure too.
 
 ⭐ **6.4 and 6.5 have their own page now:
 [verify-behaviour.md](verify-behaviour.md)**, with the full procedure for comparing named
@@ -16,11 +16,14 @@ did.
 
 ## 6.1 The container is published
 
-Not saved, published. Open the version history and confirm the live version is the one with
-your changes, rather than a workspace nobody shipped.
+Open version history and confirm which version is live. The current MCP GTM audit/details
+read that published version, not unpublished workspace edits. Do not publish merely to run
+this check: identify whether you are testing an approved draft or the live configuration.
 
-**Why first:** if this fails, every other check is measuring the old container, and the results
-mean nothing.
+Record site deployment, Consent Pro publication and GTM publication separately. For a live
+verification, all required releases must match the intended state. A signed draft preview
+cannot prove what ordinary visitors receive. See the
+[release workflow](../06-agent-readiness/operations.md#draft-preview-and-release).
 
 ---
 
@@ -51,8 +54,8 @@ Read the [existing-template and update rules](nine-steps.md#2-add-the-consent-pr
 before replacing or updating anything. Local tests of the importer do not prove that this
 Gallery version has run in a live workspace or on a live site.
 
-**What failure looks like:** intermittent. Sometimes tags are held, sometimes not, depending on
-what loaded first. Intermittent consent behaviour almost always traces back to this.
+**What failure can look like:** intermittent behaviour depending on what loaded first.
+Inspect the actual order before attributing the symptom to this trigger.
 
 ---
 
@@ -95,11 +98,12 @@ per tracker, within the tested pages, actions and consent mode.
 
 ---
 
-## The debugger does most of 6.4 and 6.5
+## Use the signed debugger preview
 
-It reports runtime state, whether the banner is correct, and what is blocked by category before
-and after the choice. It is reached by adding a parameter to the site URL; the debugger
-documentation page has the exact form.
+Open **Preview** in the project or use `consentpro_banner_preview` when available. Use the
+returned signed URL unchanged and keep it private; do not construct a parameter or token.
+The debugger reports runtime, banner and category state. Respect its expiry and installation
+warnings. Source: [Debugger](https://docs.consentpro.com/web-app/debugger).
 
 Use it to compare the reported consent state with browser requests and storage. The debugger
 does not replace observation of the named trackers.
@@ -120,5 +124,5 @@ does not replace observation of the named trackers.
 ⛔ **Never merge the two into "the setup is compliant".** Compliance is a legal conclusion about
 a specific site, and a correctly wired container is one input to it. Report the inputs.
 
-⛔ **And never report a check you did not run.** In a web chat with no access to the container,
-everything above is something the person did and told you about. Write it that way.
+**Never report a check you did not run.** A web chat with an authorised MCP may read the
+published container. Without that access, label customer-reported observations as such.

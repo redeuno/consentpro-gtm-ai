@@ -1,153 +1,102 @@
-# 0. The whole journey, and where an agent fits today
+# 0. The whole journey, and where an agent fits
 
-Read this first. It saves you discovering halfway through that the automated part is one
-stage out of several.
+Start from the customer's current state, not from an empty installation. Read the connected
+workspace and project, inspect the site, and identify what already exists before proposing
+changes. The [operations guide](06-agent-readiness/operations.md) supplies the capability
+checks, runtime checks and recovery paths for each stage.
 
-**This map is not a guess.** It was built by walking the product end to end, from a site that
-did not exist to a recorded consent, capturing every screen in order. The stage names below
-are the product's own labels.
+## Choose the available path
 
----
+The Consent Pro staging MCP exposes onboarding, diagnostics and selected writes. Its GTM
+tools currently read published containers only. This is the catalogue captured on 2026-10-16,
+not a claim about every environment or permission grant. Discover tools again each session.
+See the [capability matrix](06-agent-readiness/operations.md#capabilities-and-targets).
 
-## The nine stages
+| Path | Requirements | What it covers |
+|---|---|---|
+| Consent Pro MCP | Connected account, workspace and relevant scopes | Available project reads and selected writes; current GTM reads |
+| GTM interface | Google account with target container access | Manual template and container configuration |
+| Local GTM scripts | Terminal, Python, own Google OAuth client and token | Audit, simulation and explicitly approved container configuration |
+| Site code and browser | Customer code and test-domain access | Core installation, pixels, preferences and observed behaviour |
 
-| # | Stage | Where it happens | Can an agent do it today? |
-|---|---|---|---|
-| 0 | **Tag manager account; Google Cloud for automation only** | Google consoles | The GTM interface needs container access. Scripts also need an OAuth credential. [Docs 1](01-google-cloud-setup.md) and [2](02-tag-manager-account.md) |
-| 1 | **Sign in, pick a workspace** | the app | no. SSO, in the browser |
-| 2 | **Connect Domain** | the app, setup step 1 | no |
-| 3 | **Configure Banner** | the app, setup step 2 | no |
-| 4 | **Install** the core script | the app gives it, your site takes it | **the app half, no. Putting the snippet in your site, yes**, if the agent has your codebase |
-| 5 | **Scan** the site | the app | no. One button, and it drives stages 6 and 8 |
-| 6 | **Categorise the trackers** | the app, with `Fill with AI` | no |
-| 7 | **Wire Google Tag Manager** | the GTM interface or API | yes, the container configuration; site checks remain separate |
-| 8 | **Publish** | the app | no. **Publishing a production domain requires a paid plan** |
-| 9 | **Image trackers and the `<noscript>`** | your site's code | **yes**, if the agent has your codebase. [Doc 5](05-what-gtm-does-not-cover.md) |
+An MCP permission does not authorise a broader local Google credential. If an operation is
+unavailable, explain the dashboard or script path before changing transport. Future GTM MCP
+writing is planned, but no write contract was present in the captured catalogue.
 
----
+## The installation stages
 
-## Why stage 7 is the automated one, and the others are not
+| Stage | Required result | Agent path and remaining decision |
+|---|---|---|
+| Identify | Workspace, project, hostname, platform and goal agree | Read project state and inspect the installed engine; resolve ambiguous matches |
+| Connect domain | Correct custom-site project and public hostname | MCP can create a project or update its domain when authorised; Webflow onboarding uses the dashboard |
+| Configure banner | Type, regions, style and privacy link reviewed | MCP supports selected style and privacy-link edits; do not infer type, region or category writes |
+| Install core | Exact project snippet deployed and checked | Read the snippet, edit the shared head, deploy with the corresponding authority and verify the domain |
+| Scan | Completed scan with stated coverage | Detect targets, review settings, start an authorised scan and follow its report |
+| Review trackers | Categories and descriptions reflect actual use | Review detected and missing trackers with the customer; current MCP does not change categories |
+| Configure GTM | Mode, regions, triggers and checks match the plan | Current MCP audits the published version; use the interface or explicitly selected local scripts to configure |
+| Preview and test | Draft behaviour observed on the intended site | Use the signed preview and exercise named trackers, choices and page actions |
+| Publish | Site code, Consent Pro configuration and GTM version accounted for | Three separate releases; current MCP cannot publish Consent Pro or GTM |
+| Operate | Preferences, revocation, logs and future scans checked | Follow the operations guide and report remaining limits |
 
-**Not because it is the most important.** Because it is the only stage that happens in a
-system with a public API.
+## Identity, installation and licence
 
-Stages 1 through 8 happen inside the Consent Pro app, which today has no public API and no
-MCP server. An agent cannot press a button on a screen it cannot reach. Stage 7 happens in
-Google Tag Manager, which has a full API, and that is the entire reason this repository
-exists.
+Use the public hostname, including the domain visible through a reverse proxy. Match the
+project site ID against the script URL and `data-consentpro-site-id`; keep
+`data-consentpro-script="runtime"`. The custom-site core is one project-specific script at
+the top of the shared `<head>`, before trackers and tag managers. Do not reuse another
+project's snippet or replace it with a generic two-script runtime example.
 
-⭐ **It also happens to be the stage users find hardest.** Finsweet's own figure: 63% of
-Consent Pro users use Google Tag Manager, and it is the most painful step of the setup.
+**Check script** verifies the published domain. In the wizard, **Finish setup** remains
+disabled until **Verify installation** passes; **Do it later** leaves this outstanding.
+Source: [Install the Core Script](https://docs.consentpro.com/web-app/install).
 
----
+Production domains and subdomains require their own licences. A preview hostname must be
+connected to the project. A signed preview can temporarily show a saved draft before a
+production licence is active; it does not enable the banner for ordinary visitors. Basic
+plans apply Global instances; Premium supports regional instances. Read the actual plan
+before promising regional behaviour. Source: [Licenses](https://docs.consentpro.com/web-app/licenses).
 
-## What each stage actually involves
+## Scan and review
 
-### Stage 0. Google Cloud and the tag manager account
+A sitemap improves discovery. Without one, the scanner follows discoverable same-origin
+links; authenticated pages, disallowed paths, unlinked pages and interaction-only trackers
+can remain outside the scan. A sitemap does not prove full coverage.
+Sources: [Sitemap Setup](https://docs.consentpro.com/web-app/sitemap),
+[Scanner](https://docs.consentpro.com/scanner).
 
-**Manual setup:** sign in to GTM and use an existing container or create one with
-[doc 2](02-tag-manager-account.md). Add Consent Pro from the Gallery in
-[step 2](reference/nine-steps.md#2-add-the-consent-pro-template-from-the-gallery).
-This path needs no custom OAuth client and no template download.
+The staging MCP has a narrower contract than the public scan-settings guide: custom sitemap
+and collection values are saved but not yet used by its scanner. Pinned pages replace
+discovery and require confirmation of that coverage limit. Follow the current
+[scan contract](06-agent-readiness/operations.md#scan-and-tracker-review).
 
-**API automation:** also complete [Google Cloud setup](01-google-cloud-setup.md) and
-[authorisation](03-authorise.md). The OAuth client JSON and refresh token let the scripts act
-on your behalf; installing a Gallery template does not authorise those scripts.
+Compare scan trackers with GTM tags, embedded scripts and image pixels. Review missing
+information and proposed Essential categories with the customer. Category changes remain a
+dashboard action under the captured contract and reach visitors only after CP publication.
 
-**Two things here cannot be automated by anyone.** Creating a tag manager account, because
-the interface demands a container name on the same screen and no API path skips it. And
-approving a credential, because it ends at a Google consent screen a person clicks.
+## GTM configuration
 
-### Stages 1 to 3. Sign in, connect the domain, configure the banner
+Choose [Basic or Advanced Consent Mode](reference/consent-mode.md) explicitly. Preserve
+business events such as purchase and form submission; never replace them wholesale with a
+consent event. Consent is a permission condition, not evidence that a purchase occurred.
 
-The setup wizard has three steps, in this order: **Connect Domain**, **Configure Banner**,
-**Install**.
+For the interface, follow the [nine steps](reference/nine-steps.md). For local scripts, start
+with [Google Cloud setup](01-google-cloud-setup.md), [authorisation](03-authorise.md) and
+[the execution guide](04-run-it.md). New templates use the pinned Gallery version; recognised
+existing templates are preserved. Review [categories](reference/categories.md) and
+[regional defaults](reference/regions.md) before applying.
 
-Connect Domain asks for the domain and a project name. Configure Banner covers the banner's
-position, the preferences screen, and two colour palettes, with a live preview of both. The
-defaults arrive light: white background, black text, blue links. The four categories appear
-in the preferences screen, with `Essentials` fixed as always active.
+## Drafts, release and verification
 
-**Decide your banner type here**, because it decides everything in stage 7: an opt-in banner
-means every regional default is denied, and opt-out, do-not-sell or informational mean granted.
+Saving a banner is not publishing it. A completed scan does not publish tracker settings.
+Publishing GTM does not publish Consent Pro or deploy the site's HTML. Track each release
+and verify the ordinary site outside a draft preview. Sources:
+[Publishing Changes](https://docs.consentpro.com/web-app/publishing),
+[preview and release workflow](06-agent-readiness/operations.md#draft-preview-and-release).
 
-### Stage 4. Install
+Finish with the [browser procedure](reference/verify-behaviour.md): before choice, refusal,
+acceptance, partial consent, revocation and reload. Include
+[pixels and other non-GTM paths](05-what-gtm-does-not-cover.md). A checklist mark, configuration
+score or cookie count does not prove that every tracker obeyed consent.
 
-The app hands you a snippet with `Copy code` and `Verify installation`.
-
-⛔ **`Finish setup` stays disabled until verification passes.** `Do it later` exists and opens
-the project unverified.
-
-**The snippet goes at the very top of `<head>`, before everything else.** An agent with access
-to your codebase can do this part. In a framework project (Astro, Next, Nuxt, SvelteKit) it
-belongs in the shared layout that renders `<head>`, not in a page.
-
-### Stage 5. Scan
-
-One button, and everything downstream depends on it. The scan reads your published site and
-finds the cookies your trackers set.
-
-⚠️ **Two things the scan does not see**, and both bite later: a tracker inside your tag
-manager whose tag does not fire on `All Pages` or on `consent-updated`, and anything that only
-appears after an interaction. [Doc 5](05-what-gtm-does-not-cover.md) covers this.
-
-**Publish a `sitemap.xml` before scanning.** Without one the scan reads a single page. With
-one, auto-detect finds it and reads the whole site.
-
-### Stage 6. Categorise
-
-Each tracker gets a category, and the category decides whether it runs before consent.
-`Fill with AI` fills six fields at once, with a justification and a source link per field, and
-an individual `Regenerate`.
-
-⛔ **This is where your judgement is required and cannot be delegated.** `Essential` is the
-only category that skips consent entirely. Read that list yourself.
-[reference/categories.md](reference/categories.md) explains what to ask of each one.
-
-### Stage 7. The tag manager
-
-**This is what the rest of this repository is about.** Follow the
-[nine steps](reference/nine-steps.md) in the GTM interface, or use
-[scripts/wire-consent.py](../scripts/wire-consent.py) for the container configuration.
-Removing the site's `<noscript>`, testing browser behaviour and marking the app's checklist
-still need their own checks.
-
-For [browser verification](reference/verify-behaviour.md), identify the trackers and actions
-being exercised, then compare requests, storage and consent state across choices. Equal
-cookie lists or a change in their count alone cannot establish whether consent gating works.
-
-The Gallery changes how step 2 installs the template. It does not configure regional
-defaults, move triggers, add consent checks or test the site for you. Existing manual
-templates are not migrated automatically by this repository.
-
-⚠️ **It depends on stage 6.** The consent check applied to each tag mirrors the category the
-app gave that tracker, so a wrong category here becomes a firing rule there.
-
-### Stage 8. Publish
-
-⛔ **Publishing to a production domain requires a paid plan.** The button labelled
-`Publish on production` opens a purchase screen rather than publishing, which is worth knowing
-before you promise a client a timeline.
-
-Staging is free. You can install, configure, scan, categorise and test the whole thing without
-paying, and pay when you go live.
-
-### Stage 9. What the tag manager does not cover
-
-Image pixels and the `<noscript>` block. An agent with your codebase does both.
-[Doc 5](05-what-gtm-does-not-cover.md).
-
----
-
-## What changes when Consent Pro ships an MCP server or a CLI
-
-Right now the product connects to one thing: Google Tag Manager, through Google's API. That
-is the whole reason the automated part of this map is a single stage.
-
-**When Consent Pro exposes its own MCP server or a CLI**, stages 2, 3, 5, 6 and 8 become
-reachable, and this table changes from one automated stage to most of them. **The structure
-here is built for that**: each stage already says where it happens and why it is or is not
-automatable, so the change is a column, not a rewrite.
-
-Until then, this map is the honest version, and the honest version is the one that does not
-frustrate someone in the middle of a setup.
+Report what was read, saved, published and observed, with target and limitations. The
+[source review](06-agent-readiness/README.md) records evidence and source conflicts.

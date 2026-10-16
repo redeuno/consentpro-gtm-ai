@@ -1,210 +1,89 @@
 # consentpro-gtm-ai
 
-Wire Google Tag Manager to Consent Pro by handing the work to an AI agent.
+Help a client's agent install, diagnose and operate Consent Pro, including the
+Google Tag Manager configuration that makes tags respect consent.
 
-Connecting the two is nine steps of clicking through menus. Almost all of it is an API call
-underneath, so an agent can do it while you supply the handful of decisions only you can make.
+Start with [the client journey](docs/00-the-journey.md). Install the
+[`consent-pro` and `consent-pro-gtm` skills](docs/07-agent-installation/README.md)
+for Codex or Claude Code, or follow the guides with a connected web-chat assistant.
+The two skills share the same product references and scripts.
 
-**The template is available in the [GTM Community Template Gallery](https://tagmanager.google.com/gallery/#/owners/finsweet/templates/gtm-template-consent-pro).**
-For a manual setup, use **Templates > Search Gallery > Consent Pro by Finsweet > Add to
-workspace**, review the permissions, and confirm **Add**. No template download or custom OAuth
-client is needed for this path. Continue with the [nine steps](docs/reference/nine-steps.md).
-Gallery availability alone does not establish Google CMP certification.
+## Choose the path available to the customer
 
----
+| Path | Available work | Requirements |
+| --- | --- | --- |
+| Consent Pro staging MCP | Read setup, trackers, scans, statistics and published GTM; supported project, scan and draft changes | Finsweet OAuth, correct workspace and tool-specific access |
+| Local Google API scripts | Audit and configure a selected web GTM workspace, create a version and optionally publish | Python 3.10+, reviewed Google OAuth scopes, confirmed account/container/workspace and approved simulation |
+| Product and GTM interfaces | Guided configuration, Consent Pro publication and tracker categories | Customer access and decisions |
+| Site repository and browser | Install the exact project snippet, handle image pixels, preferences and verify behavior | Access to the customer's site and test environment |
 
-## Where this fits, before anything else
+The [2026-10-16 staging catalogue](docs/06-agent-readiness/sources/2026-10-16/mcp-catalogue.json)
+announces 25 tools, including four GTM read tools. GTM writes through MCP are future
+work until a real tool contract is available and tested. Consent Pro publication
+and category editing are not exposed in that catalogue. Discover capabilities
+again each session; access is not permission to make unsolicited changes.
 
-Setting up Consent Pro is nine stages. **This repository automates one of them**, and it is
-the one users report as the hardest.
+Staging endpoint: `https://mcp-staging.consentpro.com/mcp`.
+Use the dedicated [staging test dashboard](https://mcp-docs-and-ui-consentpro-web-app-staging.finsweet.workers.dev/).
+Do not assume production has the same endpoint or capabilities.
 
-| # | Stage | Agent? |
-|---|---|---|
-| 0 | Tag manager account; Google Cloud only for API automation | partly, once |
-| 1 | Sign in, pick a workspace | no, the app |
-| 2 | Connect Domain | no, the app |
-| 3 | Configure Banner | no, the app |
-| 4 | Install the core script | the site half, yes |
-| 5 | Scan the site | no, the app |
-| 6 | Categorise the trackers | no, and your judgement is required |
-| 7 | **Wire Google Tag Manager** | yes, the container configuration; site checks remain separate |
-| 8 | Publish | no, and production needs a paid plan |
-| 9 | Image pixels and the `<noscript>` | yes, with your codebase |
+## Start safely
 
-**Stage 7 is automated because it is the only stage that happens in a system with a public
-API.** The others happen inside the Consent Pro app, which today has no public API and no MCP
-server. An agent cannot press a button on a screen it cannot reach.
+1. Install the [skills and connector](docs/07-agent-installation/README.md), or open
+   the [manual GTM procedure](docs/reference/nine-steps.md).
+2. Identify the workspace, project, public hostname, installed engine and goal.
+3. Read the current state. Choose Basic or Advanced Google Consent Mode explicitly.
+4. Review exact changes, including tag business events and every regional default.
+5. Apply authorized changes, read them back and test behavior.
+6. Report saved drafts, GTM versions, publications and site deployment separately.
 
-⭐ It also happens to be the stage that hurts most: **63% of Consent Pro users use Google Tag
-Manager, and it is reported as the most painful step**.
-
-**[The full map, stage by stage, is in docs/00-the-journey.md](docs/00-the-journey.md)**, built
-by walking the product end to end and capturing every screen in order. Read it before you
-start, so nothing surprises you halfway through.
-
----
-
-## Start here
-
-Choose how you want to configure the container:
-
-- **In the GTM interface:** read [the whole journey](docs/00-the-journey.md), then follow the
-  [nine steps](docs/reference/nine-steps.md). Sign in to GTM with container access. Skip Google
-  Cloud setup and this repository's authorisation script.
-- **With the scripts:** follow the table below. API automation still needs your own OAuth
-  client JSON and browser authorisation. Gallery installation does not remove that requirement.
-
-| Step | Document | Time |
-|---|---|---|
-| 0 | [The whole journey](docs/00-the-journey.md) | 5 min, read first |
-| 1 | [Google Cloud, once](docs/01-google-cloud-setup.md) | 15 min |
-| 2 | [The tag manager account](docs/02-tag-manager-account.md) | 2 min |
-| 3 | [Authorise once](docs/03-authorise.md) | 3 min |
-| 4 | [Hand it to the agent](docs/04-run-it.md) | the agent's part |
-| 5 | [What the tag manager does not cover](docs/05-what-gtm-does-not-cover.md) | 5 min, and it is the one people skip |
-
-**New to the Google Cloud console?** Section 1.0 of the first document explains what it is,
-what enabling an API means, and what this opens up beyond this one setup. It is worth the ten
-minutes if the console is unfamiliar.
-
-**Two things genuinely cannot be automated by anyone**, and they are both in stage 0. Creating
-a tag manager account, because the interface demands a container name on the same screen and no
-API path skips it. And approving a credential, because it ends at a Google consent screen a
-person clicks.
-
----
-
-## Before you start
-
-- **Consent Pro installed and verified on the site.** The app's own `Verify installation` must
-  pass. Wiring a container to a consent layer that is not there produces a trigger nothing
-  fires. See the [installation docs](https://docs.consentpro.com/web-app/install).
-- **A recent scan.** The agent maps each tracker's category, and categories come from the scan.
-- **Python 3, for the scripts.** They use only the standard library; manual GTM setup does not need Python.
-- **An agent that can run commands**, for the automated path. A web chat can still generate
-  every exact value for you to type; section 06 of the guide covers that.
-
----
-
-## What is in here
-
-```
-docs/
-  01-google-cloud-setup.md    the console, in detail, with the decision that bites later
-  02-tag-manager-account.md   the other thing that cannot be automated
-  03-authorise.md             the single browser step
-  04-run-it.md                the four values, the prompt, the sequence
-  05-what-gtm-does-not-cover.md   image pixels, and the other two gaps
-  reference/
-    nine-steps.md             every step, and what differs between the two doc trails
-    regions.md                region codes, and the case that breaks setups
-    categories.md             category to consent check, and the essential question
-    verify.md                 five checks, three of configuration and two of behaviour
-    verify-behaviour.md       the one check that watches what the browser actually did
-    troubleshooting.md        six failure shapes, each with its symptom
-skill/
-  SKILL.md                    point an agent at this
-scripts/
-  inspect-site.py             reads a public page: which engine, which trail, load order
-  authorise.py                one-time browser authorisation
-  audit-container.py          reports which consent steps are in place. Read only
-  wire-consent.py             does the configuration. Simulates by default
-  consent-template.py         shared template identity and version checks
-tests/
-  README.md                   validation commands, fixtures and their limits
-```
-
-## Start by measuring, not by answering
-
-Before reading anything, point this at the site. **No credential, no login, no setup**: it
-reads the public page the way any visitor does.
+For public HTML inspection, without credentials:
 
 ```bash
-python scripts/inspect-site.py https://example.com
+python3 scripts/inspect-site.py https://example.com
 ```
 
-It tells you which engine is installed and therefore **which documentation trail applies**,
-the site id, the tag manager container, whether the `<noscript>` is still there, and what
-loads before the consent layer.
+This reports declared runtime, required attributes, site ID, script order and image
+tracker candidates. It cannot prove what ran in the browser. Finish with the
+[behavior checks](docs/reference/verify-behaviour.md), including rejection,
+acceptance as a positive control, partial choice, revocation and reload.
 
-⭐ **This replaces a question people answer wrong.** Every guide starts by asking "Webflow or
-something else?", and a Webflow project managed from the web app follows the web app trail.
-The script address on the page settles it without anyone having to remember.
+For local GTM automation, follow [Google Cloud setup](docs/01-google-cloud-setup.md),
+[GTM account setup](docs/02-tag-manager-account.md), [authorization](docs/03-authorise.md)
+and the [run guide](docs/04-run-it.md). This broader credential path is optional;
+an MCP read-only restriction does not authorize switching to it.
 
----
+The GTM [Community Template Gallery](https://tagmanager.google.com/gallery/#/owners/finsweet/templates/gtm-template-consent-pro)
+provides the manual template installation. API imports pin the reviewed publisher
+version and preserve recognized existing templates. Gallery availability does not
+establish Google CMP certification.
 
-## The one idea worth reading even if you skip everything else
+## What is covered
 
-**Detection and blocking are different things, and the first works without the second.**
+- [Operations](docs/06-agent-readiness/operations.md): capability discovery,
+  project targeting, installation, scan limits, previews, licenses, logs and recovery.
+- [Beyond GTM](docs/05-what-gtm-does-not-cover.md): hardcoded scripts, image pixels,
+  preferences and reconciliation with the scan.
+- [GTM references](docs/reference/nine-steps.md): regions, categories, checks and troubleshooting.
+- [Script catalogue](scripts/README.md): reads, writes, apply flags and recovery.
+- [Tests](tests/README.md): offline checks, mutation controls and verification limits.
+- [Evidence and implementation status](docs/06-agent-readiness/README.md): the complete
+  Web App documentation collection, dated MCP contract and remaining release gates.
 
-The Consent Pro scanner finds the cookies your tags set as soon as a tag fires on `All Pages`,
-which is the default. So your trackers show up in the app, neatly categorised, and the setup
-looks handled. **Blocking requires every step in this repository.** Without them the tags keep
-firing whatever the visitor clicked.
+Detection is not blocking. A successful scan, setup checkbox, preview or unchanged
+cookie count does not establish that tags respected a visitor's choice. Report
+only the trackers and actions actually tested, without compliance guarantees.
 
-The app says so on its own screen, in the Configure GTM panel: until the container is wired to
-consent, the tags it fires ignore the visitor's choice. That sentence is a task, not a
-disclaimer.
+## Security and contribution
 
-Run `scripts/audit-container.py` to inspect configuration signals, including template source
-and version. It does not observe the site or prove that blocking works. Finish with the
-[browser checks](docs/reference/verify-behaviour.md): exercise named trackers and compare
-requests, storage and consent state across choices. Cookie totals alone are inconclusive.
+Read [SECURITY.md](SECURITY.md) before authorizing scripts. A Google write scope can
+reach every container the account can access. The writer simulates by default,
+ties application to an approved current-state plan, preserves business events and
+regional tables, and keeps publication separate. Failures require inspection
+before retrying; a partial application is not a finished version.
 
----
-
-## Security
-
-**[Read SECURITY.md](SECURITY.md) before running anything.** The short version:
-
-A Tag Manager write scope reaches **every container that Google account can access**, including
-other clients and production properties. There is no per-container scope. The scripts confirm
-the account by its live name, simulate by default, require a second flag to publish, and refuse
-to create a version from half-applied state. The audit script has no write path at all.
-
-The scripts are short and dependency-free so that reading them is realistic. Do that once.
-
----
-
-## Scope, and what this is not
-
-This covers **Google Tag Manager**. Installing Consent Pro, configuring banners, the policy
-generator and image trackers are separate topics with their own documentation.
-
-It does not decide whether a tracker is essential, and it does not assert that a site is
-compliant. It configures a container and proves what it configured. The conclusion is yours.
-
----
-
-## Where this came from
-
-The nine steps are the official Consent Pro documentation, both the Webflow trail and the web
-app trail, read in September 2026. **The emphasis comes from carrying the setup out end to end
-and measuring the result**, including getting the region wrong on the first attempt in exactly
-the way `docs/reference/regions.md` warns about.
-
-**Source check on 2026-10-01:** the official
-[Webflow](https://docs.consentpro.com/webflow/google-tag-manager) and
-[web app](https://docs.consentpro.com/web-app/google-tag-manager) guides still described a
-template download. Step 2 here follows the published
-[Finsweet template repository](https://github.com/finsweet/gtm-template-consent-pro) and
-[Google's Gallery instructions](https://support.google.com/tagmanager/answer/9454109?hl=en).
-The rest of the setup still requires regional defaults, triggers, consent checks and testing.
-
-For new templates, the script pins Gallery version
-`8a551897e5bfdecf03de59fa00058be442b7ac29`. Recognised existing templates are preserved;
-there is no automatic migration from a manual import. See
-[the import and update rules](docs/reference/nine-steps.md#2-add-the-consent-pro-template-from-the-gallery).
-On 2026-10-01, a real Gallery import and configuration were completed in an isolated QA
-container. Testing exposed and corrected two API differences: the Gallery's rewritten brand
-and its public tag type. A version was created without publishing; a second application
-published the configuration while retaining the same template, initialization tag and trigger.
-The local suite passed 39 tests and 16 mutation controls. See [the captured-response
-coverage](tests/README.md) and [the live check's scope](docs/04-run-it.md#live-check-on-2026-10-01).
-
-Chrome on Windows exercised refusal, acceptance, revocation, Analytics-only consent and reload
-persistence with two local QA markers. The browser substituted the QA container in the received
-lab HTML; the public lab's existing container was unchanged. This does not validate every
-tracker, region, browser or customer installation.
-
-This is an independent guide. It is not published by Finsweet and carries no warranty.
+Repository documentation, skill instructions, scripts and tests are authored in
+English. Source snapshots retain original bytes for provenance. Update canonical
+files and regenerate installed packages, rather than editing generated copies.
+Run the documented checks before a pull request. Keep credentials and customer
+records out of commits. This repository does not send telemetry.

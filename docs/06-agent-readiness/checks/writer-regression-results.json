@@ -1,0 +1,40 @@
+{
+  "evidence_kind": "current_offline_safety_regressions",
+  "verified_at": "2026-10-16T19:16:48.892359+00:00",
+  "status": "passed",
+  "tests_run": 6,
+  "cases": [
+    "test_wrong_named_trigger_fails_before_writes",
+    "test_verified_trigger_is_reused_even_if_renamed",
+    "test_business_event_keeps_trigger_and_gains_consent_checks",
+    "test_multiregion_and_optional_parameters_are_preserved",
+    "test_explicit_multiregion_replacement_fails_before_writes",
+    "test_single_region_change_preserves_unrelated_parameters"
+  ],
+  "real_network_calls": 0,
+  "skipped": 0,
+  "expected_failures": 0,
+  "failures": [],
+  "source_files": [
+    {
+      "path": "scripts/wire-consent.py",
+      "bytes": 33373,
+      "sha256": "3a201f44af08ca5ee46f7235b16ff1ec383c36372451a4c73e9cc68f2b64c4cb"
+    },
+    {
+      "path": "scripts/consent-template.py",
+      "bytes": 7373,
+      "sha256": "2b1e2a4fecaef49c6236589d9dc6ccc536512244e4e6345ea3adcf98b7e192b0"
+    },
+    {
+      "path": "tests/test_gallery_install.py",
+      "bytes": 24959,
+      "sha256": "36754850b8ea576ca752e4e78d535f97ee228cfba703d3aa3589480d2dbcd05d"
+    },
+    {
+      "path": "tests/test_wire_safety.py",
+      "bytes": 28072,
+      "sha256": "f8c4ddfedb8b97a769f1cc28a3e8fec685dad5ac1b02428313a33ea421ecbbe0"
+    }
+  ]
+}

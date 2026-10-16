@@ -28,6 +28,11 @@ tag manager's expected value are not always the same string**, and that gap is t
 
 ## The check that catches it
 
+First check the plan and published banner configuration. Basic supports Global instances;
+Premium supports region-specific instances. A draft preview can show regional banners even
+when the production plan does not run them, so preview is not proof of live eligibility.
+Source: [Licenses](https://docs.consentpro.com/web-app/licenses).
+
 Open the initialization tag, open the region table, and compare it against the banner's
 geotarget **code by code**. Not "looks right", code by code.
 
@@ -36,6 +41,11 @@ been narrowed to that country. Visitors from everywhere else fall through to wha
 template does with no matching region.
 
 ## Multiple banners
+
+Preserve existing rows and unrelated initialization parameters. Do not replace the whole
+table to change one region. The local writer preserves the table when regional arguments
+are omitted and rejects an explicit regional change to an existing multi-row table; review
+that case separately in GTM. See [the execution guide](../04-run-it.md).
 
 One region row per banner, each with its own codes and its own pattern. An opt-in banner for
 Europe and an opt-out banner for the United States are **two rows in one tag**, not two tags:

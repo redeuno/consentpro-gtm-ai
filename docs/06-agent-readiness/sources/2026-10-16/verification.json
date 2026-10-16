@@ -1,0 +1,52 @@
+{
+  "verified_at": "2026-10-16T18:40:49.653247+00:00",
+  "web_app_expected": 13,
+  "web_app_collected": 13,
+  "references_collected": 6,
+  "images": 70,
+  "templates": 1,
+  "assets_verified": 71,
+  "asset_bytes": 20660752,
+  "mcp_tools": 25,
+  "mcp_read_only": 17,
+  "mcp_write": 8,
+  "files": [
+    {
+      "path": "web-app.json",
+      "bytes": 111940,
+      "sha256": "950b02e509fc11e4372f03b80f7f690f7f15d54fe5bc32a1f9f89c6d67983357"
+    },
+    {
+      "path": "references.json",
+      "bytes": 63623,
+      "sha256": "1178378641cf95fd2d1edd30895d9a13e4eee4170da5f4be33d50afbd6596a9a"
+    },
+    {
+      "path": "map.json",
+      "bytes": 3196,
+      "sha256": "53b7fdf0f2a8866949a3c5cefea9ed3fa6025e60809b8a3dfd4b6b9f83cb3ea2"
+    },
+    {
+      "path": "sitemap.xml",
+      "bytes": 5833,
+      "sha256": "c53545efe6dad5a8e21d67c3e23ff58f8a5b38cda6c616c0079dd659a5bffed3"
+    },
+    {
+      "path": "assets-index.json",
+      "bytes": 36124,
+      "sha256": "e60df2e1c82d64c83d63ffaed7bd9e95ad1b28b65943022e04458a736fe8bf21"
+    },
+    {
+      "path": "mcp-catalogue.json",
+      "bytes": 207361,
+      "sha256": "22bd7ce67049c3bf4a1c8177e029bd951f990541f8e59923b4e4594d72a6fb65"
+    }
+  ],
+  "negative_controls": {
+    "missing_page_rejected": true,
+    "missing_reference_rejected": true,
+    "failed_page_rejected": true,
+    "changed_asset_rejected": true
+  },
+  "status": "verified"
+}

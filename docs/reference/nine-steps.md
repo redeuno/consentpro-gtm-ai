@@ -3,6 +3,10 @@
 Both documentation trails carry the same nine. Step 2 now uses the Gallery; the remaining
 configuration and browser checks still apply to both trails.
 
+Choose [Basic or Advanced Consent Mode](consent-mode.md) first. The local script is a Basic
+configuration path; the current Consent Pro MCP reads GTM but does not write or publish it.
+Account for the [three separate releases](../06-agent-readiness/operations.md#draft-preview-and-release).
+
 ---
 
 ## 1. Remove the tag manager `<noscript>`
@@ -38,8 +42,9 @@ client. It needs a Google login with access to the target container.
 for a new template, with owner `finsweet`, repository `gtm-template-consent-pro` and version
 `8a551897e5bfdecf03de59fa00058be442b7ac29`. This path still needs the
 [OAuth setup](../01-google-cloud-setup.md) and [authorisation](../03-authorise.md).
-Simulation shows the planned import; `--apply` acknowledges its permissions and performs it.
-Publishing remains separate.
+Simulation shows the import and its `PLAN_SHA256`. Review permissions and the full plan;
+`--apply --approve-plan HASH` executes only a matching plan. Publication needs a separately
+reviewed plan including `--publish`. See [execution commands](../04-run-it.md).
 
 **Already installed:** audit first. The script preserves recognised existing templates and
 their IDs. A compatible manual import stays manual; it does not gain Gallery provenance or
@@ -105,6 +110,10 @@ Three optional settings on the same tag:
 **More than one banner means more than one region row**, each with its own codes and its own
 granted or denied pattern. Not more than one tag.
 
+Read the existing rows before changing them. Preserve rows outside the requested change,
+plan eligibility and unrelated options. The local writer preserves an existing table when
+`--regions` and `--banner` are omitted; it refuses explicit changes to a multi-row table.
+
 ---
 
 ## 5. Create the Consent Updated trigger
@@ -115,28 +124,35 @@ granted or denied pattern. Not more than one tag.
 - Select **All Custom Events**
 - Name it `Consent Updated` and save
 
-**What fires this event:** the Consent Pro runtime on the site, when a visitor makes a choice.
-Measured in a served runtime in September 2026: it pushes `consent-updated`, and also the
-version one events `essential-activated`, `marketing-activated`, `analytics-activated` and
-`personalization-activated`.
+**What fires this event:** the runtime when consent is applied or changed, including a
+rejection. The event itself grants no permission; the category checks still matter.
+Source: [runtime events](https://docs.consentpro.com/runtime/events).
+
+If a trigger already has this name, check its type and exact event rather than trusting the
+label. A `Consent Updated` trigger pointing to `purchase` must not be reused as consent.
 
 ---
 
-## 6. Move the tags onto it
+## 6. Preserve business events and gate the tags
 
-**Apply to marketing and non-Google tags.** For each: open it, remove the current trigger, add
-**Consent Updated**.
+For a Basic-mode page-load tracker, replace its page-load trigger with **Consent Updated**
+and add the category checks in step 7. If the original trigger has page conditions,
+preserve those conditions in the reviewed consent trigger; do not replace a filtered
+pageview with an unrestricted event. The local writer automates only built-in All
+Pages and refuses custom page lifecycle triggers for manual review.
+For a purchase, form submission, click or other
+business-event tag, preserve its original event and conditions, then add the appropriate
+consent checks. A consent choice is not a purchase. Review tags with multiple firing or
+blocking triggers separately before changing their semantics.
 
-**If you use Advanced Consent Mode**, configure GA4 on Consent Initialization instead, and see
-the Basic versus Advanced page. Advanced mode lets GA4 send cookieless pings when analytics
-storage is denied, which is a deliberate choice rather than a default.
+**Basic GA4** follows the consent-updated plus additional `analytics_storage` pattern.
+**Advanced GA4** uses Consent Initialization, no additional `analytics_storage` requirement,
+and Consent Pro Init before the Google tag. See [the mode contract](consent-mode.md).
 
-⚠️ **An ambiguity in the guide, worth naming so nobody is surprised.** The instruction says
-"marketing and non-Google tags". A custom HTML tag that sets an essential cookie is non-Google
-and also essential, so it matches both the rule and the exception, and the guide does not say
-which wins. **Decide it with the person and record which way you went.** Moving an essential
-tag onto the consent event means it stops firing on page load and starts depending on a visitor
-choice, which may be exactly wrong for a tracker the site needs to function.
+For a reviewed Essential tag, retain its original trigger rather than making it depend on a
+consent choice. The public guide's broad instruction to replace marketing/non-Google
+triggers does not preserve conversion-event semantics. This repository deliberately narrows
+that step to protect business conditions; test both consent and the original event.
 
 ---
 
@@ -159,9 +175,12 @@ or it may not execute and may not be detected.
 
 **Submit**, then **Publish**.
 
-Nothing in steps one through seven reaches the site until this happens. A container with every
-setting correct in an unpublished workspace behaves exactly like a container with none of them,
-and the interface gives no hint of the difference.
+Container edits reach ordinary visitors only after the intended GTM version is published.
+Until then, the previous live version remains in use. Changes to the site's markup have
+their own deployment and must be tracked separately.
+
+Saving, creating a version and publishing are distinct operations. Authorisation to configure
+does not include publication. Consent Pro settings and site code require their own releases.
 
 ---
 

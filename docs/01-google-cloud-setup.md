@@ -1,9 +1,11 @@
 # 1. Google Cloud, once
 
-**For API automation only.** If you are configuring GTM by hand, skip this document and
+**For the local GTM scripts only.** The Consent Pro MCP path does not require this custom
+OAuth client. If you are configuring GTM by hand, skip this document and
 [authorisation](03-authorise.md). Use the [Gallery path in step 2](reference/nine-steps.md#2-add-the-consent-pro-template-from-the-gallery)
 with your Google login. The OAuth JSON download below is still required by the scripts;
-it is a credential, separate from the template that no longer needs downloading.
+it is a credential, separate from the template that no longer needs downloading. Choose
+this broader credential path explicitly; a read-only MCP connection does not authorise it.
 
 This is the longest part and you do it once per Google account, not once per site. Everything
 here happens at [console.cloud.google.com](https://console.cloud.google.com). Budget fifteen
@@ -240,5 +242,5 @@ later.
 | The JSON | outside any project folder, with `GTM_OAUTH_CLIENT` pointing at it |
 | An empty token path | `GTM_OAUTH_TOKEN`, which the next step fills |
 
-**Next:** [2. The tag manager account](02-tag-manager-account.md), which is the other thing
-that cannot be automated.
+**Next:** [2. The tag manager account](02-tag-manager-account.md). Use an existing account
+when available; this repository does not create one through its scripts.
