@@ -13,6 +13,12 @@ paths against the client's working directory.
 
 ## Establish access and target
 
+For end-to-end onboarding, follow the
+[guided conversation](../../docs/reference/onboarding.md). Keep a visible progress
+record with evidence, owner and next action. Resume at the next incomplete
+dependency, reuse current state and ask only for the next necessary decision.
+Do not expand a diagnosis-only request into configuration or publication.
+
 Discover the connected Consent Pro tools, schemas, environment and granted access.
 Refresh discovery when the server announces a tool-list change or rejects a tool.
 A dated catalogue is reference evidence, not a permission grant. If the connector

@@ -67,8 +67,13 @@ No API key is required. Do not infer a production URL from this staging address.
   plugin or upload skills. Use the connected MCP with the starter prompt below;
   packaging a hosted plugin is a separate delivery step.
 
-Select Read only for diagnosis, or Full access for supported mutations. To change
-access, remove and reconnect as directed by the staging flow. Full access does not
+Select Read only for Consent Pro diagnosis without GTM. GTM is excluded from that
+preset: choose Custom with **View Google Tag Manager**, or Full access, then link
+the Google account separately. Google access through this MCP remains read-only.
+Use Full access or the necessary Custom scopes for supported CP changes. See the
+[MCP permissions](https://docs.consentpro.com/mcp/) and
+[Google connection guide](https://docs.consentpro.com/mcp/google-tag-manager).
+To change access, remove and reconnect as directed by the staging flow. Full access does not
 authorize an agent to make unsolicited changes. A missing permission requires
 reconnection or a guided manual path, not an automatic credential fallback.
 

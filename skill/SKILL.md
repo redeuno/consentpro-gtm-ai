@@ -66,6 +66,11 @@ Gallery availability is not evidence of Google CMP certification.
 
 ## Verify and hand off
 
+When this task is part of onboarding, maintain the shared
+[progress record](../docs/reference/onboarding.md). Give manual GTM changes by
+exact tag, before/after values and verification step. Re-check after the customer
+acts; distinguish a reported workspace edit from a verified published version.
+
 Re-read the workspace after writes and the published version after publication.
 Then follow [behavior checks](../docs/reference/verify-behaviour.md): named trackers,
 real business actions, before choice, rejection, acceptance, partial choice,

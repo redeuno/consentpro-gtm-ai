@@ -5,6 +5,10 @@ workspace and project, inspect the site, and identify what already exists before
 changes. The [operations guide](06-agent-readiness/operations.md) supplies the capability
 checks, runtime checks and recovery paths for each stage.
 
+Use the [guided onboarding conversation](reference/onboarding.md) to turn these
+stages into a customer-facing sequence with progress, manual handoffs and explicit
+completion evidence. Resume existing work rather than starting the list again.
+
 ## Choose the available path
 
 The Consent Pro staging MCP exposes onboarding, diagnostics and selected writes. Its GTM
