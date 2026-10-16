@@ -143,7 +143,8 @@ Sources: [Build plugins](https://learn.chatgpt.com/docs/build-plugins) and
 
 ### Claude web or Desktop: upload the reviewed package
 
-In Customize, Skills, open Add Skill (`+`) and choose Upload Skill, then select the generated
+First verify the reviewed ZIP and manifest using the checks below. In Customize,
+Skills, open Add Skill (`+`) and choose Upload Skill, then select the generated
 `consent-pro-0.2.0-preview.zip` and enable it. The primary package includes the GTM reference and its
 scripts; the specialist ZIP is available for direct GTM tasks. Each ZIP must contain
 its named skill folder, including `SKILL.md` and all bundled dependencies. Do not upload
@@ -156,19 +157,38 @@ The web interface inspected on 2026-10-16 offered Upload Skill directly in Add S
 some documented interfaces put upload under Create skill. Match the customer's screen.
 Sources: [Use skills in Claude](https://support.claude.com/en/articles/12512180-use-skills-in-claude)
 and [Package a custom skill](https://support.claude.com/en/articles/12512198-how-to-create-custom-skills),
-checked 2026-10-16. These are documented paths, not a completed native-Claude acceptance test.
+checked 2026-10-16. These are documented paths, not a completed Claude web/Desktop
+acceptance test.
+
+For an update, preserve the previous reviewed ZIP and any local customization,
+verify the replacement, and inspect the existing skill's available update controls.
+If the host offers no replacement control, disable the old copy before uploading
+the new one. Do not leave two active copies with the same purpose. Start a new
+conversation and verify the loaded manifest before retiring the old copy. If a
+name conflict prevents import, keep the previous ZIP for recovery and confirm the
+exact old skill before removing it and retrying the upload.
+
+To stop using a skill, open its details in Customize, Skills and turn its toggle
+off. For removal, open the adjacent `...` menu, select Delete and confirm the exact
+skill. This affects instructions, not separately connected accounts. Re-upload the
+previous reviewed ZIP to restore the skill if needed. Shared or organization-managed
+skills may require their owner to update them. If controls differ, inspect the
+current screen rather than deleting another item. This update/recovery procedure
+still requires host-specific acceptance.
 
 ### Codex and Claude Code: install the ready folder
 
 1. Download and extract the primary ZIP. Its top-level folder is `consent-pro`.
-2. For Codex, place that folder in `~/.agents/skills/`, or `.agents/skills/` in the
+2. Before installation, verify `package-manifest.json` and the archive checksum:
+   version, channel, source commit and file hashes must match the reviewed delivery.
+3. For Codex, place that folder in `~/.agents/skills/`, or `.agents/skills/` in the
    intended project. For Claude Code, use `~/.claude/skills/` or the project's
    `.claude/skills/`. The specialist can be installed beside it in the same way.
-3. Start a new session. Invoke `$consent-pro` in Codex or `/consent-pro` in Claude
+4. Start a new session. Invoke `$consent-pro` in Codex or `/consent-pro` in Claude
    Code. Ask it to read the bundled installation and onboarding references.
-4. Check `package-manifest.json`: version, channel, source commit and hashes identify
-   the delivery. Discovery alone does not prove the instructions were followed or
-   an account connected. Continue with the applicable connector or manual route.
+5. Ask the agent to read the installed manifest and confirm the expected revision.
+   Discovery alone does not prove the instructions were followed or an account
+   connected. Continue with the applicable connector or manual route.
 
 If that folder already exists, compare it with the new package and preserve local
 changes before replacement. To remove the skill, delete only its reviewed folder.
