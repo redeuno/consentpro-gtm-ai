@@ -183,8 +183,20 @@ No API key is required. Do not infer a production URL from this staging address.
   plugin or upload skills. Use the hosted plugin instructions above and verify both
   the loaded instructions and the connected tools in a new chat.
 
-Select Read only for diagnosis, or Full access for supported mutations. To change
-access, remove and reconnect as directed by the staging flow. Full access does not
+The retrieved MCP guidance describes Read only for Consent Pro diagnosis without GTM.
+GTM is excluded from that preset: choose Custom with **View Google Tag Manager**, or
+Full access, then link the Google account separately. The captured GTM contract is
+read-only. For a later editing release, verify its actual tools and both grants through
+[the evolving GTM path](../06-agent-readiness/operations.md#future-gtm-writes); existing
+connections do not automatically acquire new scopes.
+Use Full access or the necessary Custom scopes for supported CP changes. See the
+[MCP permissions](https://docs.consentpro.com/mcp/) and
+[Google connection guide](https://docs.consentpro.com/mcp/google-tag-manager).
+These pages were retrieved through the MCP documentation tools; the public URLs
+returned 404 during verification. The [complete retrieved pages](../06-agent-readiness/sources/2026-10-16/mcp-guides.json)
+describe production. Check effective permissions in the staging authorization screen;
+do not switch endpoints to follow a production example.
+To change access, remove and reconnect as directed by the staging flow. Full access does not
 authorize an agent to make unsolicited changes. A missing permission requires
 reconnection or a guided manual path, not an automatic credential fallback.
 
@@ -212,7 +224,7 @@ which is separate from Finsweet OAuth. Confirm the returned containers after Goo
 | Package may be outdated | Compare actual installed content with a known source package; do not infer freshness from the plugin name or a test count |
 | No browser or site access | Complete supported reads, prepare the exact code/manual handoff and mark deployment and behavior unverified |
 
-Use the [journey checkpoint](../00-the-journey.md#lead-the-next-step) to resume after the
+Use the [onboarding checkpoint](../reference/onboarding.md#start-and-resume) to resume after the
 missing layer is restored. Do not restart every connection or repeat a scan by default.
 
 ## First read-only conversation
@@ -224,8 +236,9 @@ Replace the hostname and workspace with the customer's target:
 > not publish anything. Distinguish measured state from checks you could not run.
 
 Confirm that the agent resolves the exact project, follows pagination and reports
-the installed runtime and remaining steps. A published GTM audit must be labeled
-as published, not as the current workspace. Then ask for a draft change while
+the installed runtime and remaining steps. With the separate GTM permission and
+Google connection available, a published GTM audit must be labeled as published,
+not as the current workspace. Then ask for a draft change while
 connected read-only: the agent should explain missing access without performing it.
 With no connector, it should offer connection instructions and public inspection,
 not pretend it listed private websites.
@@ -255,8 +268,13 @@ python3 scripts/check-mcp-catalogue.py \
   /path/to/new-catalogue.json
 ```
 
-A changed description, schema, annotation or tool list fails this check and
-requires review. Added GTM writes are not enabled automatically. Validate their
-targeting, concurrency, preservation, partial failure and publication behavior in
-an isolated test container before offering them to a client. Keep the dated
-baseline as evidence and record a new snapshot instead of rewriting history.
+A changed description, schema, annotation or tool list fails this check and requires
+review. Classify each changed operation by effect and required grants. Added GTM writes
+are not enabled merely by discovery. Follow the operation-specific
+[acceptance contract](../06-agent-readiness/operations.md#future-gtm-writes) in an isolated
+test container before offering them to a client. Record the reviewed server/environment,
+contract hash or revision, operations, permission requirements, observed results and
+remaining manual paths. A release announcement is not this evidence. Keep the dated
+baseline and record a new snapshot instead of rewriting history. Update the shared
+guides, rebuild both packages and update the hosted plugin separately; then verify
+loaded instructions and the actual connected contract in a new client session.

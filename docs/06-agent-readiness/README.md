@@ -13,6 +13,14 @@ skill, shared operating references, local GTM tools and a self-contained package
 builder for Codex and Claude Code. A connected web chat can use the supported MCP
 operations without local Google credentials. Hosted plugin delivery is separate.
 
+The [guided onboarding](../reference/onboarding.md) now provides one conversational
+procedure for both skills: inspect what exists, explain the next action, complete
+authorized work, verify and resume. It includes delivery roles for agencies,
+freelancers and businesses, without making technical experience an intake gate.
+The [GTM capability path](operations.md#future-gtm-writes) anticipates editing by
+operation, with workspace evidence, scope checks, concurrency and recovery. It does
+not enable a future tool or turn a release expectation into measured availability.
+
 The documentation collection covers all 13 Web App pages in the official sitemap,
 plus six directly linked runtime/scanner references and 71 assets (70 PNG images
 and one template file). Assets total 20,660,752 bytes. The initial Firecrawl map
@@ -24,6 +32,14 @@ Native authenticated MCP discovery through `codex app-server` returned 25 tools:
 17 marked read-only and eight marked as writes. This proves advertised contracts,
 not successful execution of every tool or all effective OAuth scopes. The endpoint
 was `https://mcp-staging.consentpro.com/mcp`; production parity was not measured.
+
+Three complete MCP guidance pages were subsequently retrieved through the server's
+documentation tools and preserved with matching content hashes in
+[mcp-guides.json](sources/2026-10-16/mcp-guides.json). They distinguish the Consent Pro
+permission preset from the Google connection: the documented Read only preset excludes
+GTM, while the documented Google grant is itself read-only. These pages describe
+production; their public index and GTM URLs returned 404. The service retrieval proves
+source availability there, not production/staging permission parity.
 
 | System | Advertised capability | Boundary |
 | --- | --- | --- |
@@ -145,9 +161,11 @@ email request was changed during implementation. Live Google writes, all MCP
 mutations, a hosted skill/plugin release and production runtime behavior remain
 outside the completed local verification.
 
-### Validation and evidence
+### Baseline validation and evidence
 
-Measured on 2026-10-16 against the implementation in this change:
+Measured on 2026-10-16 for the earlier implementation delivered in
+[PR #3](https://github.com/redeuno/consentpro-gtm-ai/pull/3). These baseline measurements
+are preserved separately from the later onboarding revision below:
 
 | Check | Observed result | Limit |
 | --- | --- | --- |
@@ -177,12 +195,70 @@ readback prevents an unapproved resulting version from being published by this r
 Strict response comparison may refuse unmodeled Google defaults; isolated live
 acceptance is required before a client rollout.
 
-What was done: corrected the guides, added packaged client workflows and strengthened
-local tooling with regression checks. The key decision was to discover capabilities
-and preserve existing business behavior rather than infer future MCP support.
-External blockers are the missing GTM write tool contract and live acceptance access.
-Next action: run the reviewed local writer in an explicitly selected disposable GTM
-container, then verify the matching site in a browser before a customer rollout.
+### Onboarding revision and delivery
+
+What changed: consolidated the guided conversation from the parallel proposal with
+first-chat installation, recovery, precise dashboard handoffs and evidence-based
+continuation. Both skills use the same procedure. Customer concerns become practical
+checks for blocking, Consent Mode, records, regional configuration and maintenance.
+
+The execution decision is capability-based, not date-based. New GTM editing must be
+reviewed and tested per operation before use; unrelated supported work can continue
+while a permission or tool is missing. The local writer implementation is unchanged.
+
+Measured again for this revision on 2026-10-16:
+
+| Check | Result | Scope |
+|---|---|---|
+| Unit/package suite and mutation controls | 116 tests passed; 36 altered guards rejected | Offline APIs and fixtures, no customer writes |
+| Collector and archive checks | Two header and seven collector tests passed; original archive and four negative controls passed | Historical bytes and local failure controls |
+| Supplemental MCP guidance | Three body hashes and complete-page markers verified; changed-content control rejected | Public documentation obtained through MCP, not effective grants |
+| Packaged skills | Both built outside the checkout; ZIP roots and every manifest hash checked; both skill validators passed | Local package delivery, not hosted installation |
+| Native Codex discovery | Both packages discovered in a disposable project; zero business calls | Client discovery only |
+| Instruction behavior | Nine future-capability and three delivery-team cases produced the expected simulated decisions | No real future MCP tool or browser behavior exercised |
+| Independent native review | No concrete defect found in the documentation and skills; accepted for integration | Reviewer rechecked selected tests and integrity; did not repeat the full suite or live acceptance |
+
+The scenario method is recorded in [tests](../../tests/README.md). Hosted
+ChatGPT/Claude plugin updates, native Claude execution, actual new MCP writes and
+customer browser acceptance remain unverified. An updated repository or built ZIP
+does not update an installed hosted plugin.
+
+Next action: update the existing hosted plugin from the merged source, preserving its
+working connection, and verify loaded instructions plus one read of the intended target
+in a new conversation. New GTM writes need a separate isolated acceptance run when the
+real contract is available.
+
+### Exploring a connected instructor
+
+Status: feasibility research, not an implemented service or approved product architecture.
+The desired experience is a clear setup entry point that leads the customer through the
+same journey in chat or a terminal. Connection alone must not be presented as an internal
+agent being activated or a skill being installed.
+
+OpenAI documents MCP initialization `instructions` used by ChatGPT and Codex, and an
+import path for server-provided skills. The latter is a static submission-time snapshot
+of a supported subset of draft SEP-2640, not a stable universal feature or automatic
+refresh on every connection. These are candidates for a server integration, not capabilities
+proven by this repository's tool catalogue.
+Source: [MCP instructions and skill import](https://developers.openai.com/plugins/build/mcp-server).
+
+A packaged plugin can declare an `onboardingSkill` that runs when the user starts setup.
+This offers a concrete prototype direction: a setup action using the existing instructor,
+with instructions and MCP delivered together. Its behavior still needs validation in both
+a new conversation and an installation during an existing conversation.
+Source: [Plugin onboarding](https://developers.openai.com/plugins/build/plugins#add-an-onboarding-skill).
+
+Do not infer parity across clients. Claude Code exposes MCP prompts and resources;
+Claude web skills have a separate installation path. Validate instruction loading, target
+selection, OAuth return, manual-step resumption and actual evidence in each supported host.
+Sources: [Claude Code MCP](https://code.claude.com/docs/en/mcp),
+[Claude skills](https://support.claude.com/en/articles/12512180-use-skills-in-claude).
+
+Architectural inference: a persistent internal service would add value if the product
+needs cross-chat progress, delegated background work or scheduled maintenance. That would
+require separate decisions on storage, customer isolation, authorization, execution limits
+and recovery. No such service, schedule or server change was created here. The current
+deliverable remains the reusable instructor, packages and supported MCP workflow.
 
 - [Checks](checks/README.md): historical writer reproductions and current regressions.
 - [Tests](../../tests/README.md): executable suite and mutation controls.

@@ -32,6 +32,9 @@ announces 25 tools, including four GTM read tools. GTM writes through MCP are fu
 work until a real tool contract is available and tested. Consent Pro publication
 and category editing are not exposed in that catalogue. Discover capabilities
 again each session; access is not permission to make unsolicited changes.
+The [GTM capability path](docs/06-agent-readiness/operations.md#future-gtm-writes)
+prepares for editing releases: use reviewed draft operations when available, retain
+manual steps for missing operations and verify publication authority separately.
 
 Staging endpoint: `https://mcp-staging.consentpro.com/mcp`.
 Use the dedicated [staging test dashboard](https://mcp-docs-and-ui-consentpro-web-app-staging.finsweet.workers.dev/).
@@ -72,7 +75,7 @@ establish Google CMP certification.
 
 - [Operations](docs/06-agent-readiness/operations.md): capability discovery,
   project targeting, installation, scan limits, previews, licenses, logs and recovery.
-- [Guided journey](docs/00-the-journey.md): progress checkpoints, manual handoffs,
+- [Guided onboarding](docs/reference/onboarding.md): progress checkpoints, manual handoffs,
   evidence-based fixes and resuming without repeating completed setup.
 - [Beyond GTM](docs/05-what-gtm-does-not-cover.md): hardcoded scripts, image pixels,
   preferences and reconciliation with the scan.

@@ -83,7 +83,7 @@ separate actions. Never infer publication approval from setup approval.
 | MCP read tools | Read the published container, follow pagination/details and guide each unavailable write through a concrete manual handoff. Resume after confirmation; unpublished edits need workspace/UI evidence. |
 | Local API scripts | Read [run guide](../docs/04-run-it.md) and [security](../SECURITY.md); authorize, audit, scaffold, review categories, simulate, then apply only approved changes |
 | GTM interface | Follow the nine steps; use the Gallery, review permissions and preserve recognized existing templates |
-| Future MCP writes | Read the new contract first; require workspace reads, conflict handling, preservation, readback and separate publication. Stop where the contract is insufficient |
+| Discovered MCP editing | Follow [Future GTM writes](../docs/06-agent-readiness/operations.md#future-gtm-writes): require a reviewed contract, matching scopes, workspace reads, concurrency protection and readback. Use supported authorized operations; stop only the dependent work where the contract is insufficient |
 | No container access | Supply exact steps and values; describe user-reported state as reported, not verified |
 
 For every manual handoff, name the target workspace, control, exact intended value,
@@ -92,6 +92,11 @@ consent" without the next actionable step. After confirmation, read back what th
 available path can observe and advance without asking whether to continue.
 When the user has authorized a repair and a supported write path is available,
 carry it out and verify it; a diagnosis or a proposed plan alone is incomplete.
+Refresh discovery after capability or permission changes. The recorded read-only
+catalogue is not a permanent restriction, and a promised release date is not a
+write grant. Confirm any required Google scope upgrade separately. If a write
+times out, inspect the workspace before retrying; never repeat a create/import
+blindly or publish unrelated pending changes with the requested fix.
 
 The local writer is deliberately conservative. Check its `--help` and simulation
 before applying. If it refuses an unsupported event, regional table or existing
@@ -105,6 +110,11 @@ Gallery imports. Modified or unknown templates need review, not automatic replac
 Gallery availability is not evidence of Google CMP certification.
 
 ## Verify and hand off
+
+When this task is part of onboarding, maintain the shared
+[progress record](../docs/reference/onboarding.md). Give manual GTM changes by
+exact tag, before/after values and verification step. Re-check after the customer
+acts; distinguish a reported workspace edit from a verified published version.
 
 Re-read the workspace after writes and the published version after publication.
 Then follow [behavior checks](../docs/reference/verify-behaviour.md): named trackers,

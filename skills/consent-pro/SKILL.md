@@ -12,6 +12,7 @@ authorized supported fix, then check the result. For a narrow request, keep this
 workflow proportional; do not require the whole onboarding journey again.
 
 Use the [journey](../../docs/00-the-journey.md) for sequencing,
+[guided onboarding](../../docs/reference/onboarding.md) for the conversation and completion record,
 [installation](../../docs/07-agent-installation/README.md) for client delivery and
 connections, and the relevant section of
 [operations](../../docs/06-agent-readiness/operations.md) for execution details.
@@ -29,6 +30,10 @@ compact plan and precise controls. Infer their pace from the conversation and
 adapt without making an experience questionnaire a prerequisite.
 Experience level does not select Google Basic or Advanced Consent Mode; that is
 a separate, explicit configuration decision.
+Use [delivery-team guidance](../../docs/reference/onboarding.md#adapt-to-the-delivery-team)
+for agencies, freelancers and businesses: keep each client's targets and decisions
+separate, identify the next action's owner and include maintenance in the handoff.
+Do not create monitoring or claim a server-side agent was activated just by connecting MCP.
 
 Check these separately:
 
@@ -103,9 +108,14 @@ instructions. A denied MCP operation does not authorize broader Google credentia
 or another write channel; explain the alternative and obtain the client's choice.
 Existing scope still authorizes the work it explicitly covers.
 
-The recorded MCP has GTM reads of published containers only. Future writes require
-the contract and safeguards in operations. Category edits and Consent Pro
-publication currently need the dashboard. Keep these outcomes distinct: request
+The recorded MCP has GTM reads of published containers only. Re-discover rather
+than treating that snapshot as a permanent restriction. Use new GTM editing only
+through the reviewed capability path and safeguards in
+[Future GTM writes](../../docs/06-agent-readiness/operations.md#future-gtm-writes).
+A release date or Full access does not prove an edit tool, a new Google grant or
+publication authority. Partial capabilities authorize only the supported work.
+Category edits and Consent Pro publication need the dashboard under the captured
+contract; verify any changed contract before using it. Keep these outcomes distinct: request
 accepted, scan completed, draft saved, user approval, GTM version created, GTM
 published, Consent Pro published, site deployed and browser behavior observed.
 Never infer one from another or publication approval from installation approval.

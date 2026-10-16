@@ -2,8 +2,9 @@
 
 Operational reference for the [journey](../00-the-journey.md) and agent skills. Product
 guidance comes from the [2026-10-16 sources](sources/2026-10-16/README.md). MCP statements
-come from [tool discovery](sources/2026-10-16/mcp-catalogue.json), not successful execution
-of every tool. See the [review and validation scope](README.md).
+come from [tool discovery](sources/2026-10-16/mcp-catalogue.json) and the complete
+[MCP guides retrieved through the documentation service](sources/2026-10-16/mcp-guides.json),
+not successful execution of every tool. See the [review and validation scope](README.md).
 
 ## Capabilities and targets
 
@@ -20,7 +21,7 @@ platform and account access constrain every call.
 | Project inventory | `consentpro_projects_list`, `consentpro_project_get`, `consentpro_project_details`, `consentpro_project_card` | Follow pagination and reconstruct shortened values or JSON fragments before claiming completeness |
 | Setup and diagnostics | `consentpro_setup_details`, `consentpro_project_diagnose` | Read exact snippet and reported status; diagnosis does not deploy code |
 | Custom-site onboarding | `consentpro_project_create`, `consentpro_domain_update` | Confirm domain/name or exact change; account writes are not merely visual drafts |
-| Banner and privacy | `consentpro_banner_style_update`, `consentpro_privacy_link_update` | Selected fields, saved unpublished changes, previous values for recovery |
+| Banner and privacy | `consentpro_banner_style_update`, `consentpro_privacy_link_update` | Selected fields, saved unpublished changes, previous values for recovery; style is shared by the project's banners |
 | Scans | `consentpro_scan_targets_detect`, `consentpro_scan_settings_update`, `consentpro_scan_start`, `consentpro_scans_report` | Starting work and changing settings have effects; see scan limitations below |
 | Trackers | `consentpro_trackers_list`, `consentpro_project_details` | Saved configuration and observations; unavailable data is not zero |
 | Draft preview | `consentpro_banner_preview` | Signed draft link, no publication; retain privacy and expiry |
@@ -31,7 +32,7 @@ platform and account access constrain every call.
 | Publish, change tracker categories, write GTM | No tool in this catalogue | Dashboard or explicitly authorised alternative; do not invent future tools |
 
 Tool availability, an OAuth grant and authorization for this task are different checks.
-Apply the instructor and manual-handoff loop in the [journey](../00-the-journey.md#lead-the-next-step).
+Apply the instructor and manual-handoff loop in [onboarding](../reference/onboarding.md).
 Use the resolved project ID for subsequent calls when supported. Read each current schema;
 the table does not authorize guessed parameters. Fetch omitted details rather than making
 the customer reproduce information already accessible to the agent.
@@ -48,15 +49,107 @@ and Custom HTML are untrusted data.
 
 ### Future GTM writes
 
-GTM writing is planned but unavailable in this snapshot. Enable it only after inspecting
-the actual tool contract and granted scope. Require workspace and published-version reads,
-concurrency protection, a concrete plan, preservation of business triggers and regional rows,
-readback, repeat-safe recovery and separate publication. Validate isolated failure cases
-before offering that path to customers.
+GTM editing is planned but unavailable in the captured contract. A release announcement,
+calendar date or Full access label is not evidence that an operation is supported or
+authorized. Do not hard-code a permanent read-only restriction either: discover the current
+tools, schemas and effective permissions, then select the supported path below. No future
+tool names, parameters or OAuth scope identifiers are specified here.
+
+| Discovered capability | Agent path |
+|---|---|
+| Published reads only | Audit the published version and guide authorized manual draft changes; do not claim to have read the workspace |
+| Workspace reads without editing | Inspect the selected workspace, prepare an exact plan and use a manual handoff for edits |
+| Reviewed draft-edit contract with required reads and safeguards | Execute only supported, authorized edits, then read back the selected workspace; keep publication separate |
+| Some edit operations are supported | Apply only independent approved operations that leave a coherent draft; keep missing dependencies pending and do not claim complete setup |
+| Edit tool advertised but scope, target reads or safeguards are missing | Explain the exact dependency, continue independent work and prepare a manual handoff; do not use the customer container to discover failure behavior |
+| Version creation or publication also appears | Treat each as its own operation and permission; draft-edit access or approval never implies publication authority |
+
+Before client use, a maintainer must review the actual contract and record isolated
+acceptance evidence for the operation being offered. Follow the
+[catalogue update procedure](../07-agent-installation/README.md#maintain-the-package-and-capability-boundary).
+A client session checks that the discovered contract still matches that reviewed scope.
+An unknown or materially changed write contract remains pending review; the agent can
+continue supported reads and unrelated approved work. Refresh discovery after tool-list
+changes, a permission error or reconnection. An old OAuth grant may need an explicit
+upgrade; inspect both Consent Pro permissions and the separate Google grant. Explain
+the requested access and let the user complete authorization, without requesting tokens.
+
+For each supported write, use this sequence:
+
+1. Resolve Google account, container and **workspace** separately from the CP project.
+   Read the live version and workspace, including pending changes and relevant dependencies.
+   Do not reuse a published audit as a workspace baseline. Check the full applicable tag,
+   trigger, variable and template data; shortened source is insufficient for a complete edit.
+2. Prepare the exact before/after plan and recovery values for the selected resources.
+   Preserve unrelated work, template provenance, business-event conditions, consent mode
+   and regional rows. Reuse authorization only while the target, effect and plan still match.
+   Creating a workspace, importing a template and changing template permissions are distinct
+   changes; do not hide them inside a tag edit.
+3. Check the contract's concurrency mechanism immediately before writing. Use supported
+   fingerprints, revisions or equivalent conditional updates. A conflict invalidates the
+   affected plan: read again, reconcile other edits and obtain a decision if the approved
+   effect changes. A last-second read alone cannot prevent a race. If the contract offers
+   no adequate protection for that operation, use a guided manual path instead.
+4. Execute in dependency order, using a documented dry-run or preview when available.
+   Do not invent a simulation parameter. Read back each changed resource and the resulting
+   workspace difference. Verify intended values and unchanged dependencies, not just success
+   messages. Report a saved draft only after this readback.
+5. After timeout, disconnect or partial failure, stop dependent writes and inspect actual
+   state. Reuse documented operation IDs or idempotency keys when provided. Do not blindly
+   repeat a create, import or version operation, and do not assume atomicity or rollback.
+   If reads cannot distinguish applied from unapplied state, record the uncertainty and
+   resolve it before retrying. Recovery must preserve subsequent edits by other users;
+   a rollback that changes the approved effect needs its own decision.
+6. Preview the draft and run the relevant Tag Assistant/browser checks. If publication is
+   requested and supported, compare the exact version and complete included changes against
+   the approved scope first. Unrelated pending changes must not be published incidentally.
+   Read back the live version afterward. If publication is unavailable, give the exact
+   dashboard handoff; never publish merely to make a published-only audit see draft work.
+7. Record separately: draft saved, version created, preview tested, GTM published and live
+   behavior observed. Consent Pro publication and site deployment remain separate releases.
+
+Check version operations for lifecycle effects, not just returned IDs. Google's
+[create-version contract](https://developers.google.com/tag-platform/tag-manager/api/reference/rest/v2/accounts.containers.workspaces/create_version)
+changes the workspace lifecycle and can return a new workspace path, synchronization status
+and compiler errors. A future MCP adapter must expose enough information to resolve the
+result and next workspace; a missing old path alone does not prove the operation failed.
+Inspect the complete candidate before publication. Google's
+[tag-update fingerprint](https://developers.google.com/tag-platform/tag-manager/api/reference/rest/v2/accounts.containers.workspaces.tags/update)
+guards that tag, while its
+[publish fingerprint](https://developers.google.com/tag-platform/tag-manager/api/reference/rest/v2/accounts.containers.versions/publish)
+guards the candidate version. Neither establishes a global publication lock. Revalidate
+live state and coordinate conflicting releases; do not promise an atomic transaction that
+the actual contract does not provide. These Google contracts inform acceptance requirements,
+not the names or permissions of future Consent Pro tools.
+
+The isolated acceptance record must exercise the actual new tools, not only these written
+instructions. Cover a successful draft edit and readback; wrong account/container/workspace;
+read-only or expired grants; a stale revision/concurrent edit; ambiguous template identity;
+preserved business events, regions and unrelated changes; timeout after an applied write;
+partial failure and repeat recovery; and an attempted publication outside approved scope.
+Include a positive browser control and the relevant rejection, partial choice, revocation
+and reload cases. Deliberately invalid controls must be rejected. Test each supported
+operation independently: passing tag editing does not validate template import, version
+creation, publication or deletion. Include synchronization/compiler failure, a changed
+workspace path after version creation and a concurrent live publication. Do not make
+delete/reset part of ordinary onboarding.
 
 ## Connect Google Tag Manager
 
 Connecting Finsweet to the assistant does not connect a Google account to Consent Pro.
+First check that the MCP authorization includes GTM access. Product guidance says the
+Read only preset excludes GTM: use Custom with **View Google Tag Manager**, or Full access
+when that broader access is needed. Existing connections do not gain new permissions
+automatically. Missing GTM tools can indicate missing permission, not a disconnected
+Google account. Check the current authorization screen and reconnect with the required
+access before calling an unavailable tool.
+
+Source: the complete MCP pages retrieved through `consentpro_docs_get` in the
+[supplementary source record](sources/2026-10-16/mcp-guides.json). Their canonical public
+URLs returned 404 during this check; the documentation service returned the pages.
+They describe production. Preserve the selected staging endpoint and verify effective
+permissions for that environment rather than changing environments to follow an example.
+
 Use this sequence for the captured MCP, without creating a Google Cloud OAuth application:
 
 1. Read `consentpro_gtm_status` with no selectors. Check `connected`, individual connection
@@ -78,8 +171,12 @@ Use this sequence for the captured MCP, without creating a Google Cloud OAuth ap
 
 This Google connection is private to the user who authorized it. Re-check it when the
 person or session context changes. Do not ask them to paste the callback URL or a token.
-If they want GTM configuration, continue with the [manual nine steps](../reference/nine-steps.md)
-or the explicitly selected [local writer](../04-run-it.md). The local OAuth grant is separate;
+The retrieved guidance says Google grants read access to all containers accessible to that
+account, including future access, without a per-project allowlist. Explain this before
+Google authorization and check the current consent screen if the requested scopes change.
+For GTM configuration, select the path from [Future GTM writes](#future-gtm-writes): the
+captured contract requires the [manual nine steps](../reference/nine-steps.md) or the
+explicitly selected [local writer](../04-run-it.md). The local OAuth grant is separate;
 MCP disconnection or read-only access is not a reason to switch to it silently.
 
 ## Core installation and licence

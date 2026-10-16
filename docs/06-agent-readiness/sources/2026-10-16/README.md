@@ -12,9 +12,24 @@ The archive preserves the 13 Web App pages listed in the sitemap and six direct 
 | [map.json](map.json) | Initial Firecrawl inventory, which omitted the section root |
 | [assets-index.json](assets-index.json) | URLs, paths, sizes and SHA-256 hashes for images and the template |
 | [mcp-catalogue.json](mcp-catalogue.json) | Discovery of 25 staging MCP tools without executing business operations |
+| [mcp-guides.json](mcp-guides.json) | Later supplement: three complete public guidance pages retrieved through the authenticated MCP documentation tools |
 | [verification.json](verification.json) | Local inventory, integrity and negative-control verification |
 
 The template download preserves the guide's published reference. It does not install the template or replace the Gallery version pinned by the writer.
+
+## Supplementary MCP guidance
+
+The supplement contains `mcp/index`, `mcp/setup` and `mcp/google-tag-manager`, retrieved
+through `consentpro_docs_search` and `consentpro_docs_get`. Each response completed without
+a remaining cursor, and each Markdown body matches its returned `content_hash`. Corpus
+revision and runtime version are preserved. No project records or credentials were read.
+
+The MCP index and GTM canonical HTTP pages returned 404 during this check, while the
+documentation tools returned their contents. Those pages describe production. They establish
+the documented permission presets and Google connection procedure, not effective staging
+authorization or production service availability. Discover those in the chosen session.
+The original Web App snapshot and its verification record remain unchanged. The supplement
+has a separate [integrity command](../../checks/README.md#supplementary-mcp-guides).
 
 ## Archived pages
 

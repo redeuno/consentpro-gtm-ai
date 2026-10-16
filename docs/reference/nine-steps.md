@@ -4,7 +4,9 @@ Both documentation trails carry the same nine. Step 2 now uses the Gallery; the 
 configuration and browser checks still apply to both trails.
 
 Choose [Basic or Advanced Consent Mode](consent-mode.md) first. The local script is a Basic
-configuration path; the current Consent Pro MCP reads GTM but does not write or publish it.
+configuration path; the captured Consent Pro MCP reads GTM but does not write or publish it.
+For an editing release, follow the [capability path](../06-agent-readiness/operations.md#future-gtm-writes)
+to replace supported manual actions with reviewed, authorized draft operations.
 Account for the [three separate releases](../06-agent-readiness/operations.md#draft-preview-and-release).
 
 ---

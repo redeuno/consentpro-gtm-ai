@@ -1,0 +1,102 @@
+{
+  "collected_at": "2026-10-16 20:21:22 UTC",
+  "method": "Authenticated Consent Pro staging docs_search and docs_get, public documentation only",
+  "scope": "Supplementary MCP guidance. All pages completed. Documents describe production; live staging permissions require per-session discovery. The public MCP index and GTM HTTP pages returned 404 during collection; the setup page was retrieved through MCP only.",
+  "documents": [
+    {
+      "corpus_revision": "24f7fd0243b7010ab8f2bd299ec9a06cb74d078cd581a11fdf48275a0ef96465",
+      "document": {
+        "document_id": "mcp/index",
+        "title": "Consent Pro MCP",
+        "description": "Connect your AI assistant to Consent Pro for project setup, consent guidance, draft changes and read-only Google Tag Manager audits.",
+        "canonical_url": "https://docs.consentpro.com/mcp/",
+        "platform": "both",
+        "runtime_family": "current",
+        "runtime_version": "2.6.2",
+        "source_kind": "product",
+        "reviewed_at": "2026-10-08",
+        "sources": [
+          "https://docs.consentpro.com/mcp/",
+          "https://app.consentpro.com",
+          "https://consentpro.com/legal/privacy-policy",
+          "https://consentpro.com/legal/terms-of-service",
+          "https://consentpro.com/talk-to-expert"
+        ],
+        "content_hash": "b5b70ecfb1983400723fb8aec5cd64cdc9142f2f15d3b68d340586bbd45a763c"
+      },
+      "markdown": "# Consent Pro MCP\n\nConnect your AI assistant to Consent Pro to inspect your projects, understand consent setup and make permitted changes from your conversation. Consent Pro MCP works with Codex, Claude Code, Cursor and other clients supporting authenticated Streamable HTTP MCP servers.\n\n[Connect your AI client](/mcp/setup) · [Google Tag Manager integration](/mcp/google-tag-manager)\n\n## What you can do\n\n- Review setup steps, scan findings and saved cookies and trackers.\n- Create custom-site projects, start scans and update scan settings.\n- Change banner appearance and privacy-policy links as unpublished drafts.\n- Read sampled consent statistics and request emailed consent exports or proof for an exact consent ID.\n- Search current product and runtime documentation, with source links and explicitly selectable legacy guidance.\n- Connect Google Tag Manager and inspect selected containers for consent configuration issues.\n\nThere are **25 tools: 17 read-only tools, including four GTM tools and two documentation tools, and eight tools for changes and requests**. The tools your assistant receives depend on the permissions you grant. Documentation tools are included on every authenticated connection.\n\nPublishing configuration stays in the Consent Pro dashboard. GTM access is read-only: you make and publish changes in Google Tag Manager. Audits report Consent Pro's technical checks, rather than establishing legal compliance.\n\n## Connect to Consent Pro\n\nThese instructions target `production`.\n\n| Setting        | Value                                      |\n| -------------- | ------------------------------------------ |\n| Server name    | `consent-pro`                 |\n| Server URL     | `https://mcp.consentpro.com/mcp`                  |\n| Transport      | Streamable HTTP                            |\n| Authentication | Browser sign-in with your Finsweet account |\n\nSign in with the account you use for the [Consent Pro Web App](https://app.consentpro.com), select one workspace and approve the permissions you want the assistant to have. No API key is needed.\n\nFollow the [client setup guide](/mcp/setup) for copyable commands and configuration.\n\n## Try a request\n\n- \"Review my website and tell me what is missing.\"\n- \"Show me the saved trackers and their categories.\"\n- \"Change my banner's privacy-policy link to https://example.com/privacy.\"\n- \"Explain how Consent Pro handles analytics consent, with sources.\"\n- \"Connect Google Tag Manager and audit my published container.\"\n\n## Permissions and your data\n\nChoose **Read only**, **Full access** or **Custom** when connecting. Full access includes all available permissions; Custom lets you select individual capabilities. GTM access and requests for consent exports or proof require their respective permissions and are excluded from Read only.\n\nProject information and requested GTM details are returned to your chosen MCP client and may be processed by its AI provider. Google authorization tokens are never returned to the assistant. Review your client's privacy settings as well as Consent Pro's policies.\n\n[Privacy Policy](https://consentpro.com/legal/privacy-policy) · [Terms of Service](https://consentpro.com/legal/terms-of-service) · [Contact Support](https://consentpro.com/talk-to-expert)\n",
+      "pages": [
+        {
+          "offset": 0,
+          "returned": 7,
+          "total": 7,
+          "has_more": false,
+          "next_cursor": null
+        }
+      ]
+    },
+    {
+      "corpus_revision": "24f7fd0243b7010ab8f2bd299ec9a06cb74d078cd581a11fdf48275a0ef96465",
+      "document": {
+        "document_id": "mcp/setup",
+        "title": "Connect Your AI Client to Consent Pro MCP",
+        "description": "Set up Consent Pro MCP in Codex, Claude Code, Claude, Cursor or another Streamable HTTP MCP client using browser authentication.",
+        "canonical_url": "https://docs.consentpro.com/mcp/setup",
+        "platform": "both",
+        "runtime_family": "current",
+        "runtime_version": "2.6.2",
+        "source_kind": "product",
+        "reviewed_at": "2026-10-08",
+        "sources": [
+          "https://docs.consentpro.com/mcp/setup",
+          "https://app.consentpro.com",
+          "https://developers.openai.com/codex/mcp",
+          "https://code.claude.com/docs/en/mcp",
+          "https://cursor.com/docs/mcp"
+        ],
+        "content_hash": "fb558308ebd1227040a65fa805003198a1bb734def34f9c84eebe4963b06bd05"
+      },
+      "markdown": "# Connect Your AI Client\n\nUse a client supporting **Streamable HTTP** and **OAuth browser authentication**. The instructions below target `production` and use this server URL:\n\n```text\nhttps://mcp.consentpro.com/mcp\n```\n\nUse your account for the [Consent Pro Web App in this environment](https://app.consentpro.com). Production and staging have separate data and sign-in sessions.\n\n## Codex CLI\n\nAdd the remote server and authenticate:\n\n```bash\ncodex mcp add consent-pro --url https://mcp.consentpro.com/mcp\ncodex mcp login consent-pro\n```\n\nComplete the browser sign-in described under [Authorize the connection](#authorize-the-connection). If adding the server already completed sign-in, a separate login is unnecessary. Start Codex and use `/mcp` to check the connection and available tools.\n\n## Codex app\n\n1. Open **Settings → MCP** and choose **Add → Add MCP Server**.\n2. Set the name to `consent-pro`.\n3. Select **Streamable HTTP** and enter `https://mcp.consentpro.com/mcp` as the URL.\n4. Save, choose **Authenticate** and complete browser sign-in.\n5. Return to the app and check that Consent Pro's tools are available.\n\nThe CLI and app share MCP configuration on the same Codex host. If you already added the server through the CLI, check the existing entry before adding another one. UI labels can vary by client version.\n\n## Claude Code\n\nAdd the remote HTTP server:\n\n```bash\nclaude mcp add --transport http consent-pro https://mcp.consentpro.com/mcp\n```\n\nStart `claude`, enter `/mcp`, select `consent-pro` and choose the authentication option. Complete browser sign-in, then return to Claude Code.\n\n## Claude on the web or desktop\n\n1. Open **Settings → Connectors → Add custom connector**.\n2. Enter `consent-pro` as the name and `https://mcp.consentpro.com/mcp` as the URL.\n3. Save or add the connector and choose the sign-in option.\n4. If an OAuth client choice is shown, select **Claude Published Identity**.\n5. Complete browser sign-in, then return to Claude and enable the connector for your conversation.\n\nCustom connectors may depend on your plan or workspace administrator's settings. Button labels can vary by client version.\n\n## Cursor\n\nAdd this entry to your project's `.cursor/mcp.json`, or to `~/.cursor/mcp.json` for all projects. Merge it with existing servers rather than replacing them.\n\n```json\n{\n  \"mcpServers\": {\n    \"consent-pro\": {\n      \"url\": \"https://mcp.consentpro.com/mcp\"\n    }\n  }\n}\n```\n\nOpen Cursor's MCP settings, find the server and choose **Needs login** or its authentication option. Complete browser sign-in and enable the server's tools for Agent.\n\n## Other MCP clients\n\n1. Add a remote MCP server named `consent-pro`.\n2. Choose **HTTP / Streamable HTTP** transport.\n3. Enter `https://mcp.consentpro.com/mcp` as the endpoint.\n4. Use the client's OAuth sign-in option. No API key or manually copied bearer token is required.\n5. Complete authorization, return to the client and check its tool list.\n\nClients that support only local stdio servers or static API keys cannot connect directly using this setup.\n\n## Authorize the connection\n\n1. Choose **Read only**, **Full access** or **Custom**.\n2. Sign in with your Finsweet account and select the Consent Pro workspace to connect.\n3. Review and approve the requested permissions.\n4. Return to your client and ask: \"List my Consent Pro projects.\"\n\nThe connection is bound to that account and workspace. **Read only** excludes Google Tag Manager and consent export/proof requests. To use GTM, choose **Full access** or **Custom** with **View Google Tag Manager** enabled, then follow the [GTM connection guide](/mcp/google-tag-manager#connect-your-google-account).\n\nTo switch workspaces or permissions, remove the connector and add it again. Existing connections do not automatically gain newly introduced permissions. Public documentation search and reads are included on every authenticated connection.\n\n## Troubleshooting\n\n- **A tool is missing:** check the approved permissions and reconnect if you need to change them.\n- **Your projects are missing:** check the selected workspace and whether the client uses the production or staging endpoint.\n- **Sign-in fails:** retry authentication in your client. If it reports an unsupported transport or OAuth flow, check the client's remote MCP support.\n- **Google is not connected:** ask \"Connect Google Tag Manager\" and open the returned link yourself. Connect it separately from the Consent Pro sign-in.\n- **A draft change is not visible to visitors:** review and publish it from the Consent Pro dashboard.\n\n## Client references\n\n- [Codex MCP documentation](https://developers.openai.com/codex/mcp)\n- [Claude Code MCP documentation](https://code.claude.com/docs/en/mcp)\n- [Cursor MCP documentation](https://cursor.com/docs/mcp)\n",
+      "pages": [
+        {
+          "offset": 0,
+          "returned": 10,
+          "total": 10,
+          "has_more": false,
+          "next_cursor": null
+        }
+      ]
+    },
+    {
+      "corpus_revision": "24f7fd0243b7010ab8f2bd299ec9a06cb74d078cd581a11fdf48275a0ef96465",
+      "document": {
+        "document_id": "mcp/google-tag-manager",
+        "title": "Consent Pro Google Tag Manager Integration",
+        "description": "Connect your Google account to Consent Pro MCP, discover GTM containers live and receive read-only consent audits of published configurations.",
+        "canonical_url": "https://docs.consentpro.com/mcp/google-tag-manager",
+        "platform": "both",
+        "runtime_family": "current",
+        "runtime_version": "2.6.2",
+        "source_kind": "product",
+        "reviewed_at": "2026-10-14",
+        "sources": [
+          "https://docs.consentpro.com/mcp/google-tag-manager",
+          "https://consentpro.com/legal/privacy-policy",
+          "https://consentpro.com/legal/terms-of-service",
+          "https://consentpro.com/talk-to-expert"
+        ],
+        "content_hash": "e9a208a6e5cdb118a6922b1e383a7bdec06a9e55487f5212ae1b9f4b29172c00"
+      },
+      "markdown": "# Consent Pro Google Tag Manager Integration\n\nConsent Pro by Finsweet helps you inspect Google Tag Manager configurations and understand how your tags handle consent. Connect your Google account through Consent Pro MCP, and ask your assistant for a consent audit or published container details.\n\nThe integration is **read-only**. Consent Pro cannot create, edit, delete or publish GTM tags, triggers or containers. Your assistant provides findings and guidance; you make and publish changes in Google Tag Manager.\n\n[Set up Consent Pro MCP](/mcp/setup) · [Privacy Policy](https://consentpro.com/legal/privacy-policy) · [Terms of Service](https://consentpro.com/legal/terms-of-service)\n\n## Connect your Google account\n\nThese instructions target `production`. Use the same environment for your Consent Pro account, MCP connection and Google connection.\n\n1. [Connect your AI client](/mcp/setup) using `https://mcp.consentpro.com/mcp`.\n2. Grant **View Google Tag Manager** through **Full access** or **Custom**. This permission is excluded from **Read only**.\n3. Ask your assistant: \"Connect Google Tag Manager.\"\n4. Open the returned link in your own browser. The assistant must not open it for you. The link expires after ten minutes and can be reused until then. Keep it private and open it only if you requested it.\n5. Check the displayed Finsweet account and workspace, then continue to Google.\n6. Sign in to the Google account with access to the containers you want to inspect and approve the requested access.\n7. Once the connection succeeds, return to your assistant and ask: \"Which GTM containers can I access?\"\n\nConnections are private to the person who creates them within their Consent Pro workspace. Several Google accounts can be connected; specify the account or container when more than one matches.\n\n## What the integration reads\n\nConsent Pro requests Google identity and email access (`openid`, `email`) and read-only Tag Manager access (`https://www.googleapis.com/auth/tagmanager.readonly`). Consent Pro fetches accounts and containers live from Google. Connecting an account allows read-only access to all containers that account can access, including containers it gains access to later. There is no saved container allowlist or project mapping.\n\n| Tool                        | What it provides                                                                                                      |\n| --------------------------- | --------------------------------------------------------------------------------------------------------------------- |\n| `consentpro_gtm_status`     | Connected accounts, live container summaries and a link to connect or reconnect Google accounts.                      |\n| `consentpro_gtm_containers` | A paginated live container list and available hints from project scans; hints are not saved associations.             |\n| `consentpro_gtm_audit`      | Consent findings for a selected container's published version.                                                        |\n| `consentpro_gtm_details`    | Published tags, consent settings, triggers, variables and template summaries, including bounded Custom HTML excerpts. |\n\nWhen you provide a Consent Pro project, its latest scan can suggest container matches by GTM ID. A match is an observation, not a confirmed association or permission rule. The same container may appear on several projects. Live listings can be incomplete or unavailable; missing results do not prove a container is inaccessible.\n\nThe integration does not retrieve individual website visitor or consent records from Google. It does not read unpublished GTM workspace changes.\n\n## Ask for an audit\n\nTry \"Audit my published GTM container for consent\" or \"Show the consent checks and triggers for my analytics tags.\"\n\nThe audit checks the Consent Pro tag, consent initialization and defaults, and consent checks on non-Google tags. It distinguishes verified checks from missing or unverified enforcement and reports what to review. It cannot establish legal compliance or prove every tag's runtime behavior from configuration alone.\n\nNative Google tags have built-in Consent Mode behavior. In advanced mode they may send cookieless measurements while storage consent is denied. Additional consent checks restrict whether a tag can fire. Keep purchase, click and form-submit tags on their corresponding business-event triggers; `consent-updated` also follows rejection and is not a purchase or click event.\n\nUse [consent-aware GTM troubleshooting](/knowledge/gtm-troubleshooting) to understand the findings. For installation steps, see the [Web App guide](/web-app/google-tag-manager) or [Webflow guide](/webflow/google-tag-manager).\n\n## How connection data is handled\n\nConsent Pro stores your Google account ID/email, granted permissions, workspace association and connection timestamps on Cloudflare infrastructure. Refresh tokens are encrypted and used by the server to obtain short-lived Google access tokens. Authorization tokens are never returned to your assistant.\n\nRequested GTM configuration details and audit findings are returned to your chosen MCP client and may be processed by its AI provider according to that provider's policies and settings.\n\nStored connection records have no automatic expiry. Deleting a connection removes its stored token and account record. Revoking Consent Pro access in your Google Account stops further API access but does not automatically delete Consent Pro's stored connection records or information already received by your AI client. Contact **privacy@finsweet.com** for deletion or privacy requests.\n\n[Privacy Policy](https://consentpro.com/legal/privacy-policy) · [Terms of Service](https://consentpro.com/legal/terms-of-service) · [Contact Support](https://consentpro.com/talk-to-expert)\n",
+      "pages": [
+        {
+          "offset": 0,
+          "returned": 12,
+          "total": 12,
+          "has_more": false,
+          "next_cursor": null
+        }
+      ]
+    }
+  ]
+}

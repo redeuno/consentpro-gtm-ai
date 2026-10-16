@@ -16,8 +16,10 @@ did.
 
 ## 6.1 The container is published
 
-Open version history and confirm which version is live. The current MCP GTM audit/details
-read that published version, not unpublished workspace edits. Do not publish merely to run
+Open version history and confirm which version is live. The captured MCP GTM audit/details
+read that published version, not unpublished workspace edits. Discover whether a reviewed
+workspace-reading capability is now available before making claims about drafts.
+Do not publish merely to run
 this check: identify whether you are testing an approved draft or the live configuration.
 
 Record site deployment, Consent Pro publication and GTM publication separately. For a live
