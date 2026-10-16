@@ -1,0 +1,28 @@
+name: Repository checks
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  offline-checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Unit and package tests
+        run: python3 -B -m unittest discover -s tests -p 'test_*.py'
+      - name: Mutation controls
+        run: python3 -B tests/mutation-controls.py
+      - name: Documentation integrity
+        run: python3 -B scripts/check-repository.py
+      - name: Source snapshot and negative controls
+        run: python3 -B docs/06-agent-readiness/checks/verify-snapshot.py --self-check
+      - name: Asset response and budget tests
+        run: |
+          python3 -B docs/06-agent-readiness/tools/test-asset-headers.py
+          python3 -B docs/06-agent-readiness/tools/test-asset-collector.py

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Consent Pro GTM"
+  short_description: "Configure GTM consent while preserving business events"
+  default_prompt: "Use $consent-pro-gtm to audit my container and prepare a consent setup plan without publishing."

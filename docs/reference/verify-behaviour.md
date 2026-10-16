@@ -39,6 +39,9 @@ Before loading the page:
   behaviour must match this configuration. A setup deliberately using Advanced Consent Mode
   can send cookieless Google requests while storage consent is denied, as described in
   [Google's Consent Mode overview](https://developers.google.com/tag-platform/security/concepts/consent-mode#advanced_consent_mode).
+- Record whether this tab uses a saved-draft preview or ordinary published configuration,
+  plus the Consent Pro publication and site deployment being tested. A preview cannot prove
+  the ordinary visitor path. See [release checks](../06-agent-readiness/operations.md#draft-preview-and-release).
 - Open developer tools before navigation and keep the Network log across reloads. Record
   request destinations and purposes as well as cookies and relevant browser storage.
 - Use a fresh browser session for each branch below, with no stored choice. Keep browser
@@ -96,6 +99,23 @@ Acceptance is the positive control: it shows whether the chosen action actually 
 the tracker and whether your observation method can detect it. If that tracker never
 appears, you cannot credit its earlier absence to consent blocking yet.
 
+### Step 4. Partial consent, revocation and persistence
+
+In another fresh session, accept only one optional category, such as Analytics. Exercise the
+same named trackers and confirm that the chosen category runs while denied categories follow
+their configured rules. Reload and repeat to check the stored choice.
+
+Then reopen preferences through the site's visible control and revoke the optional category.
+Confirm the displayed and runtime choices, exercise the same actions again and reload.
+Distinguish existing storage from new requests or writes after revocation. An existing
+cookie alone does not establish that a tracker ran again. For an attributed image pixel,
+verify the `src` is removed after its category is revoked.
+
+Test the preferences control on representative pages, including navigation after a choice.
+If the floating button is hidden, a working replacement must exist wherever Consent Pro
+runs. See [Preferences Link](https://docs.consentpro.com/web-app/preferences-link) and
+[Image Trackers](https://docs.consentpro.com/web-app/image-trackers).
+
 ---
 
 ## Reading the result
@@ -106,6 +126,7 @@ Compare the evidence per tracker:
 step 1 (untouched)   →  observed requests and storage before choosing
 step 2 (refused)     →  observed requests and storage with the recorded refusal
 step 3 (accepted)    →  positive control using the same expected tracker action
+step 4 (changed)     →  partial choice, revocation and persistence after reload
 ```
 
 Limit the conclusion to the named trackers, pages, interactions, browser and region tested.
@@ -134,9 +155,10 @@ Do not pick a cause from cookie totals. Preserve the observation and test the su
 
 ## The debugger does part of this for you
 
-Consent Pro ships a debugger that reports runtime state, whether the banner is correct, and
-what is blocked by category before and after the choice. It is reached with a URL parameter,
-and the debugger documentation page has the exact form.
+Open **Preview** or use the available MCP preview tool to obtain the signed debugger link.
+Keep it private and respect its expiry; do not construct the URL yourself. Record runtime,
+resolved region, banner and category state. **Reset Banner** clears stored consent in that
+test browser. Source: [Debugger](https://docs.consentpro.com/web-app/debugger).
 
 Compare the reported consent state with browser requests and storage, including the request
 initiator when available. A state shown by the debugger is not proof that every tracker
@@ -154,6 +176,7 @@ how an overstatement gets made:
 >
 > Observed: [named tracker and action], [request destination and relevant storage],
 > [before-choice result], [refusal result], [acceptance result], in [browser and region].
+> Partial choice, revocation and reload: [observed outcomes or not tested].
 >
 > Not verified: [other pages, interactions, regions or tracking sources not exercised].
 

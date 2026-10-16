@@ -1,6 +1,7 @@
 # 2. The tag manager account
 
-The second and last thing that cannot be handed to an agent. It takes two minutes.
+Use an existing account/container when possible. This repository's scripts do not create GTM
+accounts; the following is the manual setup path.
 
 ## Why this one is manual
 
@@ -10,8 +11,8 @@ form demands a container name on the same screen, so account and first container
 together.
 
 The practical consequence, which is worth stating plainly because it shapes what you can
-promise: **an agent configures containers, it does not create accounts.** If you are starting
-from nothing, you click through this once.
+promise: **these scripts configure containers, not accounts.** If starting from nothing,
+complete account setup and its consent screen first.
 
 ## If you already have an account and a container
 

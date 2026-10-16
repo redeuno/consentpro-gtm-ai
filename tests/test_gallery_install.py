@@ -35,13 +35,34 @@ class FakeAPI:
     def __init__(self, helper):
         self.helper = helper
         self.templates = []
-        self.tags = [{"tagId": "1", "name": "Analytics", "type": "html"}]
+        self.tags = [{"tagId": "1", "name": "Analytics", "type": "html", "fingerprint": "tag-1-v1",
+                      "firingTriggerId": ["2147479553"]}]
         self.triggers = []
+        self.extra = {"variables": [], "folders": [], "built_in_variables": [], "zones": [],
+                      "clients": [], "gtag_config": [], "transformations": []}
+        self.extra_keys = {"variables": "variable", "folders": "folder", "built_in_variables": "builtInVariable",
+                           "zones": "zone", "clients": "client", "gtag_config": "gtagConfig", "transformations": "transformation"}
+        self.container = {"accountId": "123", "containerId": "456", "publicId": "GTM-LAB", "name": "Lab container",
+                          "usageContext": ["web"], "features": {
+                              "supportWorkspaces": True, "supportVersions": True, "supportTags": True,
+                              "supportTriggers": True, "supportTemplates": True, "supportVariables": True,
+                              "supportFolders": True, "supportBuiltInVariables": True, "supportZones": False,
+                              "supportClients": False, "supportGtagConfigs": False, "supportTransformations": False}}
         self.writes = []
         self.requests = []
         self.pages = False
         self.import_response = None
         self.repeat_token = False
+        self.status = {}
+        self.versions = {}
+        self.live = None
+        self.revision = 1
+
+    def changed(self, kind, entity):
+        changes = self.status.setdefault("workspaceChange", [])
+        identifier = "templateId" if kind == "customTemplate" else kind + "Id"
+        changes[:] = [change for change in changes if change.get(kind, {}).get(identifier) != entity[identifier]]
+        changes.append({"changeStatus": "updated", kind: copy.deepcopy(entity)})
 
     def template(self, gallery=True):
         result = {"templateId": "15", "name": self.helper.NAME, "templateData": template_data(gallery)}
@@ -52,41 +73,74 @@ class FakeAPI:
         return result
 
     def __call__(self, token, path, method="GET", body=None):
-        self.requests.append((path, method, body))
+        self.requests.append((path, method, copy.deepcopy(body)))
         parsed = urllib.parse.urlsplit(path)
         resource = parsed.path
         if method != "GET":
-            self.writes.append((path, method, body))
+            self.writes.append((path, method, copy.deepcopy(body)))
             if resource.endswith("/templates:import_from_gallery"):
                 result = self.template() if self.import_response is None else self.import_response
                 if isinstance(result, dict) and result.get("templateId"):
                     self.templates.append(copy.deepcopy(result))
+                    self.changed("customTemplate", result)
                 return copy.deepcopy(result)
             if resource.endswith("/tags"):
                 self.validate_tag_type(body)
-                tag = dict(body, tagId="2")
+                self.revision += 1
+                tag = dict(body, tagId="2", fingerprint="tag-2-v" + str(self.revision))
                 self.tags.append(tag)
-                return tag
+                self.changed("tag", tag)
+                return copy.deepcopy(tag)
             if "/tags/" in resource:
                 self.validate_tag_type(body)
                 tag = next(tag for tag in self.tags if tag["tagId"] == resource.rsplit("/", 1)[1])
+                if urllib.parse.parse_qs(parsed.query).get("fingerprint") != [tag.get("fingerprint")]:
+                    raise SystemExit("Fingerprint conflict")
                 tag.update(body)
-                return tag
+                self.revision += 1
+                tag["fingerprint"] = "tag-%s-v%s" % (tag["tagId"], self.revision)
+                self.changed("tag", tag)
+                return copy.deepcopy(tag)
             if resource.endswith("/triggers"):
                 trigger = dict(body, triggerId="3")
                 self.triggers.append(trigger)
-                return trigger
+                self.changed("trigger", trigger)
+                return copy.deepcopy(trigger)
             if resource.endswith(":create_version"):
-                return {"containerVersion": {"containerVersionId": "9"}}
+                identifier = str(9 + len(self.versions))
+                version = {"containerVersionId": identifier, "fingerprint": "version-" + identifier,
+                           "accountId": "123", "containerId": "456", "container": copy.deepcopy(self.container),
+                           "tag": copy.deepcopy(self.tags), "trigger": copy.deepcopy(self.triggers),
+                           "customTemplate": copy.deepcopy(self.templates),
+                           **{self.extra_keys[kind]: copy.deepcopy(items) for kind, items in self.extra.items()}}
+                self.versions[identifier] = version
+                self.status = {}
+                return {"containerVersion": copy.deepcopy(version)}
             if resource.endswith(":publish"):
-                return {}
+                identifier = resource.rsplit("/", 1)[1].split(":")[0]
+                version = self.versions[identifier]
+                if urllib.parse.parse_qs(parsed.query).get("fingerprint") != [version["fingerprint"]]:
+                    raise SystemExit("Version fingerprint conflict")
+                self.live = copy.deepcopy(version)
+                return {"containerVersion": copy.deepcopy(version)}
             raise AssertionError((path, method, body))
         if resource == "/accounts/123":
             return {"name": "Lab"}
-        objects = {"containers": ("container", [{"containerId": "456", "publicId": "GTM-LAB"}]),
+        if resource == "/accounts/123/containers/456":
+            return copy.deepcopy(self.container)
+        if resource.endswith("/status"):
+            return copy.deepcopy(self.status)
+        if "/tags/" in resource:
+            return copy.deepcopy(next(tag for tag in self.tags if tag["tagId"] == resource.rsplit("/", 1)[1]))
+        if resource.endswith("/versions:live"):
+            return copy.deepcopy(self.live)
+        if "/versions/" in resource:
+            return copy.deepcopy(self.versions[resource.rsplit("/", 1)[1]])
+        objects = {"containers": ("container", [self.container]),
                    "workspaces": ("workspace", [{"workspaceId": "7", "name": "Default"}]),
                    "tags": ("tag", self.tags), "triggers": ("trigger", self.triggers),
-                   "templates": ("template", self.templates)}
+                   "templates": ("template", self.templates),
+                   **{kind: (self.extra_keys[kind], items) for kind, items in self.extra.items()}}
         key, items = objects[resource.rsplit("/", 1)[1]]
         if self.pages and not parsed.query:
             return {key: [], "nextPageToken": "second page"}
@@ -120,13 +174,15 @@ class GalleryInstallTests(unittest.TestCase):
         args = [module.__file__, "--account", "123", "--container", "GTM-LAB", "--confirm-name", confirm]
         if not audit:
             args += ["--map", str(self.mapping)]
-        if apply:
-            args += ["--apply"]
         if publish:
             args += ["--publish"]
         output = io.StringIO()
         with mock.patch.object(sys, "argv", args), mock.patch.object(module, "access_token", return_value="fake"), \
                 mock.patch.object(module, "read" if audit else "call", self.api), contextlib.redirect_stdout(output):
+            if apply:
+                module.main()
+                approval = output.getvalue().split("PLAN_SHA256=")[-1].splitlines()[0]
+                args += ["--apply", "--approve-plan", approval]
             module.main()
         return output.getvalue()
 
@@ -143,7 +199,7 @@ class GalleryInstallTests(unittest.TestCase):
         self.assertEqual(query, {"galleryOwner": ["finsweet"], "galleryRepository": ["gtm-template-consent-pro"],
                                  "gallerySha": [self.wire.template_support.VERSION], "acknowledgePermissions": ["true"]})
         self.assertIsNone(imports[0][2])
-        self.assertFalse(any(path.endswith(":publish") for path, _, _ in self.api.writes))
+        self.assertFalse(any(urllib.parse.urlsplit(path).path.endswith(":publish") for path, _, _ in self.api.writes))
         self.assertEqual(self.api.tags[1]["type"], "cvt_WRGND")
         self.assertEqual(self.api.tags[0]["consentSettings"]["consentStatus"], "needed")
 
@@ -160,7 +216,9 @@ class GalleryInstallTests(unittest.TestCase):
 
     def test_renamed_gallery_init_is_reused(self):
         self.api.templates = [self.api.template()]
-        self.api.tags += [{"tagId": "2", "name": "Existing consent", "type": "cvt_WRGND"}]
+        self.api.tags += [{"tagId": "2", "name": "Existing consent", "type": "cvt_WRGND", "fingerprint": "init-v1",
+                          "parameter": [{"type": "list", "key": "regionDefaults", "list": [
+                              {"type": "map", "map": [{"type": "template", "key": "regions", "value": "Global"}]}]}]}]
         self.run_main(apply=True)
         self.assertEqual(len(self.api.tags), 2)
         self.assertEqual(self.api.tags[1]["name"], "Existing consent")
@@ -168,7 +226,10 @@ class GalleryInstallTests(unittest.TestCase):
     def test_every_inventory_is_paginated_before_writes(self):
         self.api.pages = True
         self.api.templates = [self.api.template()]
-        self.run_main(apply=True)
+        try:
+            self.run_main(apply=True)
+        except SystemExit as exc:
+            self.fail("Complete paginated inventory must apply successfully: " + str(exc))
         self.assertFalse(any("/templates" in path for path, _, _ in self.api.writes))
         for resource in ("containers", "workspaces", "tags", "triggers", "templates"):
             self.assertTrue(any("/" + resource + "?pageToken=" in path for path, _, _ in self.api.requests))
@@ -216,13 +277,12 @@ class GalleryInstallTests(unittest.TestCase):
     def test_wrong_account_and_publish_guard_prevent_writes(self):
         with self.assertRaises(SystemExit):
             self.run_main(apply=True, confirm="Production")
-        with self.assertRaises(SystemExit):
-            self.run_main(publish=True)
+        self.run_main(publish=True)
         self.assertEqual(self.api.writes, [])
 
     def test_explicit_publish_is_separate(self):
         self.run_main(apply=True, publish=True)
-        self.assertTrue(self.api.writes[-1][0].endswith(":publish"))
+        self.assertTrue(urllib.parse.urlsplit(self.api.writes[-1][0]).path.endswith(":publish"))
 
     def test_unknown_template_referenced_by_init_prevents_writes(self):
         self.api.tags += [{"tagId": "2", "name": self.wire.INIT_TAG_NAME, "type": "cvt_456_999"}]
@@ -255,6 +315,27 @@ class GalleryInstallTests(unittest.TestCase):
         output = self.run_main(audit=True)
         self.assertIn("source=gallery", output)
         self.assertIn("no verified Consent Pro tag", output)
+
+    def test_audit_rejects_inexact_consent_event_conditions(self):
+        self.run_main(apply=True)
+        self.api.writes.clear()
+        original = copy.deepcopy(self.api.triggers[0])
+        for field in ("filter", "arg0", "operator", "schema"):
+            with self.subTest(field=field):
+                self.api.triggers = [copy.deepcopy(original)]
+                event = self.api.triggers[0]
+                if field == "filter":
+                    event["filter"] = [{"type": "equals"}]
+                elif field == "arg0":
+                    event["customEventFilter"][0]["parameter"][0]["value"] = "{{Page URL}}"
+                elif field == "operator":
+                    event["customEventFilter"][0]["type"] = "contains"
+                else:
+                    event["customEventFilter"] = [None]
+                output = self.run_main(audit=True)
+                self.assertIn("no custom event trigger for that event", output)
+                self.assertIn("Preserve purchase, click", output)
+                self.assertEqual(self.api.writes, [])
 
     def test_import_wrong_workspace_stops_before_tag_writes(self):
         self.api.import_response = dict(self.api.template(), containerId="999")

@@ -28,6 +28,8 @@ tokens.json
 # Category maps can carry a customer's tag names, which is their information, not yours
 map.json
 *-map.json
+# Public documentation discovery, not a customer category map.
+!docs/06-agent-readiness/sources/2026-10-16/map.json
 
 # Audit output can carry container contents
 gtm-consent-audit-*.json
@@ -41,3 +43,8 @@ venv/
 Thumbs.db
 .idea/
 .vscode/
+
+# Reproducible local packages and review handoffs
+dist/
+.codex-review-focus.md
+.codex-review-focus.md.last

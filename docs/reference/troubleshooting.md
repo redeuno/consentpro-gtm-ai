@@ -1,21 +1,22 @@
 # When it does not behave
 
-Six known shapes. Each has a distinct symptom, so start from what the person is seeing rather
-than from a theory.
+Start from the observed symptom. Check both product and container state; the
+[operations guide](../06-agent-readiness/operations.md#runtime-diagnosis) covers core,
+licence, publication, CSP and scanner access alongside GTM configuration.
 
 ---
 
 ## The scan finds fewer trackers than the site actually loads
 
-**The most reported one, and it is documented behaviour rather than a bug.**
+Several documented coverage limits can produce this symptom.
 
-**Cause:** the tag is on a trigger the scanner does not read. The documentation is explicit
-that it only detects tags firing on `All Pages` or on a Consent Pro event such as
-`consent-updated`. A tag on a click, a timer, a scroll, one specific page or your own custom
-event is invisible to it.
+**Possible causes:** the scan did not exercise a tag's event, did not reach its page, or was
+blocked by authentication, `robots.txt` or bot protection. Check scan status and coverage
+before assuming a trigger problem. The GTM guide describes detection on `All Pages` and
+Consent Pro events; other interactions may not be exercised.
 
-**What that produces:** the tracker never appears in the app, never gets a category, and
-therefore never gets a consent check. It fires, and nothing in the product says it exists.
+**What that can produce:** a tracker absent from the scan and an incomplete category map.
+Absence from the scan is not evidence that the tracker cannot fire.
 
 **How to confirm it in seconds:**
 
@@ -23,18 +24,19 @@ therefore never gets a consent check. It fires, and nothing in the product says 
 python scripts/audit-container.py --account ID --container GTM-XXX --confirm-name "Name"
 ```
 
-It lists every tag with its trigger and prints an explicit block naming the ones the scanner
-cannot see.
+Compare the container inventory and triggers against scan results and expected page actions.
 
-**Fix:** move them to `Consent Updated`, which both detects and gates them. Or to `All Pages`
-if you only need them detected and they are handled some other way.
+**Fix:** preserve business triggers such as purchase or form submission and add the correct
+consent checks. Exercise the original event in a browser. Only page-load tracking uses the
+replacement pattern in [step 6](nine-steps.md#6-preserve-business-events-and-gate-the-tags).
+Do not move a conversion onto All Pages or consent-updated just to make a scan see it.
 
 ⚠️ **Check this before reporting a scanning bug.** A tracker on an unusual trigger looks
 exactly like a broken scan from the outside, and the two need completely different responses.
 
 ## Trackers appear in the app, and fire regardless of the choice
 
-**The most common one by far.** Detection is working and blocking was never set up.
+Detection can work while consent gating is missing.
 
 **Cause:** tags left on `All Pages`, with no consent check. The scanner detects tags on All
 Pages by design, so everything looks handled.
@@ -66,10 +68,13 @@ Pages`. Load order decides the outcome, so the behaviour changes between page lo
 
 ## Everything looks right in the interface, the live site is unchanged
 
-**Cause:** the container was configured but never published.
+**Possible causes:** the GTM workspace is unpublished, Consent Pro has saved changes that
+were not published, site code was not deployed, or published configuration remains cached.
+An unlicensed domain or saved visitor choice can also hide the banner.
 
-**Fix:** step eight. Then re-check, because the earlier checks were reading a container that
-was not live.
+**Check:** identify the intended site deployment, CP publication and GTM live version, then
+compare the ordinary domain in a fresh session. Do not publish without the corresponding
+authority. See [release checks](../06-agent-readiness/operations.md#draft-preview-and-release).
 
 ---
 
@@ -92,7 +97,7 @@ consent layer.
 
 ---
 
-## Two more that are not in the six
+## Local Gallery compatibility cases
 
 ### Gallery import stops with "Consent Pro INFO identity does not match"
 
@@ -115,6 +120,24 @@ template origin. Audit the existing workspace and review a new simulation before
 The failed tag creation did not create an initialization tag or container version.
 
 ### Other causes
+
+**Core/API blocked by CSP.** Inspect console and response headers. Both `script-src` and
+`connect-src` may need the Consent Pro API origin. Merge into the existing policy and
+respect nonces/hashes rather than replacing it.
+
+**Scan blocked by a firewall.** Inspect the actual challenge and `robots.txt`. The scanner
+identifies itself with the `ConsentProScanner` token, but header matches are not proof of
+identity. Do not allow all shared Cloudflare IPs or disable protection automatically.
+Sources: [Troubleshooting](https://docs.consentpro.com/web-app/troubleshooting),
+[Scanner](https://docs.consentpro.com/scanner).
+
+**Regional preview works but ordinary visits differ.** Compare plan eligibility and saved
+versus published region mappings. Basic applies Global instances, while a preview can show
+regional instances that production does not run. See [Licenses](https://docs.consentpro.com/web-app/licenses).
+
+**GA4 waits for analytics consent.** Expected in Basic mode. Advanced intentionally behaves
+differently; do not remove the additional consent check without a mode decision. See
+[Basic and Advanced](consent-mode.md).
 
 **The scan is old.** The categories mapped in step seven describe trackers the site no longer
 has, or miss ones it gained. Re-scan before mapping, and re-scan after adding anything to the
