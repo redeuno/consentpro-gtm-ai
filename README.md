@@ -84,6 +84,9 @@ establish Google CMP certification.
 - [Tests](tests/README.md): offline checks, mutation controls and verification limits.
 - [Evidence and implementation status](docs/06-agent-readiness/README.md): the complete
   Web App documentation collection, dated MCP contract and remaining release gates.
+- [Next delivery plan](docs/06-agent-readiness/README.md#5-delivery-phases-and-remaining-gates):
+  customer entry, complete manual GTM setup, support handoffs, versioned packages and
+  per-client acceptance. Planned work is separate from the implemented baseline.
 
 Detection is not blocking. A successful scan, setup checkbox, preview or unchanged
 cookie count does not establish that tags respected a visitor's choice. Report
