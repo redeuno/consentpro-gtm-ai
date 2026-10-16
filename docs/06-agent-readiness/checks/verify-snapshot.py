@@ -2,7 +2,8 @@
 """Verify the local archive and negative completeness controls.
 
 READS only local files. Does not access the network or write files.
-Usage: python3 -B verify-snapshot.py [--self-check]. There is no apply mode.
+Usage: python3 -B verify-snapshot.py --root PRIVATE_ARCHIVE [--self-check].
+There is no apply mode. Raw archives are maintained outside the repository.
 Safe to repeat; changes no state and requires no rollback.
 """
 import argparse
@@ -16,7 +17,7 @@ from urllib.parse import urlsplit
 import xml.etree.ElementTree as ET
 
 
-ROOT = Path(__file__).resolve().parents[1] / "sources" / "2026-10-16"
+ROOT = None
 
 
 def require(condition, message):
@@ -58,9 +59,13 @@ def rejected(callback):
 
 
 def main():
+    global ROOT
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--root", type=Path, required=True,
+                        help="Explicit path to a private or synthetic archive")
     parser.add_argument("--self-check", action="store_true")
     args = parser.parse_args()
+    ROOT = args.root.resolve()
     web = json.loads((ROOT / "web-app.json").read_text())["pages"]
     refs = json.loads((ROOT / "references.json").read_text())["pages"]
     sitemap = ET.fromstring((ROOT / "sitemap.xml").read_bytes())

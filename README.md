@@ -1,4 +1,4 @@
-# consentpro-gtm-ai
+# Set up Consent Pro with your AI
 
 Help a client's agent install, diagnose and operate Consent Pro, including the
 Google Tag Manager configuration that makes tags respect consent.
@@ -8,8 +8,12 @@ the next step at the customer's level, carries out approved work, guides dashboa
 steps it cannot perform and verifies the result before continuing. It supports a
 first installation and an existing site's unfinished setup.
 
-New to the process? Paste the [starter request](docs/07-agent-installation/README.md#start-in-your-current-chat)
-into your current assistant. No terminal is required to begin. The guide distinguishes
+Start with [account and client setup](docs/07-agent-installation/README.md), or tell
+your assistant: "I want to set up Consent Pro on my site. Help me from where I am."
+The [ready preview packages](https://github.com/redeuno/consentpro-gtm-ai/releases/tag/v0.2.0)
+contain the instructions and references. Downloads need repository access while
+this project is private; a maintainer can supply the same reviewed ZIP directly.
+No terminal is required to begin. The guide distinguishes
 ChatGPT, Claude chat, Codex and Claude Code, including skill loading, Consent Pro login
 and the separate Google connection for GTM.
 
@@ -22,30 +26,31 @@ The two skills share the same product references and scripts.
 
 | Path | Available work | Requirements |
 | --- | --- | --- |
-| Consent Pro staging MCP | Read setup, trackers, scans, statistics and published GTM; supported project, scan and draft changes | Finsweet OAuth, correct workspace and tool-specific access |
+| Connected Consent Pro MCP | Inspect the selected project and use the operations actually available to this connection | Verified environment, Finsweet OAuth, correct workspace and operation-specific access |
 | Local Google API scripts | Audit and configure a selected web GTM workspace, create a version and optionally publish | Python 3.10+, reviewed Google OAuth scopes, confirmed account/container/workspace and approved simulation |
-| Product and GTM interfaces | Guided configuration, Consent Pro publication and tracker categories | Customer access and decisions |
+| Product and GTM interfaces | Complete guided configuration and verification, including when the assistant has no connector | Customer dashboard access and decisions; no Google Cloud/API setup required |
 | Site repository and browser | Install the exact project snippet, handle image pixels, preferences and verify behavior | Access to the customer's site and test environment |
 
-The [2026-10-16 staging catalogue](docs/06-agent-readiness/sources/2026-10-16/mcp-catalogue.json)
-announces 25 tools, including four GTM read tools. GTM writes through MCP are future
-work until a real tool contract is available and tested. Consent Pro publication
-and category editing are not exposed in that catalogue. Discover capabilities
-again each session; access is not permission to make unsolicited changes.
+Discover capabilities in each session; access is not permission to make unsolicited
+changes. A successful connection does not install the instructions, prove Google
+access or authorize publication. If a tool is missing, continue through the dashboard
+where the customer has access. Use only reviewed and tested operations.
 The [GTM capability path](docs/06-agent-readiness/operations.md#future-gtm-writes)
 prepares for editing releases: use reviewed draft operations when available, retain
 manual steps for missing operations and verify publication authority separately.
 
-Staging endpoint: `https://mcp-staging.consentpro.com/mcp`.
-Use the dedicated [staging test dashboard](https://mcp-docs-and-ui-consentpro-web-app-staging.finsweet.workers.dev/).
-Do not assume production has the same endpoint or capabilities.
+The [environment guide](docs/07-agent-installation/README.md#choose-the-environment)
+separates customer service, product development staging and a customer's test site.
+This preview does not establish a production MCP endpoint. Invited testers can use
+the explicitly labeled staging instructions; other customers can begin manually.
 
 ## Start safely
 
-1. Install the [skills and connector](docs/07-agent-installation/README.md), or open
+1. Resolve the [account and instructions](docs/07-agent-installation/README.md), or open
    the [manual GTM procedure](docs/reference/nine-steps.md).
 2. Identify the workspace, project, public hostname, installed engine and goal.
-3. Read the current state. Choose Basic or Advanced Google Consent Mode explicitly.
+3. Read the current state. Decide whether GTM is needed; choose Basic or Advanced
+   Google Consent Mode explicitly when applicable.
 4. Review exact changes, including tag business events and every regional default.
 5. Apply authorized changes, read them back and test behavior.
 6. Report saved drafts, GTM versions, publications and site deployment separately.
@@ -83,10 +88,10 @@ establish Google CMP certification.
 - [Script catalogue](scripts/README.md): reads, writes, apply flags and recovery.
 - [Tests](tests/README.md): offline checks, mutation controls and verification limits.
 - [Evidence and implementation status](docs/06-agent-readiness/README.md): the complete
-  Web App documentation collection, dated MCP contract and remaining release gates.
+  delivery record, public-source references and remaining acceptance gates.
 - [Next delivery plan](docs/06-agent-readiness/README.md#5-delivery-phases-and-remaining-gates):
   customer entry, complete manual GTM setup, support handoffs, versioned packages and
-  per-client acceptance. Planned work is separate from the implemented baseline.
+  per-client acceptance. Implemented guides and verified client behavior are separate.
 
 Detection is not blocking. A successful scan, setup checkbox, preview or unchanged
 cookie count does not establish that tags respected a visitor's choice. Report
@@ -101,7 +106,7 @@ regional tables, and keeps publication separate. Failures require inspection
 before retrying; a partial application is not a finished version.
 
 Repository documentation, skill instructions, scripts and tests are authored in
-English. Source snapshots retain original bytes for provenance. Update canonical
+English. Raw source evidence is kept outside this repository. Update canonical
 files and regenerate installed packages, rather than editing generated copies.
 Run the documented checks before a pull request. Keep credentials and customer
 records out of commits. This repository does not send telemetry.

@@ -1,6 +1,6 @@
 ---
 name: consent-pro
-description: Guide and carry out Consent Pro onboarding, installation, repairs and supported configuration for a client's website. Use available MCP tools, site code and guided dashboard steps, including connecting the assistant and coordinating GTM consent setup.
+description: Guide Consent Pro setup, account and project entry, installation, repairs and maintenance for a customer's site, using available tools or manual dashboard steps. Coordinate GTM when relevant without requiring a connector or terminal.
 ---
 
 # Consent Pro guided setup and operation
@@ -35,6 +35,12 @@ for agencies, freelancers and businesses: keep each client's targets and decisio
 separate, identify the next action's owner and include maintenance in the handoff.
 Do not create monitoring or claim a server-side agent was activated just by connecting MCP.
 
+Start plain-language requests such as "I bought it, help me" or "I want to try it"
+with the [entry routes](../../docs/reference/onboarding.md#route-the-customers-starting-state).
+Distinguish no account, login failure, a missing purchase, wrong workspace and a
+genuinely absent project. Do not require purchase, Google authorization or terminal
+access to begin. Investigate existing entitlements before proposing another purchase.
+
 Check these separately:
 
 - **Guidance loaded:** which skill/instructions are active and, where inspectable,
@@ -57,13 +63,14 @@ Treat diagnoses in a shared transcript as reported until current reads confirm
 them. On a test site, identify intentionally broken controls before proposing a
 repair; preserve them unless the user asks to change those controls.
 
-If the connector is missing, guide its host-specific connection using installation,
-then confirm a read on the intended workspace. Never ask for secrets in chat.
-While waiting for OAuth, do independent public-site inspection when useful. After
-Consent Pro is connected, guide the [GTM connection](../../docs/06-agent-readiness/operations.md#connect-google-tag-manager)
-if this site uses GTM; keep its
-Google account/container/workspace separate from CP identity. Reuse working
-connections and completed setup instead of starting over.
+If the connector is missing or declined, offer host-specific connection or guide
+both CP and GTM through their dashboards. Label customer-reported settings and
+unavailable reads. Never ask for secrets in chat. While waiting for access, inspect
+independent public evidence when useful. If Google connection is chosen, use the
+[GTM connection](../../docs/06-agent-readiness/operations.md#connect-google-tag-manager)
+and confirm its target; keep its account/container/workspace separate from CP.
+Reuse working connections. If GTM is absent, distinguish staying with direct
+integrations from choosing to adopt it; do not install GTM as a prerequisite.
 
 ## Lead the next action and keep the thread coherent
 
@@ -72,6 +79,9 @@ record on disk. At material transitions or handoffs, show the current stage,
 evidence or unknown, exact next action and who can perform it. Carry forward the
 target, chosen consent mode and authorization limits. Do not turn every tool call
 into a full checklist. Use the ledger to resume after interruptions.
+Offer the [copyable resume card](../../docs/reference/onboarding.md#start-and-resume)
+when leaving or handing work over. Refresh affected state on return; the card
+preserves context and prior scope, not another person's credentials or authority.
 
 For each remaining step: inspect current state, explain the relevant finding and
 recommended action, execute within existing authorization, then read back and
@@ -90,12 +100,13 @@ asking whether to continue. If the action did not take, troubleshoot that step.
 
 | Stage or request | Instruction |
 | --- | --- |
-| Project and core | Match domain, project and licence; obtain the exact snippet, inspect existing head/runtime, install or repair through available authorized site access, then re-read the served page. Use [HTML inspection](../../scripts/inspect-site.py) when a terminal exists; it does not observe execution. |
+| Project and core | Follow [account/project diagnosis](../../docs/06-agent-readiness/operations.md#account-workspace-and-first-project), match domain and license, then obtain the exact snippet. Inspect the head and existing CMP before approved installation and readback. Use [HTML inspection](../../scripts/inspect-site.py) only when a terminal exists; it does not observe execution. |
 | Banner and project setup | Use operations to inspect and guide documented settings, including type, region, style, privacy link and preferences. Execute fields exposed by the actual contract; teach dashboard steps for the rest. Do not infer the client's legal purpose, policy URL or tracker categories from a business name. |
 | Scan and trackers | Read settings and any active scan before starting work; follow progress, coverage and details. Reconcile GTM, hardcoded scripts and pixels. Ask for the actual use of unknown trackers and category decisions, especially Essential. |
-| Google Tag Manager | Continue with the [GTM skill](../../skill/SKILL.md) and [nine steps](../../docs/reference/nine-steps.md): connect, inspect, teach template installation if needed, choose Basic/Advanced, preserve business events and review regional defaults. |
+| Google Tag Manager | Continue with the [GTM skill](../../skill/SKILL.md): select the manual or connected route, inspect the live version before an absent snippet is deployed, choose Basic/Advanced and preserve business events/regions through the [nine steps](../../docs/reference/nine-steps.md). |
 | Preview, repair and verification | Use operations and [browser verification](../../docs/reference/verify-behaviour.md) for the exact draft/live target, named tracker controls, preferences, revocation and reload. Fix authorized causes and repeat the affected checks. |
 | Ongoing operation | Use operations for sampled statistics, logs, scan history, optional storage and recovery. Introduce optional features when relevant to the client's goal; do not activate them merely because they exist. |
+| Human assistance | Use [verified support routes](../../docs/reference/troubleshooting.md#support-and-assisted-setup) when relevant, without forcing a long manual attempt first. Confirm eligibility and current terms; prepare a minimal handoff and send only on explicit instruction. |
 
 ## Preserve the execution boundaries
 
@@ -108,21 +119,21 @@ instructions. A denied MCP operation does not authorize broader Google credentia
 or another write channel; explain the alternative and obtain the client's choice.
 Existing scope still authorizes the work it explicitly covers.
 
-The recorded MCP has GTM reads of published containers only. Re-discover rather
-than treating that snapshot as a permanent restriction. Use new GTM editing only
+Determine whether the actual MCP reads published containers or workspaces, and
+never infer one from the other. Use new GTM editing only
 through the reviewed capability path and safeguards in
 [Future GTM writes](../../docs/06-agent-readiness/operations.md#future-gtm-writes).
 A release date or Full access does not prove an edit tool, a new Google grant or
 publication authority. Partial capabilities authorize only the supported work.
-Category edits and Consent Pro publication need the dashboard under the captured
-contract; verify any changed contract before using it. Keep these outcomes distinct: request
+Guide category edits and publication in the dashboard when not exposed by a
+reviewed contract. Keep these outcomes distinct: request
 accepted, scan completed, draft saved, user approval, GTM version created, GTM
 published, Consent Pro published, site deployed and browser behavior observed.
 Never infer one from another or publication approval from installation approval.
 
-Poll existing asynchronous work rather than duplicating it. Pinned scan pages
-replace discovery and need specific confirmation. Read the staging limitations
-before promising sitemap/collection coverage. Export/proof requests send email;
+Poll existing asynchronous work rather than duplicating it. If pinned scan pages
+replace discovery, explain the change and obtain specific confirmation. Check the
+actual scanner's limitations before promising coverage. Export/proof requests send email;
 call them only on explicit request, without equating acknowledgement with delivery.
 Keep signed preview and connection links private; only the client opens a GTM
 authorization link. After an uncertain write, inspect saved state before retrying.
@@ -139,3 +150,7 @@ Report the exact target, changes and their release states, observed tests, and a
 remaining checkpoint with its next action. Do not stop at recommendations when
 the user authorized a supported fix. If completion needs the client's action or
 unavailable access, explain that precise dependency and preserve the resume point.
+Use the [maintenance handoff](../../docs/reference/onboarding.md#transfer-maintenance):
+the next owner verifies their own access, saved/live states and next action.
+Record agreed review triggers; do not create a schedule or transfer credentials
+merely because installation is complete.

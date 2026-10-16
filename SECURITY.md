@@ -108,10 +108,9 @@ failure is visible.**
 
 ## MCP and customer authorization
 
-The dated staging catalogue is evidence of advertised tools, not permission to
-execute them. Discover tools each session and read their effect and scope. Current
-GTM MCP tools read the published container; they do not edit its workspace. New
-tools require contract review and isolated testing before enabling writes.
+Tool discovery is evidence of advertised tools, not permission to execute them.
+Read each operation's effect and scope. Distinguish published GTM reads from
+workspace edits; new tools require contract review and isolated testing before use.
 
 Read-only access must not silently fall back to a broader local Google token.
 An access grant is not a request to change an asset. Reuse precise approval already
@@ -139,8 +138,24 @@ contains all existing workspace changes, which must also be reviewed before appr
 The package builder writes only selected local resources and refuses differing
 existing packages. It does not install a hosted plugin, modify client credentials
 or connect accounts. Public documentation collectors have explicit request/byte
-limits and no paid API loop. Source snapshots retain provenance; generated skill
-packages exclude the archive and customer records.
+limits and no paid API loop. Raw source snapshots and private evidence are preserved
+outside this repository; generated packages exclude them and customer records.
+
+## Content suitable for distribution
+
+Keep strategy, nonpublic roadmaps, draft policies, customer exports, signed links
+and raw authenticated responses outside this repository, including while it is
+private. Documentation cites official public sources rather than republishing
+whole manuals or screenshots. The checker rejects the retired raw-source location
+and private-evidence/customer-data directories; this is a targeted control, not a
+complete secret or personal-data scanner.
+
+Public fixtures must be synthetic or reviewed and attributed. The retained GTM
+template fixture has its upstream Apache-2.0 license; it is excluded from skill
+packages. Review the final artifact contents, not just the checkout's ignore rules.
+Historical Git objects still contain earlier collections. Keep the repository
+private until its owner approves a public-history strategy and reviews the chosen
+export. Removing current files does not erase history or authorize visibility changes.
 
 ## Reporting something
 

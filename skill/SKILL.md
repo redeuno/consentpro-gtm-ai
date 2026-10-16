@@ -26,18 +26,29 @@ absolute path obtained from that link.
   and evidence from the user, and label what remains unverified.
 - Identify the Google account, container and workspace separately. Read back their
   live names. Never infer a target from the first result or a scanner match hint.
-- Discover the connected server's actual tools and schemas. The recorded staging
-  catalogue has GTM read tools for the published container, not workspace writes.
+- Discover the connected server's actual tools and schemas when a connector is used.
+  Determine whether reads cover the published container or the selected workspace.
   Do not invent future tool names or treat a published audit as an unpublished audit.
 - Use local Google OAuth only when the user selects that broader access path.
   An MCP permission denial is not approval to switch credentials or use the UI.
 
-If GTM is not connected, explain what that connection grants and guide the client
-through [the connection flow](../docs/06-agent-readiness/operations.md#connect-google-tag-manager).
+If GTM is not connected, offer the manual interface path or explain the optional
+[connection flow](../docs/06-agent-readiness/operations.md#connect-google-tag-manager).
+Declining OAuth leaves a complete manual path; do not insist, create a local OAuth
+application or require a terminal. CP itself may also be entirely manual. If the
+customer chooses connection, follow the supported flow.
 Only the client opens the returned GTM
 authorization link. Then read status and the selected container before proceeding.
 Reuse a working connection; never reconnect merely because onboarding has started.
 While awaiting a manual step, inspect independent site evidence when useful.
+
+If GTM does not exist, confirm whether adoption is part of the requested outcome.
+Use [account setup](../docs/02-tag-manager-account.md) when it is. Otherwise continue
+with direct scripts and pixels through the main Consent Pro workflow. An existing
+but uninstalled container needs a live-version review before its snippet reaches
+the site; its already-published tags can run immediately. Coordinate configuration,
+test deployment and publication. Another CMP requires the
+[transition procedure](../docs/06-agent-readiness/operations.md#existing-cmp-and-tracking-transition).
 
 ## Teach and complete the missing setup
 
@@ -82,7 +93,7 @@ separate actions. Never infer publication approval from setup approval.
 | --- | --- |
 | MCP read tools | Read the published container, follow pagination/details and guide each unavailable write through a concrete manual handoff. Resume after confirmation; unpublished edits need workspace/UI evidence. |
 | Local API scripts | Read [run guide](../docs/04-run-it.md) and [security](../SECURITY.md); authorize, audit, scaffold, review categories, simulate, then apply only approved changes |
-| GTM interface | Follow the nine steps; use the Gallery, review permissions and preserve recognized existing templates |
+| GTM interface | Guide account/site setup and the nine steps, using the customer's selected workspace; no API, Google Cloud or terminal requirement. Use the Gallery and preserve recognized templates |
 | Discovered MCP editing | Follow [Future GTM writes](../docs/06-agent-readiness/operations.md#future-gtm-writes): require a reviewed contract, matching scopes, workspace reads, concurrency protection and readback. Use supported authorized operations; stop only the dependent work where the contract is insufficient |
 | No container access | Supply exact steps and values; describe user-reported state as reported, not verified |
 
@@ -92,8 +103,8 @@ consent" without the next actionable step. After confirmation, read back what th
 available path can observe and advance without asking whether to continue.
 When the user has authorized a repair and a supported write path is available,
 carry it out and verify it; a diagnosis or a proposed plan alone is incomplete.
-Refresh discovery after capability or permission changes. The recorded read-only
-catalogue is not a permanent restriction, and a promised release date is not a
+Refresh discovery after capability or permission changes. A prior read-only
+contract is not a permanent restriction, and a promised release date is not a
 write grant. Confirm any required Google scope upgrade separately. If a write
 times out, inspect the workspace before retrying; never repeat a create/import
 blindly or publish unrelated pending changes with the requested fix.
@@ -129,3 +140,10 @@ pending client actions and the next verification; keep progressing while the
 requested work can be completed within the granted scope. Use
 [troubleshooting](../docs/reference/troubleshooting.md) when configuration and
 observed behavior disagree.
+
+At interruption, use the shared [resume card](../docs/reference/onboarding.md#start-and-resume)
+and refresh the affected workspace/live version before continuing. A successor
+uses their own authorized access; agency clients do not share scope or approval.
+Use the [support handoff](../docs/reference/troubleshooting.md#support-and-assisted-setup)
+for the precise unresolved dependency without sending a message or promising
+implementation services unless the customer requested them and eligibility is verified.

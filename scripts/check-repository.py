@@ -2,7 +2,7 @@
 
 READS repository files only; WRITES nothing and makes no network requests.
 No apply flag. Safe to repeat; missing local link targets or long dashes fail.
-Original source snapshots are preserved and excluded from punctuation checks.
+Raw source collections and private evidence must remain outside this repository.
 """
 
 import argparse
@@ -20,9 +20,12 @@ def check(root):
         relative = path.relative_to(root)
         if any(part.startswith(".") or part in ("dist", "__pycache__", "venv") for part in relative.parts):
             continue
-        if path.suffix not in (".md", ".py", ".yaml", ".yml") or not path.is_file():
+        if path.is_file() and ("private-evidence" in relative.parts or
+                               "customer-data" in relative.parts or
+                               relative.parts[:3] == ("docs", "06-agent-readiness", "sources")):
+            errors.append(str(relative) + ": private source evidence belongs outside the repository")
             continue
-        if "sources" in relative.parts and path.name != "README.md":
+        if path.suffix not in (".md", ".py", ".yaml", ".yml") or not path.is_file():
             continue
         content = path.read_text(encoding="utf-8")
         if any(character in content for character in (chr(0x2013), chr(0x2014))):

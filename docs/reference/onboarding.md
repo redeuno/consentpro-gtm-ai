@@ -8,11 +8,13 @@ narrow diagnostic or banner-edit request within its original scope.
 ## Contents
 
 - [Start and resume](#start-and-resume)
+- [Route the customer's starting state](#route-the-customers-starting-state)
 - [Adapt to the delivery team](#adapt-to-the-delivery-team)
 - [Sequence and completion evidence](#sequence-and-completion-evidence)
 - [Tracker and GTM decisions](#tracker-and-gtm-decisions)
 - [Manual handoffs](#manual-handoffs)
 - [Completion record](#completion-record)
+- [Transfer maintenance](#transfer-maintenance)
 - [Client delivery](#client-delivery)
 
 ## Start and resume
@@ -22,20 +24,23 @@ instructions can be loaded. Use [first-chat setup](../07-agent-installation/READ
 when the skill, plugin or connector is missing. Keep instruction loading, Consent Pro
 access, Google access and site/browser access as separate checkpoints.
 
-1. Discover available tools and effective access. Distinguish a missing connector,
+1. Establish the next useful step from the request, including when the customer has
+   no account yet. Use the [entry routes](#route-the-customers-starting-state). Do not
+   require a purchase, connector or technical questionnaire before helping.
+2. Discover available tools and effective access when a connector is available. Distinguish a missing connector,
    a missing permission and an expired Google connection. Read the current MCP
    documentation before offering setup guidance.
-2. Resolve the site from the request and current project inventory. If the target
+3. Resolve the site from the request and current project inventory or selected dashboard. If the target
    is ambiguous, show matching names and domains and ask which one to use. If the
    exact target is already known, read it without asking the customer to repeat it.
-3. Record environment, CP workspace/project/site ID and hostname. Associate GTM
+4. Record environment, CP workspace/project/site ID and hostname when established. Associate GTM
    only through explicit target selection or corroborated site/container evidence;
    a scanner match alone is insufficient. Record the Google account and container
    separately. Never use the first accessible container by default.
-4. Read the current state before presenting a plan. Reuse existing configuration
+5. Read the current state before presenting a plan. Reuse existing configuration
    and tests when their scope and versions remain applicable. Do not reinstall,
    reconnect, start another scan or change a working value merely to follow a list.
-5. Show a short progress table and proceed to the next dependency that can be
+6. Show a short progress table and proceed to the next dependency that can be
    resolved. Continue independent reads while another step waits for access.
 
 Use the customer's language. Introduce the current step, its purpose and its
@@ -69,6 +74,59 @@ recovery values with the progress record. Do not claim it persists across chats.
 Provide a short resume summary without secrets or signed URLs when the customer
 switches conversations, then refresh relevant state in the new conversation.
 
+Use this copyable card at an interruption or handoff. Omit unknown fields rather
+than inventing values. The customer can keep it in the conversation or choose a
+private destination. It is context, not proof of current access or permission:
+
+```text
+Resume Consent Pro setup
+Target: [public hostname, platform, CP workspace/project, environment]
+GTM, if used: [account, container, workspace, known live version]
+Goal and decisions: [agreed task, mode, regions, decisions still needed]
+Current step: [state, next action, responsible person or role]
+Saved: [settings and evidence, including customer-reported changes]
+Live: [site deployment, CP publication, GTM publication, or unknown]
+Tested: [named trackers, actions, choices, browser/region, result and date]
+Open issues: [failure or unavailable evidence, attempted steps]
+Prior authorization: [who approved which target/effect; publication limits]
+Resume check: [state, access and versions to re-read before continuing]
+```
+
+On return, load the instructions, confirm the same target and refresh affected
+state. Expired sign-in needs access recovery, not a repeated installation. A
+reported manual edit needs readback; a different live version needs comparison.
+If a write may have succeeded before interruption, inspect its result before
+retrying. Reuse valid approval for the same person, target and unchanged effect;
+the card does not transfer another person's authority or grant a successor access.
+
+## Route the customer's starting state
+
+Use the first relevant row, not the whole table as an intake form. Infer known
+facts from the conversation and available reads. Account entry and recovery live
+in [installation](../07-agent-installation/README.md); account/project/license
+diagnosis lives in [operations](../06-agent-readiness/operations.md#account-workspace-and-first-project).
+
+| Starting state | Next useful action | Evidence or dependency |
+|---|---|---|
+| No account, or trying the product before purchase | Explain the current official entry and verified test/preview options; the customer completes sign-up or chooses preparation first | A signed-in account or an explicit preparation task; do not promise free access or buy a plan |
+| Cannot sign in | Use the official sign-in/recovery interface and distinguish login method, expired session and organization access | Customer completes recovery; never request passwords, one-time codes or tokens |
+| Purchased plan or license is missing | Compare the signed-in account, selected workspace, purchase owner and public domain/license | Existing entitlement found, or a precise discrepancy for support; no automatic second purchase |
+| Account works, connector is missing or declined | Offer the supported connector route or teach the Consent Pro dashboard directly | Connected reads or relevant dashboard evidence; a connector is optional for manual guidance |
+| No projects appear | Confirm workspace, permissions and the complete project list before treating it as empty | Correct project selected, access requested, or an authorized first project |
+| No project for this site | Confirm domain, platform and owner, then guide the documented create/connect flow | Selected project, exact snippet and remaining setup verified separately |
+| Setup is already partly complete | Inspect that setup and retain valid work | Start at the first unresolved dependency |
+| GTM status is unknown | Inspect available site evidence, then the selected GTM account or dashboard | Public container ID is a clue, not proof of ownership or edit access |
+| No GTM, no adoption requested | Explain that Consent Pro can still require work on direct scripts, pixels and embeds; clarify adoption only if it changes the task | Direct integration route, or explicit GTM adoption decision |
+| Wants to adopt GTM | Use [account and site setup](../02-tag-manager-account.md), preserving existing measurement | Selected account/container, reviewed deployment order and target access |
+| Only the customer can open CP or GTM | Guide the exact screen and value, then inspect the evidence the customer chooses to share | Reported, inspected and behavior-tested states stay distinct |
+| Neither party has the required access | Prepare the exact administrator request and continue independent work | Named owner and next step, not a false completion claim |
+
+A declined Google connection is a valid choice. Continue with the
+[manual GTM path](nine-steps.md), without Google Cloud, an API key, local OAuth or
+a terminal. If CP and GTM are both manual, use their dashboards as the configuration
+source and [browser checks](verify-behaviour.md) for behavior. An unavailable read
+does not turn a customer's acknowledgement into verification.
+
 ## Adapt to the delivery team
 
 Infer the working context from the conversation. Ask who owns a decision only when it
@@ -100,13 +158,14 @@ but only use tools and instructions actually available in that host.
 ## Sequence and completion evidence
 
 The sequence is a dependency guide, not a requirement to repeat completed work.
-Use the existing installation as the baseline for repair. The current staging
-contract permits selected CP changes but neither tracker-category editing nor
-CP/GTM publication. Discover again rather than assuming these limits are permanent.
+Use the existing installation as the baseline for repair. Discover the current
+contract and effective grants; perform only supported authorized actions. Use the
+dashboard for any operation absent from the reviewed contract, including category
+editing or publication. Manual customers follow the same evidence requirements.
 
 | Step | Agent work | Completion evidence or handoff |
 |---|---|---|
-| 1. Select and connect | Resolve the project, environment and goal; check CP access and, when relevant, Google status and containers | Exact target recorded; unresolved access does not masquerade as an empty project |
+| 1. Select the route and target | Resolve account/project entry, environment and goal; use available CP/Google reads or the customer's selected dashboards | Exact target recorded; unresolved access does not masquerade as an empty project; connection is optional for manual guidance |
 | 2. Establish baseline | Read project, diagnosis, scan report, tracker details and public installation; audit GTM if present | Prioritized findings with sources; distinguish saved data, scan observations and browser evidence |
 | 3. Agree behavior | Review banner type/regions, actual plan/license, privacy page, business events, tracker purposes and Basic/Advanced mode | Concrete decisions and before/after plan; unresolved Essential classification stays pending |
 | 4. Prepare Consent Pro | Perform authorized supported style/privacy/scan-setting changes; guide unsupported category/type/region edits in the dashboard | Saved values read back; draft status and manual tasks recorded separately |
@@ -116,8 +175,10 @@ CP/GTM publication. Discover again rather than assuming these limits are permane
 | 8. Preview and release | Test the draft where available; coordinate site deployment, CP publication and GTM publication as separate actions | Each applicable release independently confirmed; preview does not establish ordinary visitor behavior |
 | 9. Verify and close | Re-read relevant state and exercise the browser acceptance matrix on the ordinary site | Scoped evidence, unresolved failures and the next owner/action; no global completion claim while required tests are missing |
 
-If there is no GTM, mark its steps not applicable with the evidence and continue
-testing direct scripts and pixels. If GTM is present but inaccessible, prepare
+If there is no GTM and adoption is outside the agreed goal, mark its steps not
+applicable with the reason and continue testing direct scripts and pixels. If the
+customer wants GTM, follow account setup and review the container's published tags
+before installing a previously absent snippet. If GTM is present but inaccessible, prepare
 all independent CP work and keep the GTM dependency open. If only diagnosis is
 requested, stop after the findings and proposed plan, without writes or a new scan.
 
@@ -153,6 +214,12 @@ For image pixels, check both the markup and the observed behavior before choice,
 after acceptance and after revocation. Isolate intentional negative controls in
 a lab; do not silently remove them or use them to certify a normal installation.
 
+For another CMP already on the site, use the
+[transition procedure](../06-agent-readiness/operations.md#existing-cmp-and-tracking-transition).
+Identify who currently sets defaults, updates consent and loads each integration.
+Do not add a second CMP, remove the current one or move every direct integration
+into GTM just to fit this guide. Agree the transition and recovery first.
+
 For each GTM change, name the tag ID/name, current trigger and checks, proposed
 trigger and checks, reason, owner and verification. Follow the
 [nine steps](nine-steps.md), [mode guide](consent-mode.md) and
@@ -181,6 +248,13 @@ value, intended value, whether the action saves or publishes, and the evidence t
 bring back. For example, identify the exact initialization tag and required
 trigger instead of asking the customer to "fix GTM".
 
+Ask progressively for the evidence needed by that step: selected project/container,
+relevant tag list, then a named setting. Explain what a screenshot or export shares
+and exclude secrets, visitor records and unrelated clients. A full container export
+is not the default first request. If the screen differs, inspect its language,
+selected object, permissions and current controls before repeating instructions.
+Do not invent a button or treat the mismatch as the customer failing the step.
+
 When the customer says "done", re-read the relevant state if supported. Explain
 that the published-only MCP will not show an unpublished workspace edit. Keep
 that edit marked as reported, and verify the live version after authorized
@@ -195,6 +269,13 @@ For a draft the MCP cannot read, use an authorized dashboard view or ask for the
 relevant setting with personal records excluded. If the action did not take, resolve
 that step rather than restarting onboarding. After a successful readback, continue
 the next authorized step without asking whether to proceed.
+
+Offer a verified assistance option when it fits the issue; do not require a long
+unsuccessful manual sequence first. Use the
+[support handoff](troubleshooting.md#support-and-assisted-setup) for access, billing,
+unsupported operations or failures that need a human. Explain any eligibility
+that has actually been confirmed. Preparing a summary is not sending it or opening
+a case. While waiting, continue only work independent of the unresolved issue.
 
 ## Completion record
 
@@ -220,6 +301,27 @@ have evidence. Otherwise say which part is configured, unpublished, failed or
 untested. A dashboard checkbox, scan or audit score cannot substitute for behavior
 tests. Configuration is not a visitor's consent or a legal compliance guarantee.
 Do not request an emailed consent export/proof merely to complete onboarding.
+
+## Transfer maintenance
+
+Before calling a handoff usable, have the intended maintainer use their own account
+to open the selected CP project, site editor and GTM container where applicable.
+For a connected assistant, they load the intended instructions and verify their
+own target read. For a manual workflow, they locate the current settings and the
+next action in their dashboards. Missing access stays an assigned dependency.
+
+Record who can change settings, who can publish each system, and who owns policy
+decisions. An agency changes one confirmed client at a time; the next client's
+IDs, credentials, choices and authority must be resolved separately. A handoff
+does not authorize transferring secrets, revoking the previous person's access
+or reusing their private Google connection.
+
+Agree a review trigger such as a new pixel/integration, template or runtime update,
+site deployment, domain change or policy decision. Compare the affected sources
+with the last verified state, then repeat relevant consent and business-event
+checks. Offer scheduled scanning only when its capability, plan, costs and any
+report delivery are understood and authorized. A schedule does not promise
+continuous monitoring, automatic classification or automatic repair.
 
 ## Client delivery
 

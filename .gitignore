@@ -28,8 +28,10 @@ tokens.json
 # Category maps can carry a customer's tag names, which is their information, not yours
 map.json
 *-map.json
-# Public documentation discovery, not a customer category map.
-!docs/06-agent-readiness/sources/2026-10-16/map.json
+# Raw source collections and private evidence are kept outside this repository.
+docs/06-agent-readiness/sources/
+private-evidence/
+customer-data/
 
 # Audit output can carry container contents
 gtm-consent-audit-*.json
