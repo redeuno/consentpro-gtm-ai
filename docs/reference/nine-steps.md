@@ -36,6 +36,9 @@ client. It needs a Google login with access to the target container.
 [Google documents the Gallery flow](https://support.google.com/tagmanager/answer/9454109?hl=en).
 
 **What it gives you:** a tag type that the next step uses. Nothing fires yet.
+Before moving on, confirm the template appears in this workspace and that its publisher
+matches the intended source. If the customer performs the click, re-read or inspect that
+result rather than assuming installation from their acknowledgement.
 
 **For API automation:** the script uses
 [`templates.import_from_gallery`](https://developers.google.com/tag-platform/tag-manager/api/reference/rest/v2/accounts.containers.workspaces.templates/import_from_gallery)
@@ -73,10 +76,10 @@ prove that a site's consent behaviour works.
 **Tags**, **New**, **Tag Configuration**, pick the Consent Pro template installed in step 2
 from the Custom section. Then **Triggering**, and select **Consent Initialization - All Pages**.
 
-⛔ **Not `All Pages`.** They are two different built-in triggers and the names are one word
-apart. Consent Initialization runs before everything else in the container, which is the entire
-reason this tag exists. On plain All Pages, other tags can beat it to the page and fire before
-consent is known.
+**Consent Initialization - All Pages**, **Initialization - All Pages** and **All Pages**
+are different built-in triggers. Verify the selected trigger itself, not just the tag's
+name. Consent Initialization is the consent setup phase before ordinary initialization
+and page-load tags. Choosing a later phase can let collection start before defaults exist.
 
 Name it something recognisable, such as `Consent Pro Init`, and save.
 
@@ -104,8 +107,8 @@ Three optional settings on the same tag:
 | Setting | What it does | Reasonable value |
 |---|---|---|
 | Wait for consent update | how long tags are held while consent resolves | 500 to 2000 ms, default 1000 |
-| URL passthrough | carries ad click identifiers through the URL while consent is pending | on, if the site runs paid ads |
-| Ads data redaction | strips ad identifiers from requests when consent is denied | on, for stricter setups |
+| URL passthrough | carries ad click identifiers through the URL while consent is pending | review against the customer's chosen measurement and privacy policy |
+| Ads data redaction | strips ad identifiers from requests when consent is denied | review against the customer's chosen measurement and privacy policy |
 
 **More than one banner means more than one region row**, each with its own codes and its own
 granted or denied pattern. Not more than one tag.
@@ -163,15 +166,22 @@ additional consent for tag to fire**, and pick the consents.
 
 Which ones to pick is in [`categories.md`](categories.md).
 
-⚠️ **Scan first.** The categories come from the scan, so mapping against an old scan describes
-trackers the site no longer has, or misses ones it gained.
+**Review current inventory first.** Reconcile the scan with site code and GTM, then confirm
+actual tracker purposes and categories. Database matches are review inputs, not proof that
+the category fits this customer's use. Do not classify an unknown tag as Essential to
+avoid blocking it. A stale scan may omit new trackers or retain removed ones.
 
-⚠️ **If a script uses `document.write`**, enable "Support document.write" in the tag settings,
+**If a script uses `document.write`**, enable "Support document.write" in the tag settings,
 or it may not execute and may not be detected.
 
 ---
 
 ## 8. Submit and publish
+
+First inspect the workspace diff, use GTM Preview/Tag Assistant and run the relevant
+[behavior checks](verify-behaviour.md). Preserve business-event conditions and review any
+unrelated workspace changes that would be included. If publication is excluded, stop at
+the verified draft and record it as pending release.
 
 **Submit**, then **Publish**.
 
@@ -190,5 +200,5 @@ does not include publication. Consent Pro settings and site code require their o
 - **Web app:** **Overview**, **Data Privacy Check**, the **Configure GTM** row, **Mark as
   done**.
 
-⛔ **This records that someone said it was done. It verifies nothing.** Do it after the
+**This records that someone said it was done. It verifies nothing.** Do it after the
 container is published, and do the real checks in [`verify.md`](verify.md).
