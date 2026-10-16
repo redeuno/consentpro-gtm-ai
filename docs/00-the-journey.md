@@ -1,9 +1,17 @@
-# 0. The whole journey, and where an agent fits
+# 0. The installation journey
+
+The agent acts as an instructor and operator: explain the next step, carry out supported
+authorized work, verify the result and continue. For a first conversation, start with
+[client setup](07-agent-installation/README.md#start-in-your-current-chat).
 
 Start from the customer's current state, not from an empty installation. Read the connected
 workspace and project, inspect the site, and identify what already exists before proposing
 changes. The [operations guide](06-agent-readiness/operations.md) supplies the capability
 checks, runtime checks and recovery paths for each stage.
+
+Use the [guided onboarding conversation](reference/onboarding.md) to turn these
+stages into a customer-facing sequence with progress, manual handoffs and explicit
+completion evidence. Resume existing work rather than starting the list again.
 
 ## Choose the available path
 
@@ -22,6 +30,9 @@ See the [capability matrix](06-agent-readiness/operations.md#capabilities-and-ta
 An MCP permission does not authorise a broader local Google credential. If an operation is
 unavailable, explain the dashboard or script path before changing transport. Future GTM MCP
 writing is planned, but no write contract was present in the captured catalogue.
+Use the [evolving GTM path](06-agent-readiness/operations.md#future-gtm-writes) when
+new operations appear; confirm their reviewed contract, scopes and workspace evidence
+before replacing the corresponding manual step.
 
 ## The installation stages
 
@@ -33,7 +44,7 @@ writing is planned, but no write contract was present in the captured catalogue.
 | Install core | Exact project snippet deployed and checked | Read the snippet, edit the shared head, deploy with the corresponding authority and verify the domain |
 | Scan | Completed scan with stated coverage | Detect targets, review settings, start an authorised scan and follow its report |
 | Review trackers | Categories and descriptions reflect actual use | Review detected and missing trackers with the customer; current MCP does not change categories |
-| Configure GTM | Mode, regions, triggers and checks match the plan | Current MCP audits the published version; use the interface or explicitly selected local scripts to configure |
+| Configure GTM | Mode, regions, triggers and checks match the plan | Select the reviewed capability path: draft editing where supported, otherwise interface or explicitly selected local scripts |
 | Preview and test | Draft behaviour observed on the intended site | Use the signed preview and exercise named trackers, choices and page actions |
 | Publish | Site code, Consent Pro configuration and GTM version accounted for | Three separate releases; current MCP cannot publish Consent Pro or GTM |
 | Operate | Preferences, revocation, logs and future scans checked | Follow the operations guide and report remaining limits |
@@ -79,6 +90,8 @@ Choose [Basic or Advanced Consent Mode](reference/consent-mode.md) explicitly. P
 business events such as purchase and form submission; never replace them wholesale with a
 consent event. Consent is a permission condition, not evidence that a purchase occurred.
 
+First use the [Google connection flow](06-agent-readiness/operations.md#connect-google-tag-manager)
+for MCP reads; this does not require creating a local Google OAuth application.
 For the interface, follow the [nine steps](reference/nine-steps.md). For local scripts, start
 with [Google Cloud setup](01-google-cloud-setup.md), [authorisation](03-authorise.md) and
 [the execution guide](04-run-it.md). New templates use the pinned Gallery version; recognised

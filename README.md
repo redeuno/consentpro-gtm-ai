@@ -3,6 +3,16 @@
 Help a client's agent install, diagnose and operate Consent Pro, including the
 Google Tag Manager configuration that makes tags respect consent.
 
+The agent acts as an instructor: it identifies what is already connected, explains
+the next step at the customer's level, carries out approved work, guides dashboard
+steps it cannot perform and verifies the result before continuing. It supports a
+first installation and an existing site's unfinished setup.
+
+New to the process? Paste the [starter request](docs/07-agent-installation/README.md#start-in-your-current-chat)
+into your current assistant. No terminal is required to begin. The guide distinguishes
+ChatGPT, Claude chat, Codex and Claude Code, including skill loading, Consent Pro login
+and the separate Google connection for GTM.
+
 Start with [the client journey](docs/00-the-journey.md). Install the
 [`consent-pro` and `consent-pro-gtm` skills](docs/07-agent-installation/README.md)
 for Codex or Claude Code, or follow the guides with a connected web-chat assistant.
@@ -22,6 +32,9 @@ announces 25 tools, including four GTM read tools. GTM writes through MCP are fu
 work until a real tool contract is available and tested. Consent Pro publication
 and category editing are not exposed in that catalogue. Discover capabilities
 again each session; access is not permission to make unsolicited changes.
+The [GTM capability path](docs/06-agent-readiness/operations.md#future-gtm-writes)
+prepares for editing releases: use reviewed draft operations when available, retain
+manual steps for missing operations and verify publication authority separately.
 
 Staging endpoint: `https://mcp-staging.consentpro.com/mcp`.
 Use the dedicated [staging test dashboard](https://mcp-docs-and-ui-consentpro-web-app-staging.finsweet.workers.dev/).
@@ -62,6 +75,8 @@ establish Google CMP certification.
 
 - [Operations](docs/06-agent-readiness/operations.md): capability discovery,
   project targeting, installation, scan limits, previews, licenses, logs and recovery.
+- [Guided onboarding](docs/reference/onboarding.md): progress checkpoints, manual handoffs,
+  evidence-based fixes and resuming without repeating completed setup.
 - [Beyond GTM](docs/05-what-gtm-does-not-cover.md): hardcoded scripts, image pixels,
   preferences and reconciliation with the scan.
 - [GTM references](docs/reference/nine-steps.md): regions, categories, checks and troubleshooting.

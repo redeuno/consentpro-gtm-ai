@@ -85,6 +85,44 @@ These tests use no credentials and make no live GTM writes. The captured import 
 Google, but these local tests do not prove a completed live configuration, publication, or
 consent behaviour in a browser.
 
+## Guided onboarding behavior evaluation
+
+For instruction changes, build both packages into a fresh directory outside the checkout
+using the [installation commands](../docs/07-agent-installation/README.md). Have an evaluator
+read the packaged skills and follow their bundled references. Supply customer messages and
+explicit hypothetical tool contracts, then inspect the proposed next actions. Do not call
+business tools during this exercise or confuse hypothetical capabilities with discovery.
+Use a separate fresh conversation without an answer key for response probes.
+
+The final onboarding candidate was evaluated on 2026-10-16 with these cases. Each produced
+the expected decision in simulation; no business call was made:
+
+| Case | Expected decision |
+|---|---|
+| Reviewed draft editing is available and the exact change is authorized | Execute the supported edit with workspace reads, concurrency protection and readback; do not request the same approval again or publish |
+| Only some edit tools exist or necessary safeguards are absent | Complete coherent independent work and give an exact manual handoff for the missing dependency |
+| The old OAuth grant lacks the new edit permission | Explain and verify the separate CP/Google grants; no silent credential fallback |
+| The tool contract changes after planning | Refresh discovery and state, require review for material contract changes and reuse approval only for unchanged scope |
+| A write times out after possibly saving | Inspect state before retrying; an unresolved outcome blocks dependent work and publication |
+| Publication is absent or expressly prohibited | Finish the authorized draft; give a manual publication handoff only if publication was requested |
+| A purchase tag and two regional rows already exist | Preserve business events, filters, blocking conditions, regions and unrelated settings |
+| A concurrent edit changes the revision | Respect the conflict, re-read and reconcile instead of overwriting |
+| Editing is announced but absent from discovery | Keep the available path and record the announcement as future, not measured support |
+| An agency switches clients | Resolve the new target and authorization; do not carry over IDs, policy decisions or approval |
+| A freelancer hands off maintenance | Report saved/live/tested states and an owner; no automatic monitoring, credential transfer or extra publication |
+| A business user has no terminal | Give the host-appropriate next action without requiring Python or pretending the skill is installed |
+
+Earlier response probes for this revision also covered a missing connector, a working MCP
+without loaded instructions, a return from Google/manual setup, intentional lab controls,
+confusion between technical experience and Advanced Consent Mode, and a recognized template
+without its initialization tag. These were instruction-following checks, not client UI tests.
+
+Before offering future MCP editing to a real customer, run the actual operation-specific
+[isolated acceptance cases](../docs/06-agent-readiness/operations.md#future-gtm-writes).
+The evaluation above cannot validate an unreleased API, live OAuth, a hosted plugin update
+or browser behavior. A source archive, test count or plugin name does not prove which
+instruction revision a customer's conversation loaded.
+
 ## Optional native client smoke check
 
 This check is separate from the offline suite and is not a CI prerequisite. It

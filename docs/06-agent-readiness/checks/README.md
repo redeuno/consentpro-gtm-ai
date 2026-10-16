@@ -19,3 +19,16 @@ The single-region control verifies that unrelated initialization settings remain
 Passing these tests does not prove live GTM publication, browser consent behavior
 or legal compliance. The public archive checks establish the documented scope and
 local integrity, not the correctness of every statement in the source material.
+
+## Supplementary MCP guides
+
+This local-only check verifies the later guidance supplement separately from the original
+Web App snapshot. It reads three public-document bodies and their supplied hashes; no
+network or customer account is accessed. From the repository root:
+
+```bash
+python3 -B -c 'import hashlib,json; from pathlib import Path; d=json.loads(Path("docs/06-agent-readiness/sources/2026-10-16/mcp-guides.json").read_text())["documents"]; assert len(d)==3 and {x["document"]["document_id"] for x in d}=={"mcp/index","mcp/setup","mcp/google-tag-manager"}; assert all(hashlib.sha256(x["markdown"].encode()).hexdigest()==x["document"]["content_hash"] and x["pages"] and not x["pages"][-1]["has_more"] and x["pages"][-1]["next_cursor"] is None for x in d); print("Supplementary MCP guidance hashes and completed pages verified.")'
+```
+
+This verifies preserved body integrity and the returned completion markers, not the
+availability of canonical HTTP URLs, current permissions or implementation behavior.
