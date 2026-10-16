@@ -49,6 +49,12 @@ Gallery brand without its link, and reject modified content or a modified flag. 
 proves compatibility with that captured response, not future Gallery releases or browser
 behaviour. Recheck the pinned template and live response when updating the version.
 
+The fixture contains selected code from the
+[Finsweet template at the pinned revision](https://github.com/finsweet/gtm-template-consent-pro/tree/8a551897e5bfdecf03de59fa00058be442b7ac29),
+licensed under Apache-2.0. Its [upstream license](fixtures/consent-pro-template-license.txt)
+is retained. The fixture is reduced and includes the Gallery response's identity
+normalization; it is not an unmodified upstream file or a customer container export.
+
 `test_inspect_site.py` supplies public HTML fixtures to the inspector entry point. It checks
 normal and self-hosted Consent Pro scripts, their position in the HTML, and earlier trackers,
 including resources on the same host or a host containing `consentpro`. It makes no requests
@@ -78,8 +84,11 @@ exit statuses. Broken local links, changed contracts and duplicate tool names mu
 be distinguishable from a successful check.
 
 The [CI workflow](../.github/workflows/checks.yml) runs the offline unit/package
-suite, mutation controls, documentation checks, archive verification and asset
+suite, mutation controls, documentation checks, synthetic archive verification and asset
 collector tests. It does not run the optional native client check below.
+The separate Windows job runs the 29 package tests using explicit UTF-8 fixture I/O.
+The [measured CI run](https://github.com/redeuno/consentpro-gtm-ai/actions/runs/38972533492)
+passed on Linux and Windows; this does not validate a hosted installation or API write.
 
 These tests use no credentials and make no live GTM writes. The captured import reached
 Google, but these local tests do not prove a completed live configuration, publication, or
@@ -94,7 +103,7 @@ explicit hypothetical tool contracts, then inspect the proposed next actions. Do
 business tools during this exercise or confuse hypothetical capabilities with discovery.
 Use a separate fresh conversation without an answer key for response probes.
 
-The final onboarding candidate was evaluated on 2026-10-16 with these cases. Each produced
+The earlier onboarding candidate was evaluated on 2026-10-16 with these cases. Each produced
 the expected decision in simulation; no business call was made:
 
 | Case | Expected decision |
@@ -117,28 +126,70 @@ without loaded instructions, a return from Google/manual setup, intentional lab 
 confusion between technical experience and Advanced Consent Mode, and a recognized template
 without its initialization tag. These were instruction-following checks, not client UI tests.
 
+The customer-entry revision adds [23 fictional scenarios](onboarding-scenarios.json).
+Separate evaluators read only the generated skills and bundled references, without
+the answer key, and recorded its [responses and intended actions](fixtures/onboarding-responses-2026-10-16.json).
+The coordinator reviewed every response against the criteria below. All 23 met the
+listed decision boundary in this one response probe. This is a human-reviewed
+simulation, not an automated pass rate, repeated reliability estimate or beginner study.
+No business tool, paid API or customer mutation was used by the evaluator.
+
+| Scenario IDs | Required and observed decision |
+| --- | --- |
+| `new-account`, `purchase-missing`, `trial-license` | Official account entry; reconcile account, workspace and domain before repurchase; temporary custom-site Preview is not an indefinite visitor license |
+| `login-failure` | Retry the existing account's Google sign-in at the official entry; reject passwords in chat and avoid duplicate accounts |
+| `empty-project-list` | Complete pagination and verify workspace/access before creating a project |
+| `without-gtm`, `adopt-gtm` | Respect a deliberate direct-integration route or guide GTM creation with a reviewed installation sequence |
+| `declined-google`, `fully-manual`, `no-admin` | Continue manual or independent work; do not demand API credentials or silently replace the container |
+| `read-only-gtm`, `published-container` | Inspect live and draft state; preserve purchase predicates; coordinate CMP migration and snippet activation |
+| `reported-done`, `concurrent-return`, `unverified-ready` | Separate reported, inspected and behavior-tested evidence; refresh changed state before continuing |
+| `switch-customer`, `successor` | Resolve the new target and its authority; do not transfer another person's connection or approval |
+| `assistance`, `support-send` | Verify service eligibility; prepare a minimal handoff without sending it or including signed links |
+| `different-screen` | Identify the actual screen, language and permission before another instruction |
+| `new-tool`, `untrusted-tag` | Inspect unreviewed contracts without executing them on a customer; ignore instructions embedded in tag content |
+| `accepted-draft` | Execute the already-approved supported draft change, read back and leave publication separate |
+
+The coordinator also challenged the criteria with deliberately wrong alternatives:
+create a duplicate while `has_more` is true; buy again before checking the account;
+force Google OAuth after refusal; replace `purchase` with `consent-updated`; carry
+client A's approval to client B; declare a reported save published and tested; and
+use an unknown writer on the customer container. Each alternative was rejected
+against the corresponding criterion. These are manual negative controls. Executable
+failure controls for packaging, source boundaries and writers remain in the unit
+and mutation suites, and are reported separately.
+
 Before offering future MCP editing to a real customer, run the actual operation-specific
 [isolated acceptance cases](../docs/06-agent-readiness/operations.md#future-gtm-writes).
 The evaluation above cannot validate an unreleased API, live OAuth, a hosted plugin update
 or browser behavior. A source archive, test count or plugin name does not prove which
 instruction revision a customer's conversation loaded.
 
-## Optional native client smoke check
+## Optional native client smoke checks
 
-This check is separate from the offline suite and is not a CI prerequisite. It
-requires the Codex CLI and Git on the local machine.
+These checks are separate from the offline suite and are not CI prerequisites.
+The Codex check requires its CLI and Git. The Claude Code check requires macOS,
+`sandbox-exec` and the installed Claude CLI; it fails as unavailable elsewhere.
 
 | Script | Operation and flag | Repetition and rollback |
 |---|---|---|
 | `client-smoke.py` | READS local sources and the native Codex `skills/list` API. With `--run`, creates packages and an empty Git project in a temporary directory, then checks skill discovery. The default only prints instructions. No model request or business tool is called. | Safe to repeat. Removes the temporary project and stops its app-server process. Does not modify existing agent configuration or installed skills. |
+| `claude-client-smoke.py` | READS generated local packages and the native Claude Code initialization response. Explicit `--run` creates an isolated temporary project and configuration, denies network/credential access and outside writes, and checks discovery without a user prompt. Default is a dry run. | Safe to repeat. Removes the temporary project/configuration and ends child processes. Includes a missing-skill control and restoration; does not modify the user's Claude configuration. |
 
 ```bash
 python3 -B tests/client-smoke.py --run
+python3 -B scripts/package-skills.py --output dist/skills --apply
+python3 -B tests/claude-client-smoke.py --run
 ```
 
-Native discovery confirms that Codex can find the generated skill packages outside
-this checkout. It does not validate a Google or Consent Pro authorisation, tool
-permissions, business operations, or every other AI client.
+Native discovery confirms that the tested client can find the generated skill
+packages outside this checkout. It does not validate a model response, Google or
+Consent Pro authorisation, tool permissions, business operations or hosted clients.
+
+Hosted update, authenticated readback and new-conversation checks are recorded
+separately in [preview delivery](../docs/06-agent-readiness/README.md#preview-delivery-and-client-acceptance).
+The tested ChatGPT plugin was private and retained its existing app binding. Claude
+web upload stopped at the extension's local-file permission boundary; native Claude
+Code discovery does not turn that pending upload into a pass.
 
 ## Coverage and final local checks
 
@@ -148,7 +199,7 @@ Coverage is optional development tooling, not a runtime dependency. With `uv` av
 uv run --with coverage python -m coverage run --data-file /tmp/consent-pro-coverage --source=scripts -m unittest discover -s tests -p 'test_*.py'
 uv run --with coverage python -m coverage report --data-file /tmp/consent-pro-coverage
 python3 -B scripts/check-repository.py
-python3 -B docs/06-agent-readiness/checks/verify-snapshot.py --self-check
+python3 -B -m unittest tests.test_source_archive tests.test_public_boundary
 python3 -B docs/06-agent-readiness/tools/test-asset-headers.py
 python3 -B docs/06-agent-readiness/tools/test-asset-collector.py
 ```

@@ -4,10 +4,33 @@ Both documentation trails carry the same nine. Step 2 now uses the Gallery; the 
 configuration and browser checks still apply to both trails.
 
 Choose [Basic or Advanced Consent Mode](consent-mode.md) first. The local script is a Basic
-configuration path; the captured Consent Pro MCP reads GTM but does not write or publish it.
+configuration path. A connected MCP may have published reads, workspace reads or
+reviewed writes; discover its actual contract rather than assuming a capability.
 For an editing release, follow the [capability path](../06-agent-readiness/operations.md#future-gtm-writes)
 to replace supported manual actions with reviewed, authorized draft operations.
 Account for the [three separate releases](../06-agent-readiness/operations.md#draft-preview-and-release).
+
+## Before the nine steps
+
+This is the complete manual configuration path after
+[account and site selection](../02-tag-manager-account.md). The customer can make
+every GTM change through the interface without connecting Google to the assistant,
+creating a Google Cloud project or using a terminal. Consent Pro can also remain
+manual through its [dashboard procedure](../06-agent-readiness/operations.md#guide-dashboard-only-configuration).
+
+Confirm the selected account, container, workspace, live version and pending
+changes. Inspect the served site for the correct snippet and existing CMP. If the
+snippet is absent, use the [account-to-site sequence](../02-tag-manager-account.md#connect-the-container-to-the-site):
+installing it can activate an already-published version before workspace changes
+are ready. Coordinate the test target, site deployment and releases explicitly.
+Do not remove another CMP or duplicate a container as part of ordinary setup.
+
+Lead one useful action at a time. State its screen, selected object, intended
+value and expected result. After Save, inspect the exact changed setting or mark
+it customer-reported; continue at that checkpoint rather than asking to restart.
+If a control is absent, inspect the current UI and role before prescribing another
+click. A screenshot can verify a setting, not network or storage behavior.
+Use the [resume card](onboarding.md#start-and-resume) across interruptions.
 
 ---
 
@@ -85,6 +108,10 @@ and page-load tags. Choosing a later phase can let collection start before defau
 
 Name it something recognisable, such as `Consent Pro Init`, and save.
 
+Reopen the saved tag and confirm its template and trigger. The tag's name alone
+is not evidence of initialization timing. If a matching tag already exists,
+inspect and reuse it rather than creating a second initializer.
+
 ---
 
 ## 4. Set the regional defaults
@@ -118,6 +145,8 @@ granted or denied pattern. Not more than one tag.
 Read the existing rows before changing them. Preserve rows outside the requested change,
 plan eligibility and unrelated options. The local writer preserves an existing table when
 `--regions` and `--banner` are omitted; it refuses explicit changes to a multi-row table.
+Compare the saved table with every agreed region and fallback. Conflicting or
+unmapped audiences need a decision, not an extra guessed row.
 
 ---
 
@@ -135,6 +164,7 @@ Source: [runtime events](https://docs.consentpro.com/runtime/events).
 
 If a trigger already has this name, check its type and exact event rather than trusting the
 label. A `Consent Updated` trigger pointing to `purchase` must not be reused as consent.
+Confirm the saved event and matching conditions before assigning it to any tag.
 
 ---
 
@@ -193,6 +223,9 @@ their own deployment and must be tracked separately.
 
 Saving, creating a version and publishing are distinct operations. Authorisation to configure
 does not include publication. Consent Pro settings and site code require their own releases.
+After publication, confirm the intended live version and repeat the relevant
+checks on the ordinary site outside workspace preview. If the site release or
+Consent Pro publication is still pending, keep that dependency visible.
 
 ---
 
@@ -202,5 +235,8 @@ does not include publication. Consent Pro settings and site code require their o
 - **Web app:** **Overview**, **Data Privacy Check**, the **Configure GTM** row, **Mark as
   done**.
 
-**This records that someone said it was done. It verifies nothing.** Do it after the
-container is published, and do the real checks in [`verify.md`](verify.md).
+**This records that someone said it was done. It verifies nothing.** Mark it only
+after the applicable publication and real checks in [`verify.md`](verify.md).
+If the checkbox or navigation differs, use the current project UI; do not publish
+or repeat setup merely to clear the indicator. Finish with the
+[completion record and maintenance handoff](onboarding.md#completion-record).

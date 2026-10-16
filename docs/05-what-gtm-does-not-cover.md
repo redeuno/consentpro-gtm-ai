@@ -6,11 +6,34 @@ finish with browser checks before reporting installation complete.
 A site can receive trackers through several paths, and the container is only one of them.
 The [operations guide](06-agent-readiness/operations.md) covers installation and diagnosis.
 
+## A site without GTM
+
+GTM is optional. If the customer has not chosen to adopt it, work with the site's
+current integrations instead of introducing a container. Identify scripts inserted
+by the site builder, plugins, shared code, embeds and image pixels. Read the exact
+Consent Pro project snippet and inspect core order before changing any integration.
+
+For each relevant source, record its purpose/category, how it loads, which business
+action starts it and who can edit it. Guide the site owner through their actual
+editor when the assistant has no code access. State the exact field or markup,
+current and proposed value, deployment action and check needed to resume. The
+customer does not need a terminal or an API connection for this guidance.
+
+If another CMP is installed, use the
+[transition procedure](06-agent-readiness/operations.md#existing-cmp-and-tracking-transition)
+before adding or removing a runtime. Preserve working purchase, lead and form
+integrations; moving a tag into GTM is a separate change, not a prerequisite for
+consent. The [browser checks](reference/verify-behaviour.md) still apply without GTM.
+
 | How it arrives | Covered by the wiring? | What handles it |
 |---|---|---|
 | A tag inside the container | **yes**, once wired | this repository |
 | A script written straight into the page | separate runtime path | verify category, load order and observed blocking |
 | **An image request** | **no** | a manual attribute change. Below |
+| An embed or plugin integration | separate integration path | inspect its loading contract, purpose and actual requests before choosing a supported gate |
+
+Do not generalize browser results to server-side events or integrations that were
+not inspected. Record those dependencies and the responsible administrator.
 
 ---
 
@@ -24,10 +47,10 @@ So Consent Pro cannot block one on its own. **The source has to leave the HTML**
 product puts it back when the visitor accepts the matching category:
 
 ```html
-<!-- before: fires immediately, whatever the visitor chose -->
+<!-- Existing immediate request -->
 <img src="https://example.com/pixel.gif?id=123" width="1" height="1" alt="">
 
-<!-- after: held until consent, then restored -->
+<!-- Request held until the matching consent -->
 <img fs-consent-src="https://example.com/pixel.gif?id=123"
      fs-consent-categories="marketing" width="1" height="1" alt="">
 ```
@@ -40,10 +63,9 @@ Verify no live `src` before consent, release after acceptance, and removal after
 Images setting only reviewed Essential cookies can keep `src`; still disclose them in the
 manager. Source: [runtime image reference](https://docs.consentpro.com/runtime/image-trackers).
 
-> **A pixel carries more than the tracker you meant to add.** One measured case: a LinkedIn
-> pixel planted for a test also set a Cloudflare bot management cookie, which then appeared in
-> the scan as an essential tracker from an image source. The cookie nobody planted is the one
-> that shows up in the audit.
+An image response can introduce more storage than its name suggests. Reconcile
+observed requests and storage with the actual resource and saved tracker details;
+do not infer its category from the provider name or a scan label alone.
 
 ---
 

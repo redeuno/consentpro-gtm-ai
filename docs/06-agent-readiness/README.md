@@ -21,25 +21,18 @@ The [GTM capability path](operations.md#future-gtm-writes) anticipates editing b
 operation, with workspace evidence, scope checks, concurrency and recovery. It does
 not enable a future tool or turn a release expectation into measured availability.
 
-The documentation collection covers all 13 Web App pages in the official sitemap,
-plus six directly linked runtime/scanner references and 71 assets (70 PNG images
-and one template file). Assets total 20,660,752 bytes. The initial Firecrawl map
-returned 12 pages; the root page was added and coverage checked against both the
-sitemap and internal links. A batch crawl was rate-limited; individual uncached
-page collection completed. See the [source inventory](sources/2026-10-16/README.md).
+The maintained guides cite public product documentation. Raw collected documents,
+screenshots and authenticated tool catalogues are now preserved outside this
+repository with verified hashes. They are not package dependencies. Synthetic
+archive fixtures exercise the verifier in CI. Historical Git objects still contain
+earlier collections; repository visibility must remain private until the owner
+approves and verifies a public-history strategy.
 
-Native authenticated MCP discovery through `codex app-server` returned 25 tools:
-17 marked read-only and eight marked as writes. This proves advertised contracts,
-not successful execution of every tool or all effective OAuth scopes. The endpoint
-was `https://mcp-staging.consentpro.com/mcp`; production parity was not measured.
-
-Three complete MCP guidance pages were subsequently retrieved through the server's
-documentation tools and preserved with matching content hashes in
-[mcp-guides.json](sources/2026-10-16/mcp-guides.json). They distinguish the Consent Pro
-permission preset from the Google connection: the documented Read only preset excludes
-GTM, while the documented Google grant is itself read-only. These pages describe
-production; their public index and GTM URLs returned 404. The service retrieval proves
-source availability there, not production/staging permission parity.
+Capability discovery and authenticated reads establish only the current connection's
+available path. They do not establish effective write permissions, production
+parity, complete browser behavior or support in a different AI client. Refresh
+discovery when tools or grants change. Public MCP pages were unavailable during
+source checks, so this release does not advertise a verified production endpoint.
 
 | System | Advertised capability | Boundary |
 | --- | --- | --- |
@@ -47,7 +40,7 @@ source availability there, not production/staging permission parity.
 | Consent Pro writes | Custom-site creation, domain change, scan start/settings, banner style, privacy link, export/proof requests | Some are drafts; others change assets, start work or queue email |
 | GTM | Status, containers, audit and details | Published-container reads, not unpublished workspace writes |
 | Consent Pro publication/categories | No matching tool in this snapshot | Use the dashboard; never claim completion through MCP |
-| Future GTM MCP writes | Product direction stated during planning | Require a discovered, reviewed and tested tool contract |
+| Additional MCP operations | Adopted separately when available | Require a discovered, reviewed and tested tool contract |
 
 ## 2. What was analyzed
 
@@ -133,9 +126,9 @@ deployment. No check here establishes legal compliance.
 ### Planning status and scope
 
 This is the canonical plan for the next customer-delivery iteration, prepared on
-2026-10-16. All work items below are **planned**, not implemented or validated by
-this planning change. Sections 1 to 4 describe the existing baseline; section 6
-preserves its historical checks. Planning does not authorize account changes,
+2026-10-16. Implementation is tracked separately from live acceptance below.
+Sections 1 to 4 describe the baseline; section 6 preserves its historical checks.
+Repository implementation does not authorize customer account changes,
 customer publication, release distribution or changing repository visibility.
 
 The intended outcome is a guided setup from an ordinary request such as "I bought
@@ -380,20 +373,15 @@ claim a setup duration, completion rate or risk reduction before measuring it.
 | Disposable site/container, test operator, permitted actions and any cost ceiling | Test owner with asset owner | Live V02/C01 execution; no paid autonomous loop without a fail-closed ceiling |
 | Released contracts for new MCP operations | Integration owner | Only the corresponding C01 operation |
 
-Next action: begin D01 by classifying the existing archive, images, fixtures,
-research and outbound links; keep the detailed private inventory outside this repo.
-Then establish D02 routing and begin J01/J03 in the existing homes. Confirm entry
-links and the manual account-to-site handoff before expanding the skills.
-Review the resulting conversation against the entry scenarios, then complete J02,
-J04 and J05 for M1. Continue with support/continuity and versioned packages before
-the per-client live acceptance. Record delivered work against these IDs instead of
-creating another backlog.
+The initial execution slice is implemented in the existing homes. Current delivery
+and acceptance states appear below. The next customer-acceptance action is to run
+one full beginner journey on an explicitly designated disposable site/container,
+with a named operator and permitted effects. Production destinations and new MCP
+writers remain independent dependencies, not reasons to stop the manual route.
 
-A persistent internal instructor remains a separate feasibility decision. First
-prove that the existing instructions can load, guide, recover and finish in each
-chosen host. Cross-chat storage, background execution or a new paid AI service
-would need their own architecture, tenant isolation, explicit authorization,
-retention, execution limits and cost controls. This plan creates none of them.
+This repository delivers instructions, references and local tools. It does not
+provide a persistent service, automatic cross-chat memory or background maintenance.
+Private architectural research is not part of the customer distribution.
 
 Planning review: separate journey and distribution readers checked the proposed
 scope. Their corrections preserve a fully manual Consent Pro route, make GTM
@@ -422,8 +410,8 @@ prove those responses' header framing.
 
 No real customer container, scan, banner, privacy link, category, publication or
 email request was changed during implementation. Live Google writes, all MCP
-mutations, a hosted skill/plugin release and production runtime behavior remain
-outside the completed local verification.
+mutations and production runtime behavior remain outside the completed local
+verification. Hosted package delivery is tracked separately from those operations.
 
 ### Baseline validation and evidence
 
@@ -459,7 +447,7 @@ readback prevents an unapproved resulting version from being published by this r
 Strict response comparison may refuse unmodeled Google defaults; isolated live
 acceptance is required before a client rollout.
 
-### Onboarding revision and delivery
+### Earlier onboarding revision and delivery
 
 What changed: consolidated the guided conversation from the parallel proposal with
 first-chat installation, recovery, precise dashboard handoffs and evidence-based
@@ -487,45 +475,108 @@ ChatGPT/Claude plugin updates, native Claude execution, actual new MCP writes an
 customer browser acceptance remain unverified. An updated repository or built ZIP
 does not update an installed hosted plugin.
 
-The next iteration follows the [delivery plan](#5-delivery-phases-and-remaining-gates).
-The hosted plugin update remains D04/V02 work: use the approved candidate, preserve
-its intended connection, verify the loaded revision and read the intended target
-in a new conversation. New MCP operations need separate isolated acceptance under C01.
+These measurements precede the customer-entry implementation below. New MCP
+operations still need separate isolated acceptance under C01.
 
-### Exploring a connected instructor
+### Customer-entry implementation, 2026-10-16
 
-Status: feasibility research, not an implemented service or approved product architecture.
-The desired experience is a clear setup entry point that leads the customer through the
-same journey in chat or a terminal. Connection alone must not be presented as an internal
-agent being activated or a skill being installed.
+| Work | Delivered state | Acceptance still required |
+| --- | --- | --- |
+| J01/J02 | Official account entry, access recovery guidance, purchase/workspace/license reconciliation and first-project routing | Real account and entitlement cases; no private recovery URL or assistance entitlement is assumed |
+| J03/J04/J05 | GTM choice, direct integrations and complete manual CP/GTM procedures; existing published-container and CMP transition checks | Full browser/network/storage path with a consenting test operator and disposable targets |
+| J06/J07 | Verified public assistance routes, minimal support handoff, copyable continuation record and successor access checks | A real support/service outcome and customer handoff; preparing text sends nothing |
+| D01 | 80 source files privately preserved and hash-verified before removal; synthetic CI archive fixtures; retained template code attributed and licensed | Historical Git objects remain private and are not cleared for public redistribution |
+| D02 | Customer service, internal product staging and customer test hostnames separated; production endpoint left unverified | Product owner supplies and verifies the production connector and effective permissions |
+| D03 | Versioned package builder, explicit source allowlist, checksums, pinned provenance and deterministic preview ZIPs from `7925bbb` | Stable production distribution remains a separate release decision |
+| D04 | Ready-artifact installation, upgrade/recovery and removal routes; actual local Codex installation and private ChatGPT plugin update | Claude web upload and the remaining host-specific acceptance below |
+| V01 | 23 fictional customer responses independently generated and coordinator-reviewed against explicit criteria, with manual negative alternatives | Repeated response reliability and human beginner sessions are not measured |
+| V02 | Native Codex and Claude Code package discovery measured outside the checkout | Complete host-specific OAuth, resume, update and site behavior acceptance |
+| C01 | Operation-specific discovery, review, permissions, concurrency and recovery procedure retained | Announced GTM writes are not considered available until their actual contracts and isolated behavior are verified |
 
-OpenAI documents MCP initialization `instructions` used by ChatGPT and Codex, and an
-import path for server-provided skills. The latter is a static submission-time snapshot
-of a supported subset of draft SEP-2640, not a stable universal feature or automatic
-refresh on every connection. These are candidates for a server integration, not capabilities
-proven by this repository's tool catalogue.
-Source: [MCP instructions and skill import](https://developers.openai.com/plugins/build/mcp-server).
+The scenario inputs, responses, criteria and limits are linked from
+[local verification](../../tests/README.md#guided-onboarding-behavior-evaluation).
+The first native review reproduced three package defects: Windows path separators,
+CRLF checkout provenance and a parent-directory alias that bypassed archive nesting
+checks. The second review found an additional case-insensitive filesystem alias.
+All four have targeted regressions and failure controls. The final native review
+reproduced the fixed CLI boundaries and the old defective comparison, verified
+Claude discovery/isolation controls, and approved this scope for integration.
+The writer and OAuth implementations are unchanged in this delivery.
 
-A packaged plugin can declare an `onboardingSkill` that runs when the user starts setup.
-This offers a concrete prototype direction: a setup action using the existing instructor,
-with instructions and MCP delivered together. Its behavior still needs validation in both
-a new conversation and an installation during an existing conversation.
-Source: [Plugin onboarding](https://developers.openai.com/plugins/build/plugins#add-an-onboarding-skill).
+| Local measurement | Observed result | Boundary |
+| --- | --- | --- |
+| Offline suite | 143 tests passed, including 29 package tests | Simulated APIs and local filesystem behavior |
+| Writer/inspector mutation suite | All 36 deliberately changed guards rejected | Selected executable safeguards |
+| Package controls | Eight code mutations rejected, plus a missing-LF-rule control; all 29 package tests passed in native Windows CI | Includes Windows path representation, real CRLF checkout and native macOS case aliases; no live customer operations |
+| Archive and boundary checks | Six synthetic tests; private original archive verification and four negative controls passed | Original source bytes remain outside the repository |
+| Asset collector checks | Two header and seven collector tests passed | No new customer data or site writes |
+| Codex 0.163.0 | Both packaged skills discovered in a disposable project | No model or business call |
+| Claude Code 2.1.296 | Both skills discovered, one removed and absent, both rediscovered after restoration | Network and credential access denied; no model prompt; not Claude web/Desktop acceptance |
+| Fictional conversations | 23 recorded next responses met the reviewed scenario criteria | Independent response probes and manual grading, not a human customer study |
 
-Do not infer parity across clients. Claude Code exposes MCP prompts and resources;
-Claude web skills have a separate installation path. Validate instruction loading, target
-selection, OAuth return, manual-step resumption and actual evidence in each supported host.
-Sources: [Claude Code MCP](https://code.claude.com/docs/en/mcp),
-[Claude skills](https://support.claude.com/en/articles/12512180-use-skills-in-claude).
+The artifacts are a preview of the customer instructor, not a claim that every
+supported client or a live customer setup has passed acceptance. Repository
+privacy remains intentional; customer packages exclude the private archive and do
+not need it at runtime. No background agent, automatic cross-chat memory or
+continuous consent monitoring is installed by these instructions.
 
-Architectural inference: a persistent internal service would add value if the product
-needs cross-chat progress, delegated background work or scheduled maintenance. That would
-require separate decisions on storage, customer isolation, authorization, execution limits
-and recovery. No such service, schedule or server change was created here. The current
-deliverable remains the reusable instructor, packages and supported MCP workflow.
+### Preview delivery and client acceptance
+
+The `0.2.0` preview packages are built from clean source commit
+[`7925bbb`](https://github.com/redeuno/consentpro-gtm-ai/tree/7925bbbfd859882df520548dcf868bcee32a070c).
+Two consecutive builds produced identical archives and manifests. Both ZIPs passed
+their `SHA256SUMS` check. The [release](https://github.com/redeuno/consentpro-gtm-ai/releases/tag/v0.2.0)
+contains the two archives and checksum file; access follows the private repository.
+Later status-only commits do not change these pinned package bytes.
+
+Native Windows CI initially exposed two package tests that relied on the default
+text encoding. Their fixture I/O now explicitly uses UTF-8. The corrected
+[Linux and Windows run](https://github.com/redeuno/consentpro-gtm-ai/actions/runs/38972533492)
+passed, including all 29 Windows package tests. The final installation-guide edit
+also passed those 29 tests locally and the repository checker.
+
+| Client or delivery surface | Status and measured evidence | Remaining limit |
+| --- | --- | --- |
+| Local Codex installation | PASS for package installation: both skills installed and updated to `7925bbb`; all 26 payload hashes in each package matched its manifest; previous folders preserved outside discovery | Native CLI discovery was measured separately. Codex app UI, a new-session invocation and a complete customer journey are not established by file installation |
+| ChatGPT private plugin | PASS for update/readback: version `1.1.1`, both skills, all 56 hosted files equal the reviewed archive; existing app binding and audience preserved | Plugin version and skill-package version are separate. This does not establish public distribution or every ChatGPT edition |
+| Authenticated Consent Pro read after plugin update | PASS: a read returned the same intended workspace and matching project after both updates | No new OAuth grant, Google write, scan, account mutation or publication was performed |
+| New ChatGPT Work conversations | PASS for instruction loading: the final conversation read both `0.2.0` preview manifests, exact `7925bbb` source and the corrected pre-install verification. The earlier candidate continued the fictional manual GTM route without requiring Google OAuth | Final chat could not read the plugin wrapper version; `1.1.1` was verified through the backend and plugin UI. These checks do not establish a complete beginner journey or automatic onboarding |
+| Claude Code | PASS for native discovery, missing-skill control and restoration in an isolated project | No real account connection, model prompt, write or live site test |
+| Claude web | UNAVAILABLE at upload: the actual Customize, Skills, Add Skill, Upload Skill path opened and accepted file selection intent, but the browser extension required additional local-file access before upload | Permission was not expanded. No skill was imported; conversation loading, update and removal remain NOT TESTED |
+| Claude Desktop and Codex app UI | NOT TESTED in their native interfaces | CLI and browser evidence cannot establish desktop-interface acceptance |
+| Live customer completion and new MCP writers | NOT TESTED | Require a designated disposable site/container, effective permissions and operation-specific acceptance |
+
+The private plugin has an onboarding-skill entry, but connecting an MCP by itself
+does not prove an instructor was automatically activated. The supported entry
+remains selecting the installed plugin or skill and asking for setup help.
+Installation proofs and account-specific screenshots stay in the private evidence
+home. No account identifiers or customer exports are needed in this repository.
+
+Next action: run one full beginner journey on a designated disposable site and
+container, with a named operator and explicitly agreed effects. Record the actual
+browser checks, pauses, resumption and remaining dependencies before claiming
+customer-ready end-to-end support.
+
+### Public sources and release boundaries
+
+Account entry is verified against [Finsweet Account](https://finsweet.com/products/account).
+Project/workspace and license guidance comes from the
+[Web App](https://docs.consentpro.com/web-app/) and
+[licenses](https://docs.consentpro.com/web-app/licenses) pages. Recovery controls
+must be read from the live official login; no deep recovery URL is assumed.
+The [support guide](https://docs.consentpro.com/web-app/troubleshooting),
+[expert contact](https://consentpro.com/talk-to-expert) and
+[implementation service](https://consentpro.com/implement-for-us) establish public
+help routes, not a customer's specific commercial entitlement.
+
+The raw archive and earlier feasibility notes were removed from the current tree
+after private preservation and hash verification. Source attribution remains in
+the authored guides. The retained template fixture is reviewed, reduced and carries
+its upstream license. No internal strategy, roadmap or draft policy was added.
+This review does not establish that historical Git objects are suitable for public
+release; a clean customer package and a public repository are separate deliverables.
 
 - [Checks](checks/README.md): historical writer reproductions and current regressions.
 - [Tests](../../tests/README.md): executable suite and mutation controls.
-- [Sources](sources/2026-10-16/README.md): page inventory, assets and MCP contracts.
 - [Collector](tools/README.md): bounded public reads and explicit local collection.
 - [Installation](../07-agent-installation/README.md): package verification and upgrades.
