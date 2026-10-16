@@ -487,8 +487,8 @@ operations still need separate isolated acceptance under C01.
 | J06/J07 | Verified public assistance routes, minimal support handoff, copyable continuation record and successor access checks | A real support/service outcome and customer handoff; preparing text sends nothing |
 | D01 | 80 source files privately preserved and hash-verified before removal; synthetic CI archive fixtures; retained template code attributed and licensed | Historical Git objects remain private and are not cleared for public redistribution |
 | D02 | Customer service, internal product staging and customer test hostnames separated; production endpoint left unverified | Product owner supplies and verifies the production connector and effective permissions |
-| D03 | Versioned package builder, explicit source allowlist, checksums, pinned provenance and deterministic ZIP delivery | Preview publication from the reviewed clean source and per-host loading checks |
-| D04 | Ready-artifact installation, upgrade/recovery and removal routes documented | Hosted delivery and real conversation activation are recorded per client, not inferred from a ZIP |
+| D03 | Versioned package builder, explicit source allowlist, checksums, pinned provenance and deterministic preview ZIPs from `7925bbb` | Stable production distribution remains a separate release decision |
+| D04 | Ready-artifact installation, upgrade/recovery and removal routes; actual local Codex installation and private ChatGPT plugin update | Claude web upload and the remaining host-specific acceptance below |
 | V01 | 23 fictional customer responses independently generated and coordinator-reviewed against explicit criteria, with manual negative alternatives | Repeated response reliability and human beginner sessions are not measured |
 | V02 | Native Codex and Claude Code package discovery measured outside the checkout | Complete host-specific OAuth, resume, update and site behavior acceptance |
 | C01 | Operation-specific discovery, review, permissions, concurrency and recovery procedure retained | Announced GTM writes are not considered available until their actual contracts and isolated behavior are verified |
@@ -507,7 +507,7 @@ The writer and OAuth implementations are unchanged in this delivery.
 | --- | --- | --- |
 | Offline suite | 143 tests passed, including 29 package tests | Simulated APIs and local filesystem behavior |
 | Writer/inspector mutation suite | All 36 deliberately changed guards rejected | Selected executable safeguards |
-| Package controls | Eight code mutations rejected, plus a missing-LF-rule control | Includes Windows path representation, real CRLF checkout and native macOS case aliases; Windows native execution belongs to CI |
+| Package controls | Eight code mutations rejected, plus a missing-LF-rule control; all 29 package tests passed in native Windows CI | Includes Windows path representation, real CRLF checkout and native macOS case aliases; no live customer operations |
 | Archive and boundary checks | Six synthetic tests; private original archive verification and four negative controls passed | Original source bytes remain outside the repository |
 | Asset collector checks | Two header and seven collector tests passed | No new customer data or site writes |
 | Codex 0.163.0 | Both packaged skills discovered in a disposable project | No model or business call |
@@ -519,6 +519,43 @@ supported client or a live customer setup has passed acceptance. Repository
 privacy remains intentional; customer packages exclude the private archive and do
 not need it at runtime. No background agent, automatic cross-chat memory or
 continuous consent monitoring is installed by these instructions.
+
+### Preview delivery and client acceptance
+
+The `0.2.0` preview packages are built from clean source commit
+[`7925bbb`](https://github.com/redeuno/consentpro-gtm-ai/tree/7925bbbfd859882df520548dcf868bcee32a070c).
+Two consecutive builds produced identical archives and manifests. Both ZIPs passed
+their `SHA256SUMS` check. The [release](https://github.com/redeuno/consentpro-gtm-ai/releases/tag/v0.2.0)
+contains the two archives and checksum file; access follows the private repository.
+Later status-only commits do not change these pinned package bytes.
+
+Native Windows CI initially exposed two package tests that relied on the default
+text encoding. Their fixture I/O now explicitly uses UTF-8. The corrected
+[Linux and Windows run](https://github.com/redeuno/consentpro-gtm-ai/actions/runs/38972533492)
+passed, including all 29 Windows package tests. The final installation-guide edit
+also passed those 29 tests locally and the repository checker.
+
+| Client or delivery surface | Status and measured evidence | Remaining limit |
+| --- | --- | --- |
+| Local Codex installation | PASS for package installation: both skills installed and updated to `7925bbb`; all 26 payload hashes in each package matched its manifest; previous folders preserved outside discovery | Native CLI discovery was measured separately. Codex app UI, a new-session invocation and a complete customer journey are not established by file installation |
+| ChatGPT private plugin | PASS for update/readback: version `1.1.1`, both skills, all 56 hosted files equal the reviewed archive; existing app binding and audience preserved | Plugin version and skill-package version are separate. This does not establish public distribution or every ChatGPT edition |
+| Authenticated Consent Pro read after plugin update | PASS: a read returned the same intended workspace and matching project after both updates | No new OAuth grant, Google write, scan, account mutation or publication was performed |
+| New ChatGPT Work conversations | PASS for instruction loading: the final conversation read both `0.2.0` preview manifests, exact `7925bbb` source and the corrected pre-install verification. The earlier candidate continued the fictional manual GTM route without requiring Google OAuth | Final chat could not read the plugin wrapper version; `1.1.1` was verified through the backend and plugin UI. These checks do not establish a complete beginner journey or automatic onboarding |
+| Claude Code | PASS for native discovery, missing-skill control and restoration in an isolated project | No real account connection, model prompt, write or live site test |
+| Claude web | UNAVAILABLE at upload: the actual Customize, Skills, Add Skill, Upload Skill path opened and accepted file selection intent, but the browser extension required additional local-file access before upload | Permission was not expanded. No skill was imported; conversation loading, update and removal remain NOT TESTED |
+| Claude Desktop and Codex app UI | NOT TESTED in their native interfaces | CLI and browser evidence cannot establish desktop-interface acceptance |
+| Live customer completion and new MCP writers | NOT TESTED | Require a designated disposable site/container, effective permissions and operation-specific acceptance |
+
+The private plugin has an onboarding-skill entry, but connecting an MCP by itself
+does not prove an instructor was automatically activated. The supported entry
+remains selecting the installed plugin or skill and asking for setup help.
+Installation proofs and account-specific screenshots stay in the private evidence
+home. No account identifiers or customer exports are needed in this repository.
+
+Next action: run one full beginner journey on a designated disposable site and
+container, with a named operator and explicitly agreed effects. Record the actual
+browser checks, pauses, resumption and remaining dependencies before claiming
+customer-ready end-to-end support.
 
 ### Public sources and release boundaries
 

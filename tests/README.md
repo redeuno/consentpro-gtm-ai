@@ -86,6 +86,9 @@ be distinguishable from a successful check.
 The [CI workflow](../.github/workflows/checks.yml) runs the offline unit/package
 suite, mutation controls, documentation checks, synthetic archive verification and asset
 collector tests. It does not run the optional native client check below.
+The separate Windows job runs the 29 package tests using explicit UTF-8 fixture I/O.
+The [measured CI run](https://github.com/redeuno/consentpro-gtm-ai/actions/runs/38972533492)
+passed on Linux and Windows; this does not validate a hosted installation or API write.
 
 These tests use no credentials and make no live GTM writes. The captured import reached
 Google, but these local tests do not prove a completed live configuration, publication, or
@@ -181,6 +184,12 @@ python3 -B tests/claude-client-smoke.py --run
 Native discovery confirms that the tested client can find the generated skill
 packages outside this checkout. It does not validate a model response, Google or
 Consent Pro authorisation, tool permissions, business operations or hosted clients.
+
+Hosted update, authenticated readback and new-conversation checks are recorded
+separately in [preview delivery](../docs/06-agent-readiness/README.md#preview-delivery-and-client-acceptance).
+The tested ChatGPT plugin was private and retained its existing app binding. Claude
+web upload stopped at the extension's local-file permission boundary; native Claude
+Code discovery does not turn that pending upload into a pass.
 
 ## Coverage and final local checks
 
