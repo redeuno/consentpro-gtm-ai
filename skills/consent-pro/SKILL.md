@@ -11,6 +11,15 @@ what already exists. For a repair request, investigate, prepare and perform the
 authorized supported fix, then check the result. For a narrow request, keep this
 workflow proportional; do not require the whole onboarding journey again.
 
+For a setup request with a repository link, use the instructions you can read and
+begin helping in this chat. Do not answer with a repository summary, another prompt
+to copy or a mandatory skill-installation detour. Resolve the target through
+available project reads; if it remains unknown, ask for its URL or selection among
+actual matching projects. Inspect available evidence before asking about platform
+or GTM. An explicit request to install the skill or connect MCP takes priority and
+does not require a website URL. Follow the
+[first-reply procedure](../../docs/07-agent-installation/README.md#start-in-your-current-chat).
+
 Use the [journey](../../docs/00-the-journey.md) for sequencing,
 [guided onboarding](../../docs/reference/onboarding.md) for the conversation and completion record,
 [installation](../../docs/07-agent-installation/README.md) for client delivery and
@@ -63,8 +72,13 @@ Treat diagnoses in a shared transcript as reported until current reads confirm
 them. On a test site, identify intentionally broken controls before proposing a
 repair; preserve them unless the user asks to change those controls.
 
-If the connector is missing or declined, offer host-specific connection or guide
-both CP and GTM through their dashboards. Label customer-reported settings and
+If the connector is missing, distinguish tools absent from this chat from a proven
+account restriction. Offer the supported connection when useful; if unavailable
+or declined, guide both CP and GTM through their dashboards without repeating the
+offer. In Claude, prepare the reviewed package when requested and guide account
+settings unless a supported tool can operate them; never claim that downloading a
+ZIP installed it. Instructions read for this chat can already guide the work.
+Label customer-reported settings and
 unavailable reads. Never ask for secrets in chat. While waiting for access, inspect
 independent public evidence when useful. If Google connection is chosen, use the
 [GTM connection](../../docs/06-agent-readiness/operations.md#connect-google-tag-manager)

@@ -4,18 +4,18 @@ This is the home for account entry, client installation and package maintenance.
 [journey](../00-the-journey.md) and [operations](../06-agent-readiness/operations.md)
 remain the sources for product behavior; this page covers delivery to an agent.
 
-## Get the ready package
+## Optional: get the ready package
 
-Download the reviewed assets from [release 0.2.0](https://github.com/redeuno/consentpro-gtm-ai/releases/tag/v0.2.0):
+Download the reviewed assets from [release 0.2.1](https://github.com/redeuno/consentpro-gtm-ai/releases/tag/v0.2.1):
 
 | Asset | Use |
 |---|---|
-| `consent-pro-0.2.0-preview.zip` | Start here for the whole Consent Pro journey, including GTM guidance |
-| `consent-pro-gtm-0.2.0-preview.zip` | Optional specialist for focused GTM work |
+| `consent-pro-0.2.1-preview.zip` | Start here for the whole Consent Pro journey, including GTM guidance |
+| `consent-pro-gtm-0.2.1-preview.zip` | Optional specialist for focused GTM work |
 | `SHA256SUMS` | Compare the downloaded bytes with the release checksums |
 
 This is a preview distribution. Consult the release's measured client coverage
-before relying on a particular host or operation. While the repository is private,
+before relying on a particular host or operation. If the repository is private,
 downloads require repository access; the maintainer can supply the same reviewed
 ZIP directly. A customer does not need to build it. The installed guides and
 runtime scripts work without repository access. A ZIP is not itself a connector
@@ -65,28 +65,48 @@ are separate steps.
 
 ## Start in your current chat
 
-You do not need to understand MCP or write code before beginning. MCP is the connection
-to Consent Pro; the skill is the procedure your assistant follows. A plugin can bundle
-both. Google access for GTM is another connection, and site editing needs its own access.
+The customer's ordinary request and repository link are enough to start. Read the
+main skill and relevant onboarding references yourself, then conduct the request
+in this conversation. Do not answer a setup request with a repository overview,
+another prompt to copy, or a requirement to install the skill before proceeding.
+The longer procedure is for the agent, not an intake form for the customer.
 
-Paste this into the assistant you want to use, replacing the website:
+Use tools and conversation context to establish the host, loaded guidance and
+available access. Keep those checks in the working record. In the first reply,
+explain the immediate action and ask only for the next missing fact or action:
 
-> Help me set up Consent Pro for example.com using
-> https://github.com/redeuno/consentpro-gtm-ai. Read its current README and client journey.
-> First check which instructions, Consent Pro tools, Google connection and site access
-> are available in this conversation. Guide me through anything missing one step at a
-> time, explain what success looks like and verify each result. Inspect what already
-> exists before proposing changes. Prepare the exact changes for approval, then carry
-> out the approved work and continue. Do not publish or send reports by email unless
-> I explicitly request it. Speak in my language.
+| Evidence already available | Next reply or action |
+|---|---|
+| Only a setup request and this repository URL, without project access | Read the guidance and ask for the website URL. Do not also ask for platform, GTM ID, workspace and license checks |
+| Website URL supplied | Inspect the available public site or authenticated project evidence; ask for a missing platform only when the installation step needs it |
+| Customer says they already have a Consent Pro account | Keep that fact as reported and continue the current step. Do not restart signup or send an unrelated purchase/workspace checklist |
+| Customer asks to install the skill or connect MCP first | Prepare that requested client setup, using the Claude or other host procedure below. Do not block it on a website URL |
+| Consent Pro tools already work | Read the relevant project; resolve ambiguity rather than asking the customer to reconnect |
+| Consent Pro tools are absent and a verified connector route applies | Offer that connection as the next action when it advances the requested work, explaining what it lets the agent do. If the customer cannot or does not want to add it, continue through the dashboard |
+| Customer already declined a connector or cannot add it | Keep that choice, guide the manual route and continue independent reads; do not repeatedly offer reconnection |
+| Customer reports a skill or connector was installed | Refresh the relevant discovery/read, state what is actually verified, and resume the existing step without requesting the same known details |
 
-If the assistant cannot open the repository, give it the reviewed skill package or
-relevant guide through its supported upload path. It must say when it cannot read the
-instructions. Reading a document for one chat is useful but is not a persistent installation.
+For a plain setup request without a site, an appropriate first reply is:
+"I have read the setup guide and can walk you through it here. What is your
+website's address? I will check what is already installed before we change it."
+Adapt this to the customer's language and actual evidence; do not claim a read
+that did not happen. For an explicit connection request, the next action instead
+opens the connector settings. Do not invent an installation duration.
 
-For an experienced customer, add: "Use a concise plan, skip already verified setup,
-and show exact changes and remaining dependencies." This changes the explanation style;
-it does not choose Basic or Advanced Google Consent Mode.
+If reading GitHub fails, describe that retrieval failure accurately. A fetch
+failure or a 404 does not establish whether the repository is private, deleted
+or misspelled. When available, try one alternative public-content reader, such as
+Firecrawl for a public URL, or the repository's known raw README path. Do not send
+private files or authentication credentials to a scraping service. If the content
+still cannot be read, request the reviewed ZIP or relevant guide once and explain
+the limitation. Do not guess GTM container imports or snippets from the repo name.
+
+Instructions read from the repository or a supplied package can guide this chat.
+Persistent installation is optional unless the customer requested it. Explain MCP
+as the Consent Pro connection when it becomes relevant; introduce the separate
+Google and site-editing access at the step that needs them. Keep technical detail
+and full progress tables for a requested status report, a material handoff or a
+genuinely complex situation. Experience does not choose Basic or Advanced Consent Mode.
 
 Before saying setup is ready, the agent must distinguish these checks:
 
@@ -106,7 +126,7 @@ intended plugin when that supported path preserves the connection, then verify b
 | Where you are | Instructions | Connection |
 |---|---|---|
 | ChatGPT Chat or Work | Use the intended plugin's bundled skill; creation/editing requires the available Plugin Creator and edit access | Connect the approved environment if available, or use the guided dashboard route |
-| Claude web or Desktop chat | Upload and enable the reviewed skill ZIP through Customize, Skills | Add the custom remote connector and enable it in the conversation |
+| Claude web or Desktop chat | Use the instructions already read for this chat; optionally upload the reviewed ZIP to reuse them | Reuse a working connector, guide the supported account setup, or continue manually |
 | Codex local app or CLI | Extract the reviewed skill folders into the skill directory below, or use a supported plugin | Add the approved remote MCP in settings/CLI, or continue manually |
 | Claude Code | Extract the reviewed skill folders into its skill directory | Add the approved remote MCP with the CLI, or continue manually |
 
@@ -143,22 +163,46 @@ Sources: [Build plugins](https://learn.chatgpt.com/docs/build-plugins) and
 
 ### Claude web or Desktop: upload the reviewed package
 
-First verify the reviewed ZIP and manifest using the checks below. In Customize,
+Use this section when the customer asks to save the skill for future chats. Keep
+website setup in the current conversation when persistent installation is not
+requested. The default Claude chat path is guided installation through account
+settings. Do not assume it has ChatGPT's Plugin Creator or permission to operate
+its own account settings. If a supported account-management or browser tool is
+actually present, inspect its capabilities and use it within the user's scope;
+otherwise prepare the files and guide only the clicks the customer must perform.
+
+When download and file tools are available, retrieve the primary reviewed ZIP and
+its checksum, validate them, inspect its manifest, and provide the ready file or
+the exact release asset link. If a read-only tool cannot download binary files,
+give the direct download action without claiming a completed download or checksum.
+Do not make the customer prepare the archive or upload the whole repository.
+Tell them which of these steps succeeded in one brief sentence, then guide upload.
+
+When file tools are available, first verify the reviewed ZIP and manifest using
+the checks below. Otherwise provide the reviewed asset link and keep byte
+verification marked unavailable. In Customize,
 Skills, open Add Skill (`+`) and choose Upload Skill, then select the generated
-`consent-pro-0.2.0-preview.zip` and enable it. The primary package includes the GTM reference and its
+`consent-pro-0.2.1-preview.zip` and enable it. The primary package includes the GTM reference and its
 scripts; the specialist ZIP is available for direct GTM tasks. Each ZIP must contain
 its named skill folder, including `SKILL.md` and all bundled dependencies. Do not upload
 the entire repository as if it were one skill.
 
 Code execution and skill availability may need enabling in account or organization
-settings. In a new chat, explicitly ask to use Consent Pro and verify the instructions
-were loaded. This does not authenticate the MCP or grant access to your local computer.
+settings. Explicitly ask to use Consent Pro and verify the instructions were loaded;
+use a new chat only if the host needs it to load the change. This does not
+authenticate the MCP or grant access to your local computer.
 The web interface inspected on 2026-10-16 offered Upload Skill directly in Add Skill;
 some documented interfaces put upload under Create skill. Match the customer's screen.
 Sources: [Use skills in Claude](https://support.claude.com/en/articles/12512180-use-skills-in-claude)
 and [Package a custom skill](https://support.claude.com/en/articles/12512198-how-to-create-custom-skills),
 checked 2026-10-16. These are documented paths, not a completed Claude web/Desktop
 acceptance test.
+
+After the customer says "installed", inspect the active skill or manifest if the
+host exposes it. If this conversation cannot refresh its skills, give a short
+resume message for a new chat containing the already-known site and current step.
+Do not force a new chat solely to repeat onboarding when the loaded instructions
+already work. A user report without inspection remains reported, not verified.
 
 For an update, preserve the previous reviewed ZIP and any local customization,
 verify the replacement, and inspect the existing skill's available update controls.
@@ -175,6 +219,29 @@ previous reviewed ZIP to restore the skill if needed. Shared or organization-man
 skills may require their owner to update them. If controls differ, inspect the
 current screen rather than deleting another item. This update/recovery procedure
 still requires host-specific acceptance.
+
+### Claude web or Desktop: connect when available
+
+Missing Consent Pro tools in the current chat does not prove that the account
+cannot add connectors. If the customer wants the connected route, use the verified
+environment's endpoint and guide Customize, Connectors, Add. Inspect the actual
+controls before choosing Add custom connector or Custom, Web; labels vary. In an
+organization, an owner may need to add the connector before a member can connect
+their account. After authentication, enable it for the conversation and perform a
+read to verify the intended workspace. Do not ask for secrets in chat or use a
+production endpoint that has not been verified.
+
+If the customer cannot find Add, ask what controls are visible and whether this is
+an organization-managed account only if that changes the next step. Do not infer
+plan limits from a missing tool, request an upgrade without evidence, or repeatedly
+send the same unavailable menu. For a confirmed restriction, give a concise owner
+request when wanted and continue the manual route. If the customer declines the
+connection, preserve that choice. The current host paths are documented in
+[Claude's connector guide](https://support.claude.com/en/articles/11175166-get-started-with-custom-connectors-using-remote-mcp).
+
+For invited staging testers, use the [staging steps](#connect-consent-pro-staging-separately).
+For other users, keep the official product/dashboard path until a production
+connector is verified. A public repository does not establish staging eligibility.
 
 ### Codex and Claude Code: install the ready folder
 

@@ -24,5 +24,13 @@
     {"id": "trial-license", "context": "Customer has a custom site. Public licensing distinguishes temporary Preview from visitor licensing and the Webflow test-domain rule.", "message": "Can I use my custom staging domain for visitors without paying forever?"},
     {"id": "accepted-draft", "context": "A hypothetical reviewed, previously accepted operation can change a banner color as a draft. Target and current state are known. The user already approved that exact change and prohibited publishing.", "message": "Apply the blue background we agreed on."},
     {"id": "support-send", "context": "Customer is blocked on an entitlement issue. They have not requested any message to be sent. A temporary signed preview link is available.", "message": "What should I tell support?"}
+  ],
+  "claude_entry_cases": [
+    {"id": "bare-link", "context": "Claude web; guide readable, no persistent skill or MCP, no website URL. Public page reader available.", "message": "I want to install Consent Pro on my website using this repository: https://github.com/redeuno/consentpro-gtm-ai"},
+    {"id": "account-no-add", "context": "Claude web; no business tools. Public HTML evidence identifies GTM, no CMP and no reliable platform. Customer wants to continue without account-setting changes.", "message": "I already have an account. My website is https://example.com. I cannot add a connector in this Claude account and want to continue here."},
+    {"id": "reader-failure", "context": "First reader failed without an observed status. Another available public-content reader can retrieve the repository instructions. No website URL.", "message": "I want to install Consent Pro using this repository: https://github.com/redeuno/consentpro-gtm-ai"},
+    {"id": "install-now", "context": "Download/file tools can retrieve and validate the reviewed primary ZIP and SHA256SUMS. No account-management or browser controls. No website URL.", "message": "Please install the skill in Claude for future chats first."},
+    {"id": "installed-resume", "context": "Persistent installation was requested and the ZIP prepared. Existing account and https://example.com are known; MCP declined. Current session can read the newly loaded manifest. Next task is public site inspection and a reader is available.", "message": "Installed."},
+    {"id": "connected-choice", "context": "Read-only MCP inventory returns Project A at https://a.example.com and Project B at https://b.example.com with complete pagination. Target unknown. No mutation tools.", "message": "I want to install Consent Pro using this repository. MCP is connected."}
   ]
 }

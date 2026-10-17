@@ -19,10 +19,12 @@ narrow diagnostic or banner-edit request within its original scope.
 
 ## Start and resume
 
-Before account setup, establish the actual client and verify that the instructor's
-instructions can be loaded. Use [first-chat setup](../07-agent-installation/README.md#start-in-your-current-chat)
-when the skill, plugin or connector is missing. Keep instruction loading, Consent Pro
-access, Google access and site/browser access as separate checkpoints.
+Begin the request in the current conversation using the instructions already read.
+Identify the actual client and available tools without requiring persistent skill
+installation. Use the [first-reply procedure](../07-agent-installation/README.md#start-in-your-current-chat)
+for a bare repository link, an unavailable connector or an explicit request to
+prepare the assistant first. Keep instruction loading, Consent Pro access, Google
+access and site/browser access as separate checkpoints in the working record.
 
 1. Establish the next useful step from the request, including when the customer has
    no account yet. Use the [entry routes](#route-the-customers-starting-state). Do not
@@ -40,14 +42,23 @@ access, Google access and site/browser access as separate checkpoints.
 5. Read the current state before presenting a plan. Reuse existing configuration
    and tests when their scope and versions remain applicable. Do not reinstall,
    reconnect, start another scan or change a working value merely to follow a list.
-6. Show a short progress table and proceed to the next dependency that can be
-   resolved. Continue independent reads while another step waits for access.
+6. Proceed to the next dependency that can be resolved. Show the next useful action
+   in plain language; reserve a progress table for a requested status, complex
+   checkpoint or handoff. Continue independent reads while another step waits for access.
 
 Use the customer's language. Introduce the current step, its purpose and its
 result in plain language. Ask only for the next decision that changes the work;
 do not send a long intake form or require the customer to supply values the tools
 can read. Reuse specific authorization already given. A diagnosis-only request
 authorizes no configuration changes.
+
+When only the repository link was supplied and available project reads cannot
+resolve the target, ask for the site URL first. Inspect
+available evidence before asking about platform or GTM. "I already have an account"
+is a fact to retain, not a reason to issue a purchase/workspace checklist. An
+explicit request to install the skill or connect MCP can proceed without the site
+URL. Do not send a new starter prompt back to someone who already asked for setup.
+If instructions are readable, a missing persistent skill is not a blocker.
 
 For a beginner, give one action or a small group of clicks, explain why it is needed
 and what success looks like. For an experienced customer, give the compact plan and

@@ -1,26 +1,48 @@
 # Set up Consent Pro with your AI
 
-Help a client's agent install, diagnose and operate Consent Pro, including the
-Google Tag Manager configuration that makes tags respect consent.
+Send this repository link to your assistant and say: "I want to install Consent
+Pro on my website." The assistant should start helping in that conversation.
+You do not need a perfect prompt, an installed skill, a connector or a terminal
+before you can begin.
 
-The agent acts as an instructor: it identifies what is already connected, explains
-the next step at the customer's level, carries out approved work, guides dashboard
-steps it cannot perform and verifies the result before continuing. It supports a
-first installation and an existing site's unfinished setup.
+If the assistant cannot retrieve this GitHub page, share the
+[plain-text entry](https://raw.githubusercontent.com/redeuno/consentpro-gtm-ai/main/README.md)
+in the same conversation. This is another reading route, not a different setup.
 
-Start with [account and client setup](docs/07-agent-installation/README.md), or tell
-your assistant: "I want to set up Consent Pro on my site. Help me from where I am."
-The [ready preview packages](https://github.com/redeuno/consentpro-gtm-ai/releases/tag/v0.2.0)
-contain the instructions and references. Downloads need repository access while
-this project is private; a maintainer can supply the same reviewed ZIP directly.
-No terminal is required to begin. The guide distinguishes
-ChatGPT, Claude chat, Codex and Claude Code, including skill loading, Consent Pro login
-and the separate Google connection for GTM.
+## For the assistant: begin the requested setup
 
-Start with [the client journey](docs/00-the-journey.md). Install the
-[`consent-pro` and `consent-pro-gtm` skills](docs/07-agent-installation/README.md)
-for Codex or Claude Code, or follow the guides with a connected web-chat assistant.
-The two skills share the same product references and scripts.
+Read the [Consent Pro instructions](skills/consent-pro/SKILL.md) and the
+[first-reply procedure](docs/07-agent-installation/README.md#start-in-your-current-chat),
+then act on the customer's request. Reading these files provides guidance for this
+conversation; it does not install a persistent skill or connect an account.
+
+- Use the customer's language and the facts already given. Do not summarize this
+  repository, send another starter prompt, or ask the customer to restart before helping.
+- Check the tools actually available. Use connected project reads to resolve the
+  target when possible. Otherwise, if the site is unknown, ask for its URL as the
+  next step. If it is known, inspect available evidence before asking for the
+  platform, account or GTM details that evidence can establish.
+- When the customer explicitly asks to install the skill or connect MCP, complete
+  that setup step first; a website URL is not needed to prepare the assistant.
+- Do the authorized work your tools support. For a customer-only action, give one
+  short sequence of clicks and the expected result, then verify and continue.
+- If Claude cannot add a connector in that account, keep the guided dashboard
+  route available. Do not turn missing connector tools into a demand to install a
+  skill or into proof that the account cannot use connectors.
+
+See the [guided onboarding](docs/reference/onboarding.md) for resumption and the
+[client journey](docs/00-the-journey.md) for the full procedure. The customer sees
+the next useful action, not the whole procedure at once.
+
+## Save the instructions for future conversations
+
+The [ready preview packages](https://github.com/redeuno/consentpro-gtm-ai/releases/tag/v0.2.1)
+contain the instructions and references for optional persistent installation.
+If the repository is private, downloads need access; a maintainer can supply the
+same reviewed ZIP directly. The [installation guide](docs/07-agent-installation/README.md)
+distinguishes ChatGPT, Claude chat, Codex and Claude Code. Both skills share the
+same product references and scripts. Installing instructions, connecting Consent
+Pro, authorizing Google and installing code on the website are separate actions.
 
 ## Choose the path available to the customer
 

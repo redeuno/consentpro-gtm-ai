@@ -1,0 +1,109 @@
+{
+  "date": "2026-10-16",
+  "method": "Fresh-context offline response probe, manually reviewed. Tool actions were hypothetical, not executed. This was not Claude web acceptance.",
+  "source": {
+    "commit": "26b9da8711db0330b48f9c2d5024e3f06e24aaf6",
+    "content_sha256": "52e379fcad9b7d950f6365722ea94d19b550f043b7a96aed7c75f5902f86ecd3",
+    "dirty": true
+  },
+  "tested_package_version": "0.2.0",
+  "tested_channel": "development",
+  "limits": "The development candidate still named release 0.2.0. Final 0.2.1 packaging and small review corrections are separate checks. Two additional Portuguese probes are summarized in tests/README.md; repository-authored evidence here is English.",
+  "cases": [
+    {
+      "id": "bare-link",
+      "response": "I've read the Consent Pro setup guide. What is your website's address? I'll check what is already installed, then guide the setup here.",
+      "intended_actions": [
+        "Use the readable repository guidance in the current conversation.",
+        "Ask only for the missing website URL.",
+        "After the URL arrives, inspect its public HTML before requesting platform or GTM details."
+      ],
+      "files_read": [
+        "SKILL.md",
+        "docs/07-agent-installation/README.md",
+        "docs/reference/onboarding.md"
+      ]
+    },
+    {
+      "id": "account-no-add",
+      "response": "We can continue here using your existing Consent Pro account. The public HTML contains a Google Tag Manager reference, but I couldn't identify a consent manager or reliably determine the site's platform from that HTML.\n\nIn your Consent Pro dashboard, open Projects and look for example.com. Does it appear there? If it does, open that project and tell me its name so we can continue from its existing setup.",
+      "intended_actions": [
+        "Inspect https://example.com through the available public HTML reader.",
+        "Record the GTM reference as HTML evidence, without claiming that GTM ran or that account access is verified.",
+        "Retain the existing account as customer-reported and preserve the customer's manual route.",
+        "Guide the customer to locate the matching existing project in Projects, checking additional pages or filters if needed before concluding it is absent.",
+        "Continue with the selected project's relevant dashboard evidence; ask for platform only when the next installation step needs it."
+      ],
+      "files_read": [
+        "SKILL.md",
+        "docs/07-agent-installation/README.md",
+        "docs/reference/onboarding.md",
+        "docs/06-agent-readiness/operations.md"
+      ]
+    },
+    {
+      "id": "reader-failure",
+      "response": "The first reader couldn't retrieve the repository. I was able to read the setup instructions through another reader, so we can continue here. What is your website's address? I'll check its current installation first.",
+      "intended_actions": [
+        "Try the available alternative public-content reader for the public repository README and its linked setup instructions.",
+        "Read the main skill and relevant first-reply procedure through that successful route.",
+        "Describe the original retrieval failure without inferring that the repository is private, deleted or misspelled.",
+        "Ask only for the missing website URL."
+      ],
+      "files_read": [
+        "SKILL.md",
+        "docs/07-agent-installation/README.md",
+        "docs/reference/onboarding.md"
+      ]
+    },
+    {
+      "id": "install-now",
+      "response": "I'll download the reviewed Consent Pro ZIP, check its checksum and bundled files, and provide the ready file here. You'll need to add it through Claude's settings because I can't operate those settings from this chat.\n\nOpen Customize > Skills > Add Skill (+) > Upload Skill. Select consent-pro-0.2.0-preview.zip and enable it. This saves the instructions for future chats; it does not connect your Consent Pro account.\n\nOnce it is enabled, tell me \"Installed\" so I can check whether this chat has loaded it.",
+      "intended_actions": [
+        "Download consent-pro-0.2.0-preview.zip and SHA256SUMS from the reviewed v0.2.0 release.",
+        "Compare the archive checksum with the corresponding SHA256SUMS entry.",
+        "Inspect package-manifest.json for version, channel, source commit and file hashes; verify the named skill folder contains SKILL.md and bundled dependencies.",
+        "Provide the verified downloadable primary ZIP, which includes the GTM reference and runtime scripts.",
+        "Guide the customer through the account UI upload and enable actions; do not claim that preparing or downloading the ZIP installed it.",
+        "Do not request a website URL before completing this explicitly requested assistant setup step."
+      ],
+      "files_read": [
+        "SKILL.md",
+        "docs/07-agent-installation/README.md",
+        "docs/reference/onboarding.md"
+      ]
+    },
+    {
+      "id": "installed-resume",
+      "response": "I'll check the skill that this chat has loaded, then inspect https://example.com to see what is already installed. We'll continue with your existing Consent Pro account through the dashboard, keeping the connector declined as agreed.",
+      "intended_actions": [
+        "Refresh the session's available skills and read the newly loaded package manifest.",
+        "Compare the loaded package with the reviewed package prepared earlier and report only what that inspection verifies.",
+        "Resume the pending public-site inspection of https://example.com with the available reader.",
+        "Use the inspection results to select the next dashboard step without asking again for the known website, account status or connector choice.",
+        "Keep public HTML findings separate from browser behavior and authenticated project state."
+      ],
+      "files_read": [
+        "SKILL.md",
+        "docs/07-agent-installation/README.md",
+        "docs/reference/onboarding.md"
+      ]
+    },
+    {
+      "id": "connected-choice",
+      "response": "The connected account lists two projects:\n\n- Project A: https://a.example.com\n- Project B: https://b.example.com\n\nWhich website should we set up? I'll then inspect that project's current setup.",
+      "intended_actions": [
+        "Inspect the available connector's real read capabilities and read the full project list, completing pagination.",
+        "Present both actual projects and ask the customer to select the target.",
+        "After selection, read the matching project's details and public-site evidence where supported.",
+        "Reuse the working connector and do not infer mutation capability or publication authority."
+      ],
+      "files_read": [
+        "SKILL.md",
+        "docs/07-agent-installation/README.md",
+        "docs/reference/onboarding.md",
+        "docs/06-agent-readiness/operations.md"
+      ]
+    }
+  ]
+}
