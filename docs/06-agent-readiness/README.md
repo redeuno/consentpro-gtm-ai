@@ -610,7 +610,7 @@ instruction failures. Full site setup and public-history review remain open.
 A further reported Claude trial read the guide successfully but chose manual work
 without offering the supported connector. The earlier entry criteria favored asking
 for a site URL and preventing mandatory uploads; they did not require an active
-connection recommendation. The `0.2.2` candidate corrects that route choice for full
+connection recommendation. The `0.2.2` preview corrects that route choice for full
 setup, offers the reusable skill once and preserves explicit manual choices and
 narrow public-site inspections. It still verifies the product environment before
 offering an endpoint and does not advertise an unverified production MCP.
@@ -636,6 +636,18 @@ Local package/content checks passed 30 tests; both skill validators passed. Thes
 checks do not establish that Claude follows the new instructions or that a site's
 trackers respect consent. Live runtime behavior and the actual Claude journey remain
 separate acceptance work.
+
+The [0.2.2 release](https://github.com/redeuno/consentpro-gtm-ai/releases/tag/v0.2.2)
+uses clean source
+[`1541859`](https://github.com/redeuno/consentpro-gtm-ai/tree/154185945962d7e36630414f1d879eea86f4860b).
+Two preview builds were byte-identical, with every manifest hash and release
+checksum verified. Anonymous downloads of both ZIPs and `SHA256SUMS` matched the
+reviewed files. The [candidate CI run](https://github.com/redeuno/consentpro-gtm-ai/actions/runs/38991932444)
+passed Linux checks and Windows package checks. Existing installed skills and the
+previously tested private ChatGPT plugin were not updated by this repository release.
+Next acceptance: compare a fresh Claude setup with no connector against an already
+configured ChatGPT conversation, then verify the chosen path on an authorized test
+target. Keep actual tool execution separate from the response probes above.
 
 ### Public sources and release boundaries
 
