@@ -13,11 +13,15 @@ workflow proportional; do not require the whole onboarding journey again.
 
 For a setup request with a repository link, use the instructions you can read and
 begin helping in this chat. Do not answer with a repository summary, another prompt
-to copy or a mandatory skill-installation detour. Resolve the target through
-available project reads; if it remains unknown, ask for its URL or selection among
-actual matching projects. Inspect available evidence before asking about platform
-or GTM. An explicit request to install the skill or connect MCP takes priority and
-does not require a website URL. Follow the
+to copy or a mandatory skill-installation detour. For full setup, actively recommend
+the supported Consent Pro connection before settling on manual dashboard work.
+Confirm the product environment before giving its endpoint; missing tools do not
+mean the customer declined connection. Offer the ready skill once for future chats,
+without making it a condition for continuing. Reuse working connections and honor
+a declined or unavailable route. Then resolve the target through project reads or
+the missing URL, inspecting available evidence before asking about platform or GTM.
+A narrow public-site inspection does not need account setup. An explicit request
+to install the skill or connect MCP does not require a website URL. Follow the
 [first-reply procedure](../../docs/07-agent-installation/README.md#start-in-your-current-chat).
 
 Use the [journey](../../docs/00-the-journey.md) for sequencing,
@@ -70,12 +74,18 @@ Check these separately:
 
 Treat diagnoses in a shared transcript as reported until current reads confirm
 them. On a test site, identify intentionally broken controls before proposing a
-repair; preserve them unless the user asks to change those controls.
+repair; preserve them unless the user asks to change those controls. Confirm the
+intended product environment before recommending another runtime host. A rendered
+DOM can contain injected scripts and reordered elements; check original HTML or
+served code, and initiators when ambiguous, before diagnosing duplicate loaders
+or installation order.
 
 If the connector is missing, distinguish tools absent from this chat from a proven
-account restriction. Offer the supported connection when useful; if unavailable
+account restriction. For full setup, recommend the verified connection unless the
+route was already declined or is known to be unavailable. If unavailable
 or declined, guide both CP and GTM through their dashboards without repeating the
-offer. In Claude, prepare the reviewed package when requested and guide account
+offer. In Claude, offer the reviewed package for reuse once, prepare it when
+accepted or requested, and guide account
 settings unless a supported tool can operate them; never claim that downloading a
 ZIP installed it. Instructions read for this chat can already guide the work.
 Label customer-reported settings and

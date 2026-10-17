@@ -34,10 +34,10 @@ python3 -B scripts/package-skills.py --output dist/skills --archives dist --appl
 
 The default `development` channel accepts work in progress and records its base
 commit, `dirty` state and source-content hash. Its filenames end in
-`-0.2.1-development.zip`. This is not a claim that the base commit contains every
+`-0.2.2-development.zip`. This is not a claim that the base commit contains every
 packaged change. An unversioned copy records a null commit and a dirty source.
 
-The tracked `package-release.json` selects version `0.2.1` and intended release
+The tracked `package-release.json` selects version `0.2.2` and intended release
 channel `preview`. From the final clean commit, use fresh output directories:
 
 ```bash
@@ -45,7 +45,7 @@ python3 -B scripts/package-skills.py --output dist/preview/skills --archives dis
 python3 -B scripts/package-skills.py --output dist/preview/skills --archives dist/preview --channel preview --apply
 ```
 
-This creates `consent-pro-0.2.1-preview.zip`, `consent-pro-gtm-0.2.1-preview.zip`
+This creates `consent-pro-0.2.2-preview.zip`, `consent-pro-gtm-0.2.2-preview.zip`
 and `SHA256SUMS`. Each ZIP contains its named skill folder. Fixed entry order,
 timestamps, file modes and uncompressed storage make its bytes reproducible from
 the same source and channel. Storage uses more space than compression, avoiding

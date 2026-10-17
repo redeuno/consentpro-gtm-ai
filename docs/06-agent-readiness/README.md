@@ -605,6 +605,38 @@ plain setup request, then check the first reply, a missing-connector path and
 resumption after optional skill upload. Record reader failures separately from
 instruction failures. Full site setup and public-history review remain open.
 
+### Connection choice and inspection evidence, 2026-10-16
+
+A further reported Claude trial read the guide successfully but chose manual work
+without offering the supported connector. The earlier entry criteria favored asking
+for a site URL and preventing mandatory uploads; they did not require an active
+connection recommendation. The `0.2.2` candidate corrects that route choice for full
+setup, offers the reusable skill once and preserves explicit manual choices and
+narrow public-site inspections. It still verifies the product environment before
+offering an endpoint and does not advertise an unverified production MCP.
+A contrasting customer-reported ChatGPT trial already had its plugin, instructions
+and MCP active. That path should reuse the connection, resolve the client's target
+and preserve deliberate lab controls until the goal is clear. No reinstall is needed
+merely because a fresh conversation began; this report does not establish the exact
+package revision or independently verify the reported audit findings.
+
+Independent source inspection also showed why rendered HTML can mislead diagnosis.
+The operating guide now distinguishes declared scripts from injected DOM elements,
+explains the standard GTM bootstrap and keeps the project's single core snippet
+separate from component assets. Runtime host changes require the intended product
+environment; a test hostname or old website comment does not authorize migration.
+No customer identifiers, source HTML or private account evidence are included here.
+
+The new [evaluation criteria](../../tests/README.md#connection-choice-and-source-evidence)
+cover connection choices, environment preservation and rendered-HTML false positives.
+All ten fictional responses met the reviewed decisions, including reuse of an
+already configured ChatGPT plugin. Manual negative alternatives were rejected.
+These are instruction probes, not observed actions in those hosts.
+Local package/content checks passed 30 tests; both skill validators passed. These
+checks do not establish that Claude follows the new instructions or that a site's
+trackers respect consent. Live runtime behavior and the actual Claude journey remain
+separate acceptance work.
+
 ### Public sources and release boundaries
 
 Account entry is verified against [Finsweet Account](https://finsweet.com/products/account).

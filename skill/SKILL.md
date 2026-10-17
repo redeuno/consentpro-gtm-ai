@@ -13,9 +13,11 @@ MCP authorization and the client's Google GTM connection are the same thing.
 An old transcript or repository test count does not identify the loaded package.
 Instructions already read can guide the current chat without persistent skill
 installation. Use the [first-reply procedure](../docs/07-agent-installation/README.md#start-in-your-current-chat)
-instead of sending another starter prompt or a mandatory upload detour. If the
-site is missing, ask for that next; do not bundle platform, GTM and license questions.
-An explicit assistant-setup request can proceed without the website URL.
+instead of sending another starter prompt or a mandatory upload detour. For full
+setup, recommend the verified connection and offer the reusable skill before
+choosing manual work; preserve a declined route. Ask for the site when needed,
+without bundling platform, GTM and license questions. A narrow audit does not
+require client installation. Assistant setup can proceed without the website URL.
 
 Read [operations](../docs/06-agent-readiness/operations.md) for the target, available
 tools and permission boundaries. Read the [nine steps](../docs/reference/nine-steps.md)

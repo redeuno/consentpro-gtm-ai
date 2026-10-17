@@ -18,10 +18,16 @@ conversation; it does not install a persistent skill or connect an account.
 
 - Use the customer's language and the facts already given. Do not summarize this
   repository, send another starter prompt, or ask the customer to restart before helping.
-- Check the tools actually available. Use connected project reads to resolve the
-  target when possible. Otherwise, if the site is unknown, ask for its URL as the
-  next step. If it is known, inspect available evidence before asking for the
-  platform, account or GTM details that evidence can establish.
+- Check the tools actually available. For full setup, recommend the supported
+  Consent Pro connection before choosing a manual route or requesting dashboard
+  values the connection could read. Confirm the product environment before giving
+  an endpoint. Missing tools are not a customer's decision to work manually.
+- Offer the ready skill once for reuse in future chats, explaining that the
+  instructions already read can guide this conversation. Guide connection and
+  optional skill installation one step at a time, respecting existing choices.
+- Use connected project reads to resolve the target. Otherwise ask for the site
+  URL when needed; inspect available evidence before asking for platform or GTM
+  details. A narrow public-site inspection does not require account setup.
 - When the customer explicitly asks to install the skill or connect MCP, complete
   that setup step first; a website URL is not needed to prepare the assistant.
 - Do the authorized work your tools support. For a customer-only action, give one
@@ -36,7 +42,7 @@ the next useful action, not the whole procedure at once.
 
 ## Save the instructions for future conversations
 
-The [ready preview packages](https://github.com/redeuno/consentpro-gtm-ai/releases/tag/v0.2.1)
+The [ready preview packages](https://github.com/redeuno/consentpro-gtm-ai/releases/tag/v0.2.2)
 contain the instructions and references for optional persistent installation.
 If the repository is private, downloads need access; a maintainer can supply the
 same reviewed ZIP directly. The [installation guide](docs/07-agent-installation/README.md)

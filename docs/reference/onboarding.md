@@ -31,7 +31,10 @@ access and site/browser access as separate checkpoints in the working record.
    require a purchase, connector or technical questionnaire before helping.
 2. Discover available tools and effective access when a connector is available. Distinguish a missing connector,
    a missing permission and an expired Google connection. Read the current MCP
-   documentation before offering setup guidance.
+   documentation before offering setup guidance. For full setup with no route
+   chosen, recommend the supported connection and offer the reusable skill once.
+   Confirm the product environment before providing an endpoint; do not silently
+   choose manual work because no tools are connected yet.
 3. Resolve the site from the request and current project inventory or selected dashboard. If the target
    is ambiguous, show matching names and domains and ask which one to use. If the
    exact target is already known, read it without asking the customer to repeat it.
@@ -52,9 +55,11 @@ do not send a long intake form or require the customer to supply values the tool
 can read. Reuse specific authorization already given. A diagnosis-only request
 authorizes no configuration changes.
 
-When only the repository link was supplied and available project reads cannot
-resolve the target, ask for the site URL first. Inspect
-available evidence before asking about platform or GTM. "I already have an account"
+For full setup from a repository link, first use the
+[connection choice](../07-agent-installation/README.md#choose-how-the-assistant-will-work)
+unless the route is already known. If project reads cannot resolve the target,
+ask for the site URL when needed. Inspect available evidence before asking about
+platform or GTM. "I already have an account"
 is a fact to retain, not a reason to issue a purchase/workspace checklist. An
 explicit request to install the skill or connect MCP can proceed without the site
 URL. Do not send a new starter prompt back to someone who already asked for setup.
@@ -122,7 +127,8 @@ diagnosis lives in [operations](../06-agent-readiness/operations.md#account-work
 | No account, or trying the product before purchase | Explain the current official entry and verified test/preview options; the customer completes sign-up or chooses preparation first | A signed-in account or an explicit preparation task; do not promise free access or buy a plan |
 | Cannot sign in | Use the official sign-in/recovery interface and distinguish login method, expired session and organization access | Customer completes recovery; never request passwords, one-time codes or tokens |
 | Purchased plan or license is missing | Compare the signed-in account, selected workspace, purchase owner and public domain/license | Existing entitlement found, or a precise discrepancy for support; no automatic second purchase |
-| Account works, connector is missing or declined | Offer the supported connector route or teach the Consent Pro dashboard directly | Connected reads or relevant dashboard evidence; a connector is optional for manual guidance |
+| Account works, connector absent and route undecided | Recommend the verified connection before asking for dashboard values; confirm the environment before giving an endpoint | Customer accepts connected setup or chooses manual guidance; missing tools are not a refusal |
+| Connector declined or confirmed unavailable | Continue the agreed dashboard route without repeating the offer | Relevant dashboard evidence; a connector is optional for manual guidance |
 | No projects appear | Confirm workspace, permissions and the complete project list before treating it as empty | Correct project selected, access requested, or an authorized first project |
 | No project for this site | Confirm domain, platform and owner, then guide the documented create/connect flow | Selected project, exact snippet and remaining setup verified separately |
 | Setup is already partly complete | Inspect that setup and retain valid work | Start at the first unresolved dependency |

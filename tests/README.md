@@ -202,6 +202,44 @@ skill does not receive repository edits automatically. Remote reader availabilit
 Claude skill upload, connector authorization and a full customer journey remain
 separate acceptance work.
 
+## Connection choice and source evidence
+
+The `connection_choice_cases` group in [scenario inputs](onboarding-scenarios.json)
+supersedes the earlier URL-first criterion for full setup when the connection route
+is undecided. The earlier response records remain historical. Keeping skill upload
+optional must not silently choose manual work or omit an offer of the supported MCP.
+
+An independent evaluator used the generated development package to produce
+[ten fictional responses](fixtures/connection-choice-responses-2026-10-16.json),
+without the criteria below. The coordinator reviewed every response against these
+boundaries; all ten met the relevant decision in that one probe. The final case
+was added after the first nine and evaluated separately. No intended tool action
+was executed, and this was not a Claude or ChatGPT acceptance test.
+
+| Case | Required decision |
+| --- | --- |
+| `staging-route` | Recommend the verified MCP, offer the reusable skill once and ask one route choice; do not require a site URL first |
+| `unknown-service` | Resolve the product environment; a lab pathname, runtime host or code comment does not authorize production migration |
+| `manual-retained` | Preserve the declined MCP/skill choices, known account and site; continue manual work |
+| `connected-no-skill` | Reuse the working connector and read the project; offer persistence without reinstalling or blocking |
+| `regular-service` | Do not invent a production endpoint or offer internal staging to a regular customer; explain the available dashboard path |
+| `rendered-gtm` | One declared bootstrap plus its injected element is not proof of two installations; do not remove or reorder based only on rendered DOM |
+| `component-assets` | Follow the single official project snippet; component assets in a scrape do not require separate manual installation |
+| `staging-snippet` | Keep the confirmed staging target and compare its exact snippet; no unrequested production migration |
+| `narrow-public-audit` | Inspect the requested public declarations without introducing account or persistent skill setup |
+| `connected-ready` | Reuse the selected plugin, loaded skill and working MCP; resolve the client target without another installation or connection offer |
+
+Manual negative controls rejected: silently choosing manual mode for an eligible
+undecided customer; inventing a production endpoint; making skill upload mandatory;
+reopening a declined connection; demanding a production runtime for a confirmed
+staging project; and deleting the injected GTM script merely because it appears
+before the core in a rendered DOM. Those are manual decision controls, not live
+browser tests or a model reliability estimate.
+Document review then clarified that served source can establish declarations
+without a browser trace; network initiators are needed when the origin remains
+ambiguous. Package provenance identifies the exact evaluated candidate separately
+from the final released files.
+
 ## Optional native client smoke checks
 
 These checks are separate from the offline suite and are not CI prerequisites.
