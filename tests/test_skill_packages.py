@@ -105,7 +105,7 @@ class SkillPackages(unittest.TestCase):
         files = package.build_files("consent-pro")
         manifest = json.loads(files["package-manifest.json"])
         self.assertEqual(manifest["format"], 2)
-        self.assertEqual(manifest["version"], "0.2.1")
+        self.assertEqual(manifest["version"], "0.2.2")
         self.assertEqual(manifest["channel"], "development")
         self.assertEqual(set(manifest["source"]), {"commit", "dirty", "content_sha256"})
         self.assertEqual(len(manifest["source"]["content_sha256"]), 64)

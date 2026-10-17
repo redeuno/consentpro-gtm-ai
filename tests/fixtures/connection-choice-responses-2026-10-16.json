@@ -1,0 +1,184 @@
+{
+  "source_manifest_metadata": {
+    "manifest_path": "package-manifest.json",
+    "format": 2,
+    "name": "consent-pro",
+    "version": "0.2.2",
+    "channel": "development",
+    "source": {
+      "commit": "1f8de9fd0ff33fba150631904b9c9f913aca86cc",
+      "content_sha256": "45327f72de271c4990199608a888ab2edd0c71440cfdc5297ac0ceb4586c80dc",
+      "dirty": true
+    },
+    "entrypoint_sha256": "a30176575d36dbc722c0e8fa831bbd9ebfa32857fa2bb852430717dd9359d4b4"
+  },
+  "simulation": "Each case is independent. Responses use only the supplied hypothetical context and the listed package instructions. Intended tool actions were not executed. No network, account, login, host-setting or business-system operation was performed.",
+  "cases": [
+    {
+      "id": "staging-route",
+      "response": "We can start here using the repository's guide. I recommend connecting your Consent Pro staging account so I can inspect your project and carry out supported changes you authorize. That account connection is called MCP. We can also save the guide as a skill for future chats; it is optional. Would you like to connect your staging account, or continue with guided dashboard steps?",
+      "intended_actions": [
+        "Retain the customer's existing staging account and invited-tester status; do not restart signup or request a website URL for this connection decision.",
+        "Wait for the route choice. If connection is chosen, guide Claude Customize, Connectors, Add using the observed controls and the verified staging endpoint https://mcp-staging.consentpro.com/mcp. The customer completes authentication.",
+        "After connection, refresh tool discovery, inspect actual schemas and verify a project read before claiming account access. Resolve the target through available reads.",
+        "If manual setup is chosen, retain that choice and continue dashboard guidance. Prepare the reusable skill only if accepted or requested."
+      ],
+      "files_read": [
+        "SKILL.md",
+        "package-manifest.json",
+        "docs/07-agent-installation/README.md",
+        "docs/reference/onboarding.md"
+      ]
+    },
+    {
+      "id": "unknown-service",
+      "response": "I'll inspect the public HTML at https://example.com/lab while we establish account access. I recommend connecting Consent Pro when a verified connection is available, and we can optionally save this guide for future chats. The development script and old migration comment do not establish which Consent Pro service you intend to use. Are you using the regular Consent Pro dashboard or an invited staging account?",
+      "intended_actions": [
+        "Inspect the supplied site's original public HTML using the available public reader, keeping original declarations separate from rendered elements.",
+        "Ask only which product service the customer uses before providing an endpoint or requiring copied dashboard values. Do not infer the service from the lab path, development runtime or comment.",
+        "For confirmed invited staging, offer the verified connected route. For regular service without a verified connector, explain that limitation and guide dashboard work.",
+        "Preserve the current runtime and defer any migration proposal until the selected project, intended environment and exact project snippet have been checked."
+      ],
+      "files_read": [
+        "SKILL.md",
+        "package-manifest.json",
+        "docs/07-agent-installation/README.md",
+        "docs/reference/onboarding.md",
+        "docs/06-agent-readiness/operations.md"
+      ]
+    },
+    {
+      "id": "manual-retained",
+      "response": "We'll continue the manual setup for https://example.com. I'll refresh the public HTML to see what is currently installed. In Consent Pro, open Projects in your existing workspace and select the project for example.com. Tell me which project is selected and which Consent Pro service its dashboard belongs to; then we'll compare its exact installation snippet with the site. If no matching project appears, we'll check the workspace and project list before creating anything.",
+      "intended_actions": [
+        "Retain the earlier refusal of MCP and persistent skill installation without offering either again.",
+        "Refresh original public HTML for the known URL and compare any discovered core, platform clues and GTM declaration with the available prior checkpoint.",
+        "Guide selection of the matching existing project in the dashboard, confirming the product environment and completing relevant list pagination before concluding the project is absent.",
+        "Once the project is identified, request only its relevant installation snippet or selected setup details. Mark customer statements as reported until independently inspected; continue at the first unresolved step."
+      ],
+      "files_read": [
+        "SKILL.md",
+        "package-manifest.json",
+        "docs/07-agent-installation/README.md",
+        "docs/reference/onboarding.md",
+        "docs/06-agent-readiness/operations.md"
+      ]
+    },
+    {
+      "id": "connected-no-skill",
+      "response": "I'll use the working Consent Pro connection to read this project's current setup and identify the next unfinished step. The repository guide already supports this chat. We can optionally save it as a skill for future chats without reconnecting your account. I'll check the project's installation snippet and saved settings first, then establish Google or site-editing access only where the next step requires it.",
+      "intended_actions": [
+        "Inspect the actual available read schemas and read the already confirmed project in its confirmed environment, following any shortened results to their details.",
+        "Establish the current setup from available project, installation, diagnosis and existing scan reads; do not start a new scan merely to follow a checklist.",
+        "Reuse the working connector and loaded instructions. Do not require a persistent skill, repeat target questions or ask the customer to reconnect.",
+        "Identify the next concrete change and its required access. Because only MCP read capability is established, do not claim write, Google, site-edit or browser-test capability; guide the relevant customer action if the needed capability remains unavailable."
+      ],
+      "files_read": [
+        "SKILL.md",
+        "package-manifest.json",
+        "docs/07-agent-installation/README.md",
+        "docs/reference/onboarding.md",
+        "docs/06-agent-readiness/operations.md"
+      ]
+    },
+    {
+      "id": "regular-service",
+      "response": "I do not have a verified connection endpoint for the regular Consent Pro service in this guide, so I cannot connect your production account from these instructions. We can continue through your dashboard. Open Consent Pro, go to Projects and select the site you want to set up; tell me its public website URL so we can establish the target. The reusable guide is optional if you want it available in future chats.",
+      "intended_actions": [
+        "Preserve the confirmed regular production environment. Do not use the staging endpoint, invent a production endpoint or send the customer to a different service.",
+        "Continue with the available dashboard route and establish the selected project and public hostname without restarting account signup.",
+        "Guide the customer through the selected project's setup screen, then compare its exact snippet with site evidence only if a suitable reader or customer-provided evidence is available.",
+        "Keep connection, dashboard-reported settings, installation and browser behavior as separate checkpoints; do not claim account access or completed setup."
+      ],
+      "files_read": [
+        "SKILL.md",
+        "package-manifest.json",
+        "docs/07-agent-installation/README.md",
+        "docs/reference/onboarding.md",
+        "docs/06-agent-readiness/operations.md"
+      ]
+    },
+    {
+      "id": "rendered-gtm",
+      "response": "The supplied HTML does not show a duplicate GTM installation. It declares one Consent Pro core followed by one GTM bootstrap. That bootstrap creates the asynchronous gtm.js element and inserts it before the first script, which explains why it appears above the core in the rendered page. Do not delete the top script based on that position. The declared order is core first; actual execution and consent behavior remain unverified without a network or execution trace.",
+      "intended_actions": [
+        "Report the original declaration order separately from the rendered DOM position using the evidence already supplied.",
+        "Keep the diagnosis read-only and propose no script deletion, relocation, account setup or connection installation.",
+        "If further diagnosis is requested, obtain an initiator and execution trace through an actually available browser tool or customer-supplied evidence before evaluating duplicate loads or runtime order.",
+        "Do not claim that the original order proves consent enforcement or successful tracker blocking."
+      ],
+      "files_read": [
+        "SKILL.md",
+        "package-manifest.json",
+        "docs/06-agent-readiness/operations.md"
+      ]
+    },
+    {
+      "id": "component-assets",
+      "response": "No separate replacement is indicated by those three filenames. Your custom-site dashboard supplies one core tag, and the original HTML declares that tag only. banner.js, fixed-preferences.js and preferences.js may be dependencies loaded by the runtime. Their presence in a rendered scrape, even on the same origin, does not prove that they were separately installed. Keep the exact project core snippet as the installation source. We would need an initiator trace to confirm what loaded those components if there is a specific malfunction to investigate.",
+      "intended_actions": [
+        "Use the selected custom-site project's single core snippet as the installation reference and retain the supplied original HTML evidence.",
+        "Do not request component snippets from support or add, remove or replace component assets based only on a rendered scrape.",
+        "Label runtime dependency as a plausible explanation, not a confirmed initiator finding.",
+        "Only pursue a component initiator trace if a concrete mismatch or malfunction makes it necessary and the relevant browser evidence becomes available."
+      ],
+      "files_read": [
+        "SKILL.md",
+        "package-manifest.json",
+        "docs/06-agent-readiness/operations.md"
+      ]
+    },
+    {
+      "id": "staging-snippet",
+      "response": "Yes. Since this project is intended to remain in Consent Pro staging and its dashboard supplies that matching core snippet, we can use it as the installation reference. There is no reason here to demand a production snippet. The site's branch runtime differs from the dashboard snippet, so the next step is to compare the exact URLs, attributes and placement and prepare the specific replacement for review. Nothing has been changed, and successful runtime behavior still needs testing after any authorized deployment.",
+      "intended_actions": [
+        "Retain the confirmed staging target and the dashboard-provided api-staging.consentpro.com snippet with its matching site ID and required attributes.",
+        "Compare the existing branch runtime's full declaration with the exact dashboard tag using available evidence; if the full original declaration is unavailable, request that narrow evidence.",
+        "Prepare the exact before-and-after replacement and recovery value, preserving the required attributes and avoiding guessed async, defer or extra component scripts. Obtain approval for that concrete site change before deployment.",
+        "After an authorized change by an available site owner or supported tool, re-read the served HTML, use the dashboard installation check and arrange browser behavior checks. Keep all of those outcomes unverified until observed."
+      ],
+      "files_read": [
+        "SKILL.md",
+        "package-manifest.json",
+        "docs/07-agent-installation/README.md",
+        "docs/06-agent-readiness/operations.md"
+      ]
+    },
+    {
+      "id": "narrow-public-audit",
+      "response": "I'll read the original public HTML at https://example.com and check for a declared Consent Pro script. I'll report the matching tag and its placement, or state that none was found in the retrieved HTML. This check can establish what the page declares; it cannot establish runtime behavior.",
+      "intended_actions": [
+        "Use only the available public reader to retrieve the known URL's original response HTML.",
+        "Check the completeness of the returned HTML and search for Consent Pro script declarations, recording exact source URLs and attributes when present.",
+        "If the reader supplies only rendered HTML or incomplete content, label that limitation and avoid concluding that no original declaration exists.",
+        "Report only the requested public HTML finding. Do not initiate account setup, request a connector or skill installation, change configuration or claim a runtime test."
+      ],
+      "files_read": [
+        "SKILL.md",
+        "package-manifest.json",
+        "docs/07-agent-installation/README.md",
+        "docs/06-agent-readiness/operations.md"
+      ]
+    },
+    {
+      "id": "connected-ready",
+      "response": "The Consent Pro instructions and account connection are already working here, so we can continue in this chat. Your account returns two projects with different domains. Which client's website should we set up first? Once you select its domain, I'll read that project's setup and prepare the specific installation steps for review before any changes.",
+      "intended_actions": [
+        "Reuse the selected plugin, inspected instructions and authenticated MCP connection without offering another installation, reconnection or starter prompt.",
+        "Ask the customer to select the first client domain. The scenario does not supply the two returned domain values, so do not invent names or select the first project by default.",
+        "After selection, use the working read capabilities to confirm the matching workspace, project, site ID, domain and environment, and read its exact installation snippet and current setup.",
+        "Keep each client's target, decisions and permissions separate. Identify any site-read or editing capability only when needed; do not assume public browsing or site-write access.",
+        "Prepare the exact proposed installation change and required owner action. No mutation is approved, so obtain approval of the concrete change before applying it, and keep publication authority separate."
+      ],
+      "files_read": [
+        "SKILL.md",
+        "package-manifest.json",
+        "docs/07-agent-installation/README.md",
+        "docs/reference/onboarding.md",
+        "docs/06-agent-readiness/operations.md"
+      ]
+    }
+  ],
+  "scenario_source": "tests/onboarding-scenarios.json#connection_choice_cases",
+  "review_note": "Responses are unchanged. Scenario-source paths were separated from package-relative files_read. After this candidate probe, document review clarified that original served code can establish declarations without requiring a browser trace; initiators are needed when origin remains ambiguous."
+}

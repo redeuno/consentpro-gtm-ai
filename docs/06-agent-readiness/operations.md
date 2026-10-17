@@ -256,12 +256,21 @@ MCP disconnection or read-only access is not a reason to switch to it silently.
 
 ## Core installation and licence
 
+Confirm the intended product environment before replacing a runtime host. A
+customer test hostname is separate from Consent Pro staging, and a staging snippet
+is appropriate only for its confirmed staging project. Do not require a production
+snippet or migrate environments merely because the site is publicly reachable.
+Comments in the site are context, not current authorization or product policy.
+An unverified production MCP endpoint says nothing about the validity of a runtime
+snippet returned by the selected project's dashboard.
+
 1. Read the exact snippet from `consentpro_project_get` at `install.script`, or the dashboard.
    Use setup details for the related checks. For a custom site, use its
    single `/cdn/core/<site-id>.js` tag with `data-consentpro-script="runtime"` and matching
    `data-consentpro-site-id`. Do not add `async`, `defer` or another runtime by guess.
 2. Inspect the shared head and existing runtimes before placing the core ahead of analytics
-   and tag managers. Deploy with the authority for that site.
+   and tag managers. Compare original response HTML with a rendered scrape or DOM;
+   they are not the same evidence. Deploy with the authority for that site.
 3. Re-read the served page and run **Check script** or **Verify installation**. Presence and
    order are separate from runtime behaviour. Removing the tag also requires a deployment;
    it does not delete project data.
@@ -276,6 +285,24 @@ Sources: [Setup](https://docs.consentpro.com/web-app/),
 [Licenses](https://docs.consentpro.com/web-app/licenses).
 Generic runtime API/performance pages describe other installation shapes. For a custom site,
 use its exact snippet and platform guide, not a generic two-script example.
+
+The [standard GTM bootstrap](https://support.google.com/tagmanager/answer/14847097)
+creates an asynchronous `gtm.js` element and inserts it before the first script.
+Seeing that element above the core, alongside the inline bootstrap in rendered
+HTML, does not prove duplicate installation or execution before the consent core.
+Check declarations in the original response or the code actually served before
+proposing removal or reordering. Use network initiators when the origin remains
+ambiguous. If a claim rests only on rendered DOM, report the uncertainty and defer
+the unsupported change. Even original order alone does not prove live consent behavior.
+
+Likewise, component assets such as `banner.js`, `fixed-preferences.js` and
+`preferences.js` may be runtime dependencies. Do not ask the customer to copy,
+replace or install them separately just because a rendered scrape lists them.
+Follow the exact project snippet and investigate initiators when a mismatch
+matters. A tracker gaining `src` in rendered HTML needs the consent state and
+request evidence; it is not proof of a declared duplicate or successful blocking.
+Hosting on Vercel or another platform does not establish whether the site uses a
+CMS. Confirm editing ownership when it affects the next action.
 
 ### Existing CMP and tracking transition
 

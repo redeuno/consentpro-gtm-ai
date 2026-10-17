@@ -6,12 +6,12 @@ remain the sources for product behavior; this page covers delivery to an agent.
 
 ## Optional: get the ready package
 
-Download the reviewed assets from [release 0.2.1](https://github.com/redeuno/consentpro-gtm-ai/releases/tag/v0.2.1):
+Download the reviewed assets from [release 0.2.2](https://github.com/redeuno/consentpro-gtm-ai/releases/tag/v0.2.2):
 
 | Asset | Use |
 |---|---|
-| `consent-pro-0.2.1-preview.zip` | Start here for the whole Consent Pro journey, including GTM guidance |
-| `consent-pro-gtm-0.2.1-preview.zip` | Optional specialist for focused GTM work |
+| `consent-pro-0.2.2-preview.zip` | Start here for the whole Consent Pro journey, including GTM guidance |
+| `consent-pro-gtm-0.2.2-preview.zip` | Optional specialist for focused GTM work |
 | `SHA256SUMS` | Compare the downloaded bytes with the release checksums |
 
 This is a preview distribution. Consult the release's measured client coverage
@@ -58,7 +58,10 @@ generalized to custom sites. These public sources were checked on 2026-10-16.
 | Consent Pro product development staging | Only for an invited tester using the [staging connection instructions](#connect-consent-pro-staging-separately); separate account/workspace data may apply |
 | Customer test website | The customer's own test hostname, project and container. It does not become Consent Pro's internal staging and does not imply a free production license |
 
-Confirm the environment before connecting or changing anything. An unavailable
+Confirm the product environment before connecting or changing anything. Use the
+selected dashboard/project or ask which service the customer is using. A public
+site, a `lab` hostname, a staging runtime URL or a comment in website code does
+not authorize migration to production. An unavailable
 connector does not stop guided Consent Pro or GTM dashboard work. Installing
 instructions, signing in to Consent Pro, connecting Google and editing the site
 are separate steps.
@@ -77,21 +80,19 @@ explain the immediate action and ask only for the next missing fact or action:
 
 | Evidence already available | Next reply or action |
 |---|---|
-| Only a setup request and this repository URL, without project access | Read the guidance and ask for the website URL. Do not also ask for platform, GTM ID, workspace and license checks |
-| Website URL supplied | Inspect the available public site or authenticated project evidence; ask for a missing platform only when the installation step needs it |
+| Full setup request and this repository URL, connection route undecided | Read the guidance, recommend connected setup and offer a reusable skill using the choice below. Ask only the next route or environment question, not a platform/GTM/license questionnaire |
+| Website URL supplied | Inspect available evidence, but resolve the connection choice before requiring the customer to copy dashboard values; ask for a missing platform only when the installation step needs it |
 | Customer says they already have a Consent Pro account | Keep that fact as reported and continue the current step. Do not restart signup or send an unrelated purchase/workspace checklist |
 | Customer asks to install the skill or connect MCP first | Prepare that requested client setup, using the Claude or other host procedure below. Do not block it on a website URL |
 | Consent Pro tools already work | Read the relevant project; resolve ambiguity rather than asking the customer to reconnect |
-| Consent Pro tools are absent and a verified connector route applies | Offer that connection as the next action when it advances the requested work, explaining what it lets the agent do. If the customer cannot or does not want to add it, continue through the dashboard |
+| Consent Pro tools are absent and a verified connector route applies | Recommend that connection for full setup, explain what it lets the agent do, and guide it when accepted or already requested. If unavailable or declined, continue through the dashboard |
 | Customer already declined a connector or cannot add it | Keep that choice, guide the manual route and continue independent reads; do not repeatedly offer reconnection |
 | Customer reports a skill or connector was installed | Refresh the relevant discovery/read, state what is actually verified, and resume the existing step without requesting the same known details |
 
-For a plain setup request without a site, an appropriate first reply is:
-"I have read the setup guide and can walk you through it here. What is your
-website's address? I will check what is already installed before we change it."
-Adapt this to the customer's language and actual evidence; do not claim a read
-that did not happen. For an explicit connection request, the next action instead
-opens the connector settings. Do not invent an installation duration.
+Use the connection choice below for a full setup request. Once that route is known,
+or for a narrow public-site inspection, ask for the missing site URL and inspect it.
+Adapt the next action to actual evidence; do not claim a read that did not happen
+or invent an installation duration.
 
 If reading GitHub fails, describe that retrieval failure accurately. A fetch
 failure or a 404 does not establish whether the repository is private, deleted
@@ -120,6 +121,42 @@ Before saying setup is ready, the agent must distinguish these checks:
 Successful project listing does not prove a skill is loaded or Google is connected.
 Do not delete a working connector just to add missing instructions. Prefer updating the
 intended plugin when that supported path preserves the connection, then verify both layers.
+
+### Choose how the assistant will work
+
+For full setup, recommend connecting Consent Pro so the assistant can read the
+selected project and perform supported changes within the customer's authorization.
+Explain MCP as that account connection. Offer the reviewed skill once to keep the
+procedure available in future chats; reading it already supports this conversation.
+These are recommendations, not conditions for getting help or proof of any access.
+
+Use one next decision at a time:
+
+- If the connector already works, reuse it and resolve the project. Offer missing
+  persistent instructions without reinstalling a working connection.
+- If the environment and endpoint are verified, recommend connecting now and ask
+  whether to connect or continue with guided dashboard work. If already accepted
+  or requested, proceed to the host's setup steps without asking again.
+- If the environment is unknown, ask which Consent Pro dashboard/service the
+  customer is using, without private URL parameters. Confirm invited staging
+  before offering its endpoint. Only staging is verified in this release; for
+  regular service without a verified connector, explain the limit and offer the
+  dashboard. Do not invent a production endpoint or send regular customers to staging.
+- If connection was declined or is restricted, preserve that choice. Continue
+  useful reads and manual steps. Do not make the reusable skill mandatory either.
+
+For a known staging tester without a connector, a short reply can be:
+"I recommend connecting Consent Pro so I can inspect your project and make changes
+you authorize. We can also save this guide as a skill for future chats. Shall we
+connect your staging account, or continue with guided dashboard steps?"
+If the environment is unknown, replace that choice with the one question needed
+to identify it. Do not ask about the website, skill, Google and licensing together.
+
+After the customer accepts, guide MCP setup, complete the customer-operated login,
+refresh discovery and verify a project read. Then follow up on the optional skill
+offer with the ready ZIP if wanted. If declined, continue using the loaded guide.
+Google authorization follows when GTM is relevant. Record the route so a later
+"done" resumes the task rather than reopening every choice.
 
 ## Choose the client path
 
@@ -163,7 +200,8 @@ Sources: [Build plugins](https://learn.chatgpt.com/docs/build-plugins) and
 
 ### Claude web or Desktop: upload the reviewed package
 
-Use this section when the customer asks to save the skill for future chats. Keep
+Use this section when the customer asks or accepts the offer to save the skill
+for future chats. Keep
 website setup in the current conversation when persistent installation is not
 requested. The default Claude chat path is guided installation through account
 settings. Do not assume it has ChatGPT's Plugin Creator or permission to operate
@@ -182,7 +220,7 @@ When file tools are available, first verify the reviewed ZIP and manifest using
 the checks below. Otherwise provide the reviewed asset link and keep byte
 verification marked unavailable. In Customize,
 Skills, open Add Skill (`+`) and choose Upload Skill, then select the generated
-`consent-pro-0.2.1-preview.zip` and enable it. The primary package includes the GTM reference and its
+`consent-pro-0.2.2-preview.zip` and enable it. The primary package includes the GTM reference and its
 scripts; the specialist ZIP is available for direct GTM tasks. Each ZIP must contain
 its named skill folder, including `SKILL.md` and all bundled dependencies. Do not upload
 the entire repository as if it were one skill.
@@ -223,7 +261,8 @@ still requires host-specific acceptance.
 ### Claude web or Desktop: connect when available
 
 Missing Consent Pro tools in the current chat does not prove that the account
-cannot add connectors. If the customer wants the connected route, use the verified
+cannot add connectors. Recommend the connected route for full setup using the
+choice above. Once accepted or already requested, use the verified
 environment's endpoint and guide Customize, Connectors, Add. Inspect the actual
 controls before choosing Add custom connector or Custom, Web; labels vary. In an
 organization, an owner may need to add the connector before a member can connect
