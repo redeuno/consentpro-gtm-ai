@@ -579,7 +579,7 @@ instructions cannot control a reader before it retrieves any repository content.
 The [first-conversation evaluation](../../tests/README.md#claude-first-conversation-instruction-checks-2026-10-16)
 records six reviewed fictional cases and two additional Portuguese response probes.
 No business calls were made. A separate document review corrected target discovery
-and file-verification wording. The `0.2.1` preview candidate carries these changes;
+and file-verification wording. The released `0.2.1` preview carries these changes;
 installed `0.2.0` skills and the previously tested ChatGPT plugin remain unchanged.
 Package checks establish bundled-file integrity, not actual Claude behavior.
 
@@ -589,6 +589,16 @@ and whitespace validation. The built-in web reader could not fetch the repositor
 or its raw README; a direct unauthenticated HTTPS read of the raw README returned
 200. This verifies that one public reading route worked in this environment,
 not that another host's reader will succeed.
+
+The [0.2.1 release](https://github.com/redeuno/consentpro-gtm-ai/releases/tag/v0.2.1)
+is pinned to clean source
+[`26a99ac`](https://github.com/redeuno/consentpro-gtm-ai/tree/26a99acc4ab9cd661a1dd285df6835510c2b3e96).
+Two builds produced identical archives. Every manifest hash and release checksum
+matched; the two downloaded ZIPs and checksum file equaled the reviewed build.
+An unauthenticated download of the primary ZIP also returned the reviewed bytes.
+The [candidate CI run](https://github.com/redeuno/consentpro-gtm-ai/actions/runs/38989368205)
+passed both Linux checks and Windows package checks. These are artifact and
+repository checks, not a new Claude web installation or hosted-plugin update.
 
 Next acceptance: start a fresh Claude conversation with the repository URL and a
 plain setup request, then check the first reply, a missing-connector path and
