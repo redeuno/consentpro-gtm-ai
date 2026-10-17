@@ -164,6 +164,44 @@ The evaluation above cannot validate an unreleased API, live OAuth, a hosted plu
 or browser behavior. A source archive, test count or plugin name does not prove which
 instruction revision a customer's conversation loaded.
 
+## Claude first-conversation instruction checks, 2026-10-16
+
+The `claude_entry_cases` group in [scenario inputs](onboarding-scenarios.json)
+addresses an ordinary repository-link request. A fresh evaluator read the generated
+development package without the answer key and produced these
+[six fictional responses](fixtures/claude-entry-responses-2026-10-16.json).
+The coordinator and a separate document reviewer checked the following decisions:
+
+| Case | Observed decision |
+| --- | --- |
+| `bare-link` | Ask only for the unknown site URL; no new prompt or mandatory skill upload |
+| `account-no-add` | Retain the existing account and manual route; inspect available site evidence without inferring account-plan restrictions |
+| `reader-failure` | Try the available alternative reader; a retrieval failure does not prove a private repository |
+| `install-now` | Prepare the requested package before asking for a site; separate download from customer-operated upload |
+| `installed-resume` | Refresh the loaded instructions and resume the known site, account and declined connector choice |
+| `connected-choice` | Use the complete project inventory and ask which target, without choosing the first one |
+
+All six met those criteria in this one manual review. Two additional fresh response
+probes used a Portuguese setup request: one entered through the packaged skill,
+the other through the actual repository README and its linked guides. Both asked
+only for the missing site URL in Portuguese. Their local-language transcripts are
+kept outside this English-authored repository. Neither fetched the remote GitHub
+page or exercised Claude web. Intended actions are proposals, not executed reads,
+downloads, checksum verification or account operations.
+
+Manual negative controls rejected: requiring upload and a new prompt first;
+inventing a plan restriction; inferring repository privacy from a failed reader;
+equating a downloaded ZIP with an enabled skill; repeating the known site/account
+questions after "Installed"; and selecting the first of two projects without a
+choice. These criteria test instructional decisions, not model reliability.
+
+Final review clarified connected-target discovery and the download-tool fallback.
+The release version was then changed from the evaluated development candidate's
+`0.2.0` to `0.2.1`. Use the new package for a real Claude test; the old installed
+skill does not receive repository edits automatically. Remote reader availability,
+Claude skill upload, connector authorization and a full customer journey remain
+separate acceptance work.
+
 ## Optional native client smoke checks
 
 These checks are separate from the offline suite and are not CI prerequisites.

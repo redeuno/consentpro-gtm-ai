@@ -11,6 +11,11 @@ checkpoint ledger forward and resume after manual actions. When invoked directly
 establish the host and available capabilities without assuming that skill delivery,
 MCP authorization and the client's Google GTM connection are the same thing.
 An old transcript or repository test count does not identify the loaded package.
+Instructions already read can guide the current chat without persistent skill
+installation. Use the [first-reply procedure](../docs/07-agent-installation/README.md#start-in-your-current-chat)
+instead of sending another starter prompt or a mandatory upload detour. If the
+site is missing, ask for that next; do not bundle platform, GTM and license questions.
+An explicit assistant-setup request can proceed without the website URL.
 
 Read [operations](../docs/06-agent-readiness/operations.md) for the target, available
 tools and permission boundaries. Read the [nine steps](../docs/reference/nine-steps.md)

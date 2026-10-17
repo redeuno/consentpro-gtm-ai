@@ -25,8 +25,10 @@ The maintained guides cite public product documentation. Raw collected documents
 screenshots and authenticated tool catalogues are now preserved outside this
 repository with verified hashes. They are not package dependencies. Synthetic
 archive fixtures exercise the verifier in CI. Historical Git objects still contain
-earlier collections; repository visibility must remain private until the owner
-approves and verifies a public-history strategy.
+earlier collections. The owner made the repository public for an entry-path test
+on 2026-10-16; this does not clear those historical collections for redistribution.
+The separate public-history review remains unresolved. No visibility or history
+change is included in the first-conversation correction below.
 
 Capability discovery and authenticated reads establish only the current connection's
 available path. They do not establish effective write permissions, production
@@ -485,7 +487,7 @@ operations still need separate isolated acceptance under C01.
 | J01/J02 | Official account entry, access recovery guidance, purchase/workspace/license reconciliation and first-project routing | Real account and entitlement cases; no private recovery URL or assistance entitlement is assumed |
 | J03/J04/J05 | GTM choice, direct integrations and complete manual CP/GTM procedures; existing published-container and CMP transition checks | Full browser/network/storage path with a consenting test operator and disposable targets |
 | J06/J07 | Verified public assistance routes, minimal support handoff, copyable continuation record and successor access checks | A real support/service outcome and customer handoff; preparing text sends nothing |
-| D01 | 80 source files privately preserved and hash-verified before removal; synthetic CI archive fixtures; retained template code attributed and licensed | Historical Git objects remain private and are not cleared for public redistribution |
+| D01 | 80 source files privately preserved and hash-verified before removal; synthetic CI archive fixtures; retained template code attributed and licensed | Historical Git objects are not cleared for public redistribution; current visibility is recorded above |
 | D02 | Customer service, internal product staging and customer test hostnames separated; production endpoint left unverified | Product owner supplies and verifies the production connector and effective permissions |
 | D03 | Versioned package builder, explicit source allowlist, checksums, pinned provenance and deterministic preview ZIPs from `7925bbb` | Stable production distribution remains a separate release decision |
 | D04 | Ready-artifact installation, upgrade/recovery and removal routes; actual local Codex installation and private ChatGPT plugin update | Claude web upload and the remaining host-specific acceptance below |
@@ -516,8 +518,8 @@ The writer and OAuth implementations are unchanged in this delivery.
 
 The artifacts are a preview of the customer instructor, not a claim that every
 supported client or a live customer setup has passed acceptance. Repository
-privacy remains intentional; customer packages exclude the private archive and do
-not need it at runtime. No background agent, automatic cross-chat memory or
+privacy was the delivery boundary for that revision; customer packages exclude
+the private archive and do not need it at runtime. No background agent, automatic cross-chat memory or
 continuous consent monitoring is installed by these instructions.
 
 ### Preview delivery and client acceptance
@@ -526,7 +528,7 @@ The `0.2.0` preview packages are built from clean source commit
 [`7925bbb`](https://github.com/redeuno/consentpro-gtm-ai/tree/7925bbbfd859882df520548dcf868bcee32a070c).
 Two consecutive builds produced identical archives and manifests. Both ZIPs passed
 their `SHA256SUMS` check. The [release](https://github.com/redeuno/consentpro-gtm-ai/releases/tag/v0.2.0)
-contains the two archives and checksum file; access follows the private repository.
+contains the two archives and checksum file; the repository was private at delivery.
 Later status-only commits do not change these pinned package bytes.
 
 Native Windows CI initially exposed two package tests that relied on the default
@@ -556,6 +558,52 @@ Next action: run one full beginner journey on a designated disposable site and
 container, with a named operator and explicitly agreed effects. Record the actual
 browser checks, pauses, resumption and remaining dependencies before claiming
 customer-ready end-to-end support.
+
+### Claude first-conversation correction, 2026-10-16
+
+A customer-reported Claude web trial exposed a confusing entry path: a failed
+repository read, a repository overview, a second prompt to copy and repeated setup
+questions. A later reader succeeded, and the customer reported uploading the
+`0.2.0` skill. That report is useful feedback, not a maintainer-observed upload or
+a complete customer setup test.
+
+The README and both skills now direct the assistant to use readable instructions
+in the current conversation. Persistent installation is optional. The next action
+uses existing site/project evidence, and an explicit skill or connector request
+can be completed before obtaining a website URL. Claude guidance prepares a ZIP
+when tools permit, guides only the remaining account actions, and resumes after
+"installed" without repeating known facts. Missing tools do not prove account
+restrictions. A plain-text README link provides an alternative reading route;
+instructions cannot control a reader before it retrieves any repository content.
+
+The [first-conversation evaluation](../../tests/README.md#claude-first-conversation-instruction-checks-2026-10-16)
+records six reviewed fictional cases and two additional Portuguese response probes.
+No business calls were made. A separate document review corrected target discovery
+and file-verification wording. The released `0.2.1` preview carries these changes;
+installed `0.2.0` skills and the previously tested ChatGPT plugin remain unchanged.
+Package checks establish bundled-file integrity, not actual Claude behavior.
+
+Local verification for this correction passed 30 tests (29 package checks and
+the public-content boundary check), 249 local Markdown links and punctuation,
+and whitespace validation. The built-in web reader could not fetch the repository
+or its raw README; a direct unauthenticated HTTPS read of the raw README returned
+200. This verifies that one public reading route worked in this environment,
+not that another host's reader will succeed.
+
+The [0.2.1 release](https://github.com/redeuno/consentpro-gtm-ai/releases/tag/v0.2.1)
+is pinned to clean source
+[`26a99ac`](https://github.com/redeuno/consentpro-gtm-ai/tree/26a99acc4ab9cd661a1dd285df6835510c2b3e96).
+Two builds produced identical archives. Every manifest hash and release checksum
+matched; the two downloaded ZIPs and checksum file equaled the reviewed build.
+An unauthenticated download of the primary ZIP also returned the reviewed bytes.
+The [candidate CI run](https://github.com/redeuno/consentpro-gtm-ai/actions/runs/38989368205)
+passed both Linux checks and Windows package checks. These are artifact and
+repository checks, not a new Claude web installation or hosted-plugin update.
+
+Next acceptance: start a fresh Claude conversation with the repository URL and a
+plain setup request, then check the first reply, a missing-connector path and
+resumption after optional skill upload. Record reader failures separately from
+instruction failures. Full site setup and public-history review remain open.
 
 ### Public sources and release boundaries
 
