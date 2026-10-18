@@ -1,0 +1,267 @@
+"""
+What it does: checks a Google Tag Manager container against the Consent Pro setup guide and
+          reports configuration signals and per-tag counts. These signals do not establish
+          that every tag is correctly configured or that consent works in the browser.
+READS or WRITES: **READS ONLY.** There is no write path in this file, by design. An audit
+          that fixes things on its own hides what was wrong. With --save it writes one JSON
+          diagnostic to the current directory, which is local disk.
+How to apply: nothing is applied. There is no apply flag.
+Safe to run again? Always. It is a pure read.
+
+REQUIRES a Google OAuth credential with the tagmanager.readonly scope. Setting one up is
+outside this script: see Google's Tag Manager API quickstart. Point the two environment
+variables below at the client file and the refresh token.
+
+WHY IT ASKS YOU TO CONFIRM THE ACCOUNT NAME:
+   a Google credential usually reaches every container that account can see, including other
+   clients and production properties. An account id is easy to mistype and impossible to
+   sanity check by eye. This script prints the live account name and requires you to pass it
+   back with --confirm-name, so a wrong target fails before it reads anything else.
+
+Usage:
+   python audit-container.py --account 1234567890 --container GTM-XXXXXXX
+   (it will print the account name and tell you what to pass to --confirm-name)
+"""
+
+import argparse
+import importlib.util
+import json
+import os
+from pathlib import Path
+import sys
+import time
+import urllib.error
+import urllib.parse
+import urllib.request
+from datetime import datetime, timezone
+
+API = "https://tagmanager.googleapis.com/tagmanager/v2"
+TOKEN_URL = "https://oauth2.googleapis.com/token"
+_spec = importlib.util.spec_from_file_location("consent_template", Path(__file__).with_name("consent-template.py"))
+template_support = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(template_support)
+
+CLIENT_FILE = os.environ.get("GTM_OAUTH_CLIENT")
+TOKEN_FILE = os.environ.get("GTM_OAUTH_TOKEN")
+
+# Built-in trigger ids. They do not appear in the workspace trigger list.
+TRIGGER_ALL_PAGES = "2147479553"
+TRIGGER_CONSENT_INIT = "2147479573"
+
+
+def access_token():
+    if not CLIENT_FILE or not TOKEN_FILE:
+        raise SystemExit(
+            "Set GTM_OAUTH_CLIENT to your OAuth client json and GTM_OAUTH_TOKEN to the file "
+            "holding the refresh token.")
+    with open(CLIENT_FILE, encoding="utf-8") as f:
+        cli = json.load(f)["installed"]
+    with open(TOKEN_FILE, encoding="utf-8") as f:
+        refresh = f.read().strip()
+    data = urllib.parse.urlencode({
+        "client_id": cli["client_id"],
+        "client_secret": cli["client_secret"],
+        "refresh_token": refresh,
+        "grant_type": "refresh_token",
+    }).encode()
+    with urllib.request.urlopen(urllib.request.Request(TOKEN_URL, data=data), timeout=40) as r:
+        return json.load(r)["access_token"]
+
+
+def read(tok, path, attempts=4):
+    """Backoff on retry. Live reads fail often enough that stopping at the first refusal
+    turns 'did not answer' into 'does not exist'."""
+    wait = 3
+    for n in range(attempts):
+        req = urllib.request.Request(API + path, method="GET")
+        req.add_header("Authorization", "Bearer " + tok)
+        try:
+            with urllib.request.urlopen(req, timeout=60) as r:
+                return json.load(r)
+        except urllib.error.HTTPError as e:
+            body = e.read().decode("utf-8", "replace")[:400]
+            if e.code in (429, 500, 502, 503) and n < attempts - 1:
+                time.sleep(wait); wait *= 2; continue
+            raise SystemExit("HTTP %s on %s\n%s" % (e.code, path, body))
+        except (urllib.error.URLError, TimeoutError, OSError) as e:
+            if n < attempts - 1:
+                time.sleep(wait); wait *= 2; continue
+            raise SystemExit("transport failure on %s: %s" % (path, e))
+    raise SystemExit("no answer: " + path)
+
+
+def trigger_name(tid, triggers):
+    if tid == TRIGGER_ALL_PAGES:
+        return "All Pages (built-in)"
+    if tid == TRIGGER_CONSENT_INIT:
+        return "Consent Initialization - All Pages (built-in)"
+    for t in triggers:
+        if t.get("triggerId") == tid:
+            return "%s [%s]" % (t.get("name", "?"), t.get("type", "?"))
+    return "id %s (not in this workspace)" % tid
+
+
+def has_consent_check(tag):
+    cs = tag.get("consentSettings") or {}
+    return cs.get("consentStatus") == "needed" or bool(cs.get("consentType"))
+
+
+def scanner_can_see(tag, consent_updated_ids):
+    """Return a configuration heuristic, not proof of scanner coverage.
+
+    All Pages and consent events are common discovery paths. Other triggers may
+    require a particular page or interaction that the scan did not exercise.
+    Compare actual scan results before concluding that a tracker was missed.
+    """
+    triggers = set(tag.get("firingTriggerId") or [])
+    if not triggers:
+        return False
+    # The initialization tag is not a tracker, it is the consent layer itself. It belongs on
+    # Consent Initialization by design, and the scanner has no reason to see it. Flagging it
+    # would be a false alarm, and a checker that cries wolf on its own correct setup is a
+    # checker people stop reading.
+    if TRIGGER_CONSENT_INIT in triggers:
+        return True
+    return bool(triggers & ({TRIGGER_ALL_PAGES} | consent_updated_ids))
+
+
+def main():
+    p = argparse.ArgumentParser()
+    p.add_argument("--account", required=True, help="account id")
+    p.add_argument("--container", required=True, help="public id, GTM-XXXXXXX")
+    p.add_argument("--confirm-name", default=None,
+                   help="the account name, exactly as printed on the first run")
+    p.add_argument("--workspace", default=None)
+    p.add_argument("--save", action="store_true", help="write a json diagnostic here")
+    a = p.parse_args()
+
+    tok = access_token()
+
+    account = read(tok, "/accounts/%s" % a.account)
+    live_name = account.get("name")
+    if a.confirm_name is None:
+        raise SystemExit(
+            "\nAccount %s is named: %s\n\nIf that is the right account, run again adding:\n"
+            "  --confirm-name \"%s\"\n\nIf it is not, stop and check the id.\n"
+            % (a.account, live_name, live_name))
+    if a.confirm_name != live_name:
+        raise SystemExit(
+            "Account %s is named '%s', not '%s'. Stopping." % (a.account, live_name, a.confirm_name))
+
+    inventory = lambda path, key: template_support.list_all(lambda url: read(tok, url), path, key)
+    containers = inventory("/accounts/%s/containers" % a.account, "container")
+    target = next((c for c in containers if c.get("publicId") == a.container), None)
+    if target is None:
+        raise SystemExit("container %s not found in account %s" % (a.container, a.account))
+
+    wss = inventory("/accounts/%s/containers/%s/workspaces"
+                    % (a.account, target["containerId"]), "workspace")
+    if a.workspace:
+        ws = next((w for w in wss if w.get("workspaceId") == a.workspace), None)
+        if ws is None:
+            raise SystemExit("workspace %s not found" % a.workspace)
+    elif len(wss) == 1:
+        ws = wss[0]
+    else:
+        raise SystemExit("there are %d workspaces, pick one with --workspace: %s"
+                         % (len(wss), ", ".join(w.get("workspaceId", "?") for w in wss)))
+
+    base = "/accounts/%s/containers/%s/workspaces/%s" % (
+        a.account, target["containerId"], ws["workspaceId"])
+    tags = inventory(base + "/tags", "tag")
+    triggers = inventory(base + "/triggers", "trigger")
+    templates = inventory(base + "/templates", "template")
+
+    print("\nACCOUNT   %s (%s)" % (live_name, a.account))
+    print("CONTAINER %s (%s), workspace %s" % (a.container, target.get("name", "?"), ws.get("name", "?")))
+    print("%d tags, %d workspace triggers, %d templates\n" % (len(tags), len(triggers), len(templates)))
+
+    tpl, identity = template_support.select(templates)
+    print("TEMPLATE SOURCE: " + template_support.describe(identity))
+    tag_type = template_support.tag_type(tpl, target["containerId"])
+    init = [t for t in tags if tag_type and t.get("type") == tag_type
+            and TRIGGER_CONSENT_INIT in (t.get("firingTriggerId") or [])]
+
+    def is_consent_updated(t):
+        filters = t.get("customEventFilter") or []
+        return (t.get("type") == "customEvent" and isinstance(filters, list) and len(filters) == 1
+                and isinstance(filters[0], dict) and filters[0].get("type") == "equals"
+                and isinstance(filters[0].get("parameter"), list) and len(filters[0]["parameter"]) == 2
+                and all(isinstance(p, dict) and p.get("type") == "template" for p in filters[0]["parameter"])
+                and {p.get("key"): p.get("value") for p in filters[0]["parameter"]}
+                == {"arg0": "{{_event}}", "arg1": "consent-updated"}
+                and not t.get("filter") and not t.get("autoEventFilter"))
+
+    cu = [t for t in triggers if is_consent_updated(t)]
+    cu_ids = {t["triggerId"] for t in cu}
+    on_cu = [t for t in tags if cu_ids & set(t.get("firingTriggerId") or [])]
+    checked = [t for t in tags if has_consent_check(t)]
+
+    steps = [
+        ("2. Consent Pro template imported", bool(tpl),
+         template_support.describe(identity)),
+        ("3. Init tag on Consent Initialization", bool(init),
+         "%d tag(s)" % len(init) if init else "no verified Consent Pro tag uses the initialization trigger"),
+        ("5. Consent Updated trigger (consent-updated)", bool(cu),
+         "%d trigger(s)" % len(cu) if cu else "no custom event trigger for that event"),
+        ("6. Tags moved onto that trigger", bool(on_cu), "%d of %d tags" % (len(on_cu), len(tags))),
+        ("7. Per-tag consent check", bool(checked), "%d of %d tags" % (len(checked), len(tags))),
+    ]
+
+    print("CONFIGURATION SIGNALS FROM THE OFFICIAL GUIDE:")
+    for name, ok, detail in steps:
+        print("  %s  %-48s %s" % ("[x]" if ok else "[ ]", name, detail))
+
+    print("\nHOW EACH TAG FIRES TODAY:")
+    invisible = []
+    for t in tags:
+        names = [trigger_name(g, triggers) for g in (t.get("firingTriggerId") or [])]
+        flags = []
+        if not has_consent_check(t):
+            flags.append("no consent check")
+        if not scanner_can_see(t, cu_ids):
+            flags.append("SCAN COVERAGE NEEDS REVIEW")
+            invisible.append((t.get("name", "?"), ", ".join(names) or "no trigger"))
+        mark = ("   (" + "; ".join(flags) + ")") if flags else ""
+        print("  %-40s %s%s" % (t.get("name", "?")[:40], ", ".join(names) or "no trigger", mark))
+
+    if invisible:
+        print("\n%d TAG(S) NEED SCAN COVERAGE REVIEW:" % len(invisible))
+        for name, trg in invisible:
+            print("   %-40s fires on: %s" % (name[:40], trg))
+        print("   These tags use triggers outside the common page-load/consent discovery path.")
+        print("   Their pages or interactions may not have been exercised by the scan.")
+        print("   Compare the actual scan report before concluding they are missing.")
+        print("   Review these tags manually. Preserve purchase, click and other business-event")
+        print("   triggers; moving them to a page-load event changes what they measure.")
+        print("   Configure consent checks and test the original business event in the browser.")
+
+    done = sum(1 for _, ok, _ in steps if ok)
+    print("\nRESULT: %d of %d configuration signals found." % (done, len(steps)))
+    if done == 0:
+        print("  None of the checked integration signals was found.")
+        print("  Read the scan report and test the browser before concluding what fires.")
+    elif done < len(steps):
+        print("  Some configuration signals are missing. Review the unchecked items above.")
+    else:
+        print("  All configuration signals found. This does not verify every tag's settings.")
+        print("  Review the per-tag counts and configuration, then test behaviour:")
+        print("  compare named tracker requests and storage across rejection, acceptance and revocation.")
+
+    if a.save:
+        stamp = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+        out = "gtm-consent-audit-%s-%s.json" % (a.container, stamp)
+        with open(out, "w", encoding="utf-8") as f:
+            json.dump({
+                "read_at": datetime.now(timezone.utc).isoformat(),
+                "account": a.account, "account_name": live_name, "container": a.container,
+                "workspace": ws.get("workspaceId"),
+                "template_identity": identity,
+                "steps": [{"step": n, "done": ok, "detail": d} for n, ok, d in steps],
+                "tags": tags, "triggers": triggers, "templates": templates,
+            }, f, ensure_ascii=False, indent=2)
+        print("\ndiagnostic saved to %s" % out)
+
+
+if __name__ == "__main__":
+    main()

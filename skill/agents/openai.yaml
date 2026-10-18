@@ -1,0 +1,4 @@
+interface:
+  display_name: "Consent Pro GTM"
+  short_description: "Guide GTM consent setup and preserve business events"
+  default_prompt: "Use $consent-pro-gtm to guide my GTM consent setup, explain missing steps and complete authorized work without publishing."
