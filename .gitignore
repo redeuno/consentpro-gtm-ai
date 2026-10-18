@@ -1,0 +1,46 @@
+# Credentials, including downloaded Google OAuth clients
+client_secret*.json
+client_secret*
+*oauth*client*.json
+*-oauth-*.json
+credentials.json
+service-account*.json
+*.pem
+*.p12
+
+# Refresh and access tokens
+*refresh*token*
+*-token.txt
+*_token.txt
+token.json
+tokens.json
+.credentials/
+
+# Local environment configuration
+.env
+.env.*
+!.env.example
+
+# Customer configuration and evidence
+map.json
+*-map.json
+private-evidence/
+customer-data/
+
+# Container audit output
+gtm-consent-audit-*.json
+
+# Local tool state
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Generated packages and local review files
+dist/
+.codex-review-focus.md
+.codex-review-focus.md.last

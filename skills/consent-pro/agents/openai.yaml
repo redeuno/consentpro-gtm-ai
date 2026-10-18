@@ -1,0 +1,4 @@
+interface:
+  display_name: "Consent Pro"
+  short_description: "Guide website consent setup, repairs and verification"
+  default_prompt: "Use $consent-pro to guide my website setup from its current state, carry out authorized steps and verify the result without publishing."
