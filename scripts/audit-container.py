@@ -46,7 +46,8 @@ TOKEN_FILE = os.environ.get("GTM_OAUTH_TOKEN")
 
 # Built-in trigger ids. They do not appear in the workspace trigger list.
 TRIGGER_ALL_PAGES = "2147479553"
-TRIGGER_CONSENT_INIT = "2147479573"
+TRIGGER_CONSENT_INIT = "2147479572"
+TRIGGER_INIT = "2147479573"
 
 
 def access_token():
@@ -95,6 +96,8 @@ def trigger_name(tid, triggers):
         return "All Pages (built-in)"
     if tid == TRIGGER_CONSENT_INIT:
         return "Consent Initialization - All Pages (built-in)"
+    if tid == TRIGGER_INIT:
+        return "Initialization - All Pages (built-in)"
     for t in triggers:
         if t.get("triggerId") == tid:
             return "%s [%s]" % (t.get("name", "?"), t.get("type", "?"))
@@ -180,7 +183,7 @@ def main():
     print("TEMPLATE SOURCE: " + template_support.describe(identity))
     tag_type = template_support.tag_type(tpl, target["containerId"])
     init = [t for t in tags if tag_type and t.get("type") == tag_type
-            and TRIGGER_CONSENT_INIT in (t.get("firingTriggerId") or [])]
+            and t.get("firingTriggerId") == [TRIGGER_CONSENT_INIT]]
 
     def is_consent_updated(t):
         filters = t.get("customEventFilter") or []

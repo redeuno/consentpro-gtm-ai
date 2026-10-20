@@ -12,12 +12,12 @@ deferred or unavailable. Persistent instructions are optional. For an explicit
 
 ## Optional: get the ready package
 
-Download the reviewed assets from [release 0.3.0](https://github.com/redeuno/consentpro-gtm-ai/releases/tag/v0.3.0):
+Download the reviewed assets from [release 0.3.1](https://github.com/redeuno/consentpro-gtm-ai/releases/tag/v0.3.1):
 
 | Asset | Use |
 |---|---|
-| `consent-pro-0.3.0-preview.zip` | Start here for the whole Consent Pro journey, including GTM guidance |
-| `consent-pro-gtm-0.3.0-preview.zip` | Optional specialist for focused GTM work |
+| `consent-pro-0.3.1-preview.zip` | Start here for the whole Consent Pro journey, including GTM guidance |
+| `consent-pro-gtm-0.3.1-preview.zip` | Optional specialist for focused GTM work |
 | `SHA256SUMS` | Compare the downloaded bytes with the release checksums |
 
 This is a preview distribution. Follow the host-specific procedure below and verify
@@ -74,14 +74,25 @@ are separate steps.
 ## Start in your current chat
 
 The customer's ordinary request and repository link are enough to start. Read the
-main skill and relevant onboarding references yourself, then conduct the request
-in this conversation. Do not answer a setup request with a repository overview,
-another prompt to copy, or a requirement to install the skill before proceeding.
+main skill and this procedure, then load other references only as the next step
+needs them. Conduct the request in this conversation. Do not answer a setup request
+with a repository overview, another prompt to copy, or a requirement to install
+the skill before proceeding.
 The longer procedure is for the agent, not an intake form for the customer.
 
-Use tools and conversation context to establish the host, loaded guidance and
-available access. Keep those checks in the working record. In the first reply,
-explain the immediate action and ask only for the next missing fact or action:
+Use known package/repository locations and available tool descriptions to establish
+the host and access. Inspect the active manifest or instruction source once if
+available; record a version mismatch without making reinstallation a gate. Recheck
+after an update or conflicting instructions, not on every turn. Keep these checks
+in the working record.
+
+Use the relevant project read to resolve the target when possible. If the site or
+environment is still unknown, ask for it before researching snippets, scanning a
+whole account or delegating a full setup review. A documentation timeout must not
+delay that question; retry or use a relevant maintained source when the operation
+needs it. Do not infer a wrong account merely because only a test project appears.
+In the first reply, explain the immediate action and ask only for the next missing
+fact or action:
 
 | Evidence already available | Next reply or action |
 |---|---|
@@ -90,6 +101,7 @@ explain the immediate action and ask only for the next missing fact or action:
 | Customer says they already have a Consent Pro account | Keep that fact as reported and continue the current step. Do not restart signup or send an unrelated purchase/workspace checklist |
 | Customer asks to install the skill or connect MCP first | Prepare that requested client setup, using the Claude or other host procedure below. Do not block it on a website URL |
 | Consent Pro tools already work | Read the relevant project; resolve ambiguity rather than asking the customer to reconnect |
+| Customer asks about the panel or its menus | Use [project data and documented navigation](../06-agent-readiness/operations.md#dashboard-data-and-menus); do not imply that API results show the visual interface |
 | Consent Pro tools are absent and a verified connector route applies | Recommend that connection for full setup, explain what it lets the agent do, and guide it when accepted or already requested. If unavailable or declined, continue through the dashboard |
 | Customer already declined or deferred a connector, or cannot add it | Keep that choice, guide the manual route and continue independent reads; do not repeatedly offer reconnection |
 | Customer reports a skill or connector was installed | Refresh the relevant discovery/read, state what is actually verified, and resume the existing step without requesting the same known details |
@@ -234,7 +246,7 @@ When file tools are available, first verify the reviewed ZIP and manifest using
 the checks below. Otherwise provide the reviewed asset link and keep byte
 verification marked unavailable. In Customize,
 Skills, open Add Skill (`+`) and choose Upload Skill, then select the reviewed
-`consent-pro-0.3.0-preview.zip` and enable it. The primary package includes the GTM reference and its
+`consent-pro-0.3.1-preview.zip` and enable it. The primary package includes the GTM reference and its
 scripts; the specialist ZIP is available for direct GTM tasks. Each ZIP must contain
 its named skill folder, including `SKILL.md` and all bundled dependencies. Do not upload
 the entire repository as if it were one skill.
@@ -332,11 +344,17 @@ version, preview channel and source revision, and compare each bundled file's
 SHA-256 with the manifest. A package name or successful extraction alone does not
 establish that the expected instructions were installed.
 
+Updating a package does not repair an existing GTM configuration. When resuming a
+setup made with earlier helper scripts, read the Consent Pro tag's current trigger
+and compare it with [Consent Initialization](../06-agent-readiness/operations.md#runtime-diagnosis).
+Review any correction before applying or publishing it; a package update alone
+does not authorize those changes or require a full audit.
+
 Compute the hash of the ZIP you downloaded and compare it with the line for that
 exact filename in `SHA256SUMS`. For the primary package, use
-`shasum -a 256 consent-pro-0.3.0-preview.zip` on macOS,
-`sha256sum consent-pro-0.3.0-preview.zip` on Linux, or
-`Get-FileHash consent-pro-0.3.0-preview.zip -Algorithm SHA256` on Windows.
+`shasum -a 256 consent-pro-0.3.1-preview.zip` on macOS,
+`sha256sum consent-pro-0.3.1-preview.zip` on Linux, or
+`Get-FileHash consent-pro-0.3.1-preview.zip -Algorithm SHA256` on Windows.
 Substitute the specialist ZIP's filename if that is the package you chose.
 
 If you downloaded both ZIPs listed in `SHA256SUMS` into the same directory, you

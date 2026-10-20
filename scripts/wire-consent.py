@@ -45,7 +45,7 @@ _spec.loader.exec_module(template_support)
 CLIENT_FILE = os.environ.get("GTM_OAUTH_CLIENT")
 TOKEN_FILE = os.environ.get("GTM_OAUTH_TOKEN")
 
-TRIGGER_CONSENT_INIT = "2147479573"
+TRIGGER_CONSENT_INIT = "2147479572"
 TRIGGER_ALL_PAGES = "2147479553"
 
 TEMPLATE_NAME = "Consent Pro - GTM Template"
