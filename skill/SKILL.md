@@ -71,11 +71,12 @@ test deployment and publication. Another CMP requires the
 For a first installation, lead the relevant nine steps in small batches. Explain
 the purpose of the template, initialization tag, default consent and update event
 when each is needed. Inspect for a recognized template before requesting an import.
-If installation is needed, give the Gallery route, publisher/template identity,
-permission review and expected installed result from the guide. After the client
-acts, read the configuration or mark their confirmation as reported, then continue
-with the initialization tag. Do not end with a Gallery link and leave the rest
-of the journey implicit.
+If installation is needed, use a supported, reviewed import operation when authorized,
+including its publisher/template identity and permission review. Otherwise give the
+Gallery route and expected installed result from the guide. Verify the saved template
+and initialization tag; if only the client can act, read the configuration afterward
+or mark their confirmation as reported, then continue. Do not end with a Gallery link
+and leave the rest of the journey implicit.
 
 For an existing setup, use evidence to start at its first missing or incorrect
 step. Preserve valid settings and test fixtures. When the site is a lab, establish
@@ -110,7 +111,7 @@ separate actions. Never infer publication approval from setup approval.
 | MCP read tools | Read the published container, follow pagination/details and guide each unavailable write through a concrete manual handoff. Resume after confirmation; unpublished edits need workspace/UI evidence. |
 | Local API scripts | Read [run guide](../docs/04-run-it.md) and [security](../SECURITY.md); authorize, audit, scaffold, review categories, simulate, then apply only approved changes |
 | GTM interface | Guide account/site setup and the nine steps, using the customer's selected workspace; no API, Google Cloud or terminal requirement. Use the Gallery and preserve recognized templates |
-| Discovered MCP editing | Follow [Future GTM writes](../docs/06-agent-readiness/operations.md#future-gtm-writes): require a reviewed contract, matching scopes, workspace reads, concurrency protection and readback. Use supported authorized operations; stop only the dependent work where the contract is insufficient |
+| Discovered MCP editing | Follow [GTM capability path](../docs/06-agent-readiness/operations.md#future-gtm-writes): require a reviewed contract, matching scopes, workspace evidence, concurrency protection and saved-state verification. Reads or reliable edit-tool previews/results can supply that evidence; stop only dependent work where it is insufficient |
 | No container access | Supply exact steps and values; describe user-reported state as reported, not verified |
 
 For every manual handoff, name the target workspace, control, exact intended value,
@@ -121,7 +122,9 @@ When the user has authorized a repair and a supported write path is available,
 carry it out and verify it; a diagnosis or a proposed plan alone is incomplete.
 Refresh discovery after capability or permission changes. A prior read-only
 contract is not a permanent restriction, and a promised release date is not a
-write grant. Confirm any required Google scope upgrade separately. If a write
+write grant. A new tool under an existing permission does not require reconnection;
+a newly required permission needs a grant upgrade. Confirm any required Google scope
+upgrade separately and preserve the selected container's access limits. If a write
 times out, inspect the workspace before retrying; never repeat a create/import
 blindly or publish unrelated pending changes with the requested fix.
 
@@ -143,7 +146,9 @@ When this task is part of onboarding, maintain the shared
 exact tag, before/after values and verification step. Re-check after the customer
 acts; distinguish a reported workspace edit from a verified published version.
 
-Re-read the workspace after writes and the published version after publication.
+Verify the saved workspace through supported reads or authoritative edit results,
+then re-read the published version after publication. A preview or acknowledgement
+alone does not prove a saved draft.
 Then follow [behavior checks](../docs/reference/verify-behaviour.md): named trackers,
 real business actions, before choice, rejection, acceptance, partial choice,
 revocation and reload. Use acceptance as a positive control that the tracker can

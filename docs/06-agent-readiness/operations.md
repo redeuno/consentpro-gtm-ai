@@ -53,6 +53,11 @@ access constrain every call.
 | Publish, change tracker categories, write GTM | Require a discovered, reviewed operation-specific contract | Use the dashboard when absent; do not invent tools or infer publication authority |
 
 Tool availability, an OAuth grant and authorization for this task are different checks.
+New tools under a permission already granted can appear without reconnecting. A newly
+required permission is not added to an old grant automatically. Refresh discovery,
+inspect the available grant/status evidence and distinguish a missing permission from
+an undeployed operation before proposing reconnection. If the cause is unknown, say so;
+do not remove a working connection merely because a catalogue lists more tools.
 Apply the instructor and manual-handoff loop in [onboarding](../reference/onboarding.md).
 Use the resolved project ID for subsequent calls when supported. Read each current schema;
 the table does not authorize guessed parameters. Fetch omitted details rather than making
@@ -176,9 +181,9 @@ tool names, parameters or OAuth scope identifiers are specified here.
 |---|---|
 | Published reads only | Audit the published version and guide authorized manual draft changes; do not claim to have read the workspace |
 | Workspace reads without editing | Inspect the selected workspace, prepare an exact plan and use a manual handoff for edits |
-| Reviewed draft-edit contract with required reads and safeguards | Execute only supported, authorized edits, then read back the selected workspace; keep publication separate |
+| Reviewed draft-edit contract with target-state evidence and safeguards | Execute only supported, authorized edits, then verify the saved workspace state; keep publication separate |
 | Some edit operations are supported | Apply only independent approved operations that leave a coherent draft; keep missing dependencies pending and do not claim complete setup |
-| Edit tool advertised but scope, target reads or safeguards are missing | Explain the exact dependency, continue independent work and prepare a manual handoff; do not use the customer container to discover failure behavior |
+| Edit tool advertised but scope, target-state evidence or safeguards are missing | Explain the exact dependency, continue independent work and prepare a manual handoff; do not use the customer container to discover failure behavior |
 | Version creation or publication also appears | Treat each as its own operation and permission; draft-edit access or approval never implies publication authority |
 
 Use write operations only when their actual contract has been reviewed and tested
@@ -187,13 +192,24 @@ reviewed scope before using it for the customer's target.
 An unknown or materially changed write contract remains pending review; the agent can
 continue supported reads and unrelated approved work. Refresh discovery after tool-list
 changes, a permission error or reconnection. An old OAuth grant may need an explicit
-upgrade; inspect both Consent Pro permissions and the separate Google grant. Explain
-the requested access and let the user complete authorization, without requesting tokens.
+upgrade only for required permissions it does not hold; inspect both Consent Pro
+permissions and the separate Google grant. New tools within an existing permission
+do not require reconnection just because they are new. Explain the missing access
+and let the user complete authorization, without requesting tokens. A Google scope
+upgrade does not increase the user's role on the selected container.
+
+Workspace evidence can come from dedicated read tools or from a reviewed edit tool's
+preview and result. A separate workspace-read tool is not mandatory if the contract
+provides the exact target, current baseline, affected dependencies, proposed difference,
+conflict checks and saved after-state needed for that operation. A published audit,
+proposed preview or generic success message alone is not saved workspace evidence.
 
 For each supported write, use this sequence:
 
 1. Resolve Google account, container and **workspace** separately from the CP project.
-   Read the live version and workspace, including pending changes and relevant dependencies.
+   Read the live version and obtain the workspace baseline, including pending changes
+   and relevant dependencies, through supported reads or the edit tool's preview.
+   If the operation manages a dedicated workspace, verify its identity and intended use.
    Do not reuse a published audit as a workspace baseline. Check the full applicable tag,
    trigger, variable and template data; shortened source is insufficient for a complete edit.
 2. Prepare the exact before/after plan and recovery values for the selected resources.
@@ -207,9 +223,11 @@ For each supported write, use this sequence:
    effect changes. A last-second read alone cannot prevent a race. If the contract offers
    no adequate protection for that operation, use a guided manual path instead.
 4. Execute in dependency order, using a documented dry-run or preview when available.
-   Do not invent a simulation parameter. Read back each changed resource and the resulting
-   workspace difference. Verify intended values and unchanged dependencies, not just success
-   messages. Report a saved draft only after this readback.
+   Do not invent a simulation parameter. Verify each changed resource and the resulting
+   workspace difference from a supported read or the edit result's authoritative saved
+   after-state. Check target/revision, intended values and unchanged dependencies, not just
+   success messages. A before-write preview cannot establish that the draft was saved.
+   Report a saved draft only after this verification.
 5. After timeout, disconnect or partial failure, stop dependent writes and inspect actual
    state. Reuse documented operation IDs or idempotency keys when provided. Do not blindly
    repeat a create, import or version operation, and do not assume atomicity or rollback.
@@ -227,7 +245,7 @@ For each supported write, use this sequence:
 Check version operations for lifecycle effects, not just returned IDs. Google's
 [create-version contract](https://developers.google.com/tag-platform/tag-manager/api/reference/rest/v2/accounts.containers.workspaces/create_version)
 changes the workspace lifecycle and can return a new workspace path, synchronization status
-and compiler errors. A future MCP adapter must expose enough information to resolve the
+and compiler errors. An MCP adapter must expose enough information to resolve the
 result and next workspace; a missing old path alone does not prove the operation failed.
 Inspect the complete candidate before publication. Google's
 [tag-update fingerprint](https://developers.google.com/tag-platform/tag-manager/api/reference/rest/v2/accounts.containers.workspaces.tags/update)
@@ -255,8 +273,11 @@ Connecting Finsweet to the assistant does not connect a Google account to Consen
 First inspect whether the current MCP authorization includes the required GTM
 operation. A permission preset's label does not establish its scope. Missing GTM
 tools can indicate missing CP permission, not a disconnected Google account.
-Existing grants do not automatically expand when new tools appear. Explain the
-necessary access and use the environment's supported authorization flow.
+New tools using permissions already granted do not require reconnection. If a required
+Consent Pro permission is missing, explain the specific upgrade and use the environment's
+supported authorization flow. Separately inspect Google's granted scopes and the selected
+container's role: reconnect Google only when its authorization needs renewal or a required
+scope is missing. Missing tools alone do not prove either grant is insufficient.
 
 The customer may decline Google authorization and keep both CP and GTM manual.
 Use [account setup](../02-tag-manager-account.md) and the
@@ -404,9 +425,10 @@ Scans can miss authenticated pages, robots-disallowed paths, unlinked pages and 
 interactions. Compare observations with GTM tags and embedded scripts/images. Preserve
 purchase, click and form triggers; making them fire on every page is not a detection fix.
 Review unknown trackers, missing descriptions and Essential proposals with the customer.
-If category editing is not exposed, guide it in the dashboard. A completed scan does not publish configuration or
-prove blocking. Scheduling and history exist in the dashboard; this does not imply an MCP
-scheduling tool.
+Use a discovered, reviewed tracker operation for the authorized fields when available;
+guide unavailable fields in the dashboard. A completed scan does not publish configuration
+or prove blocking. Discover scheduling and history support separately; dashboard support
+does not imply an MCP tool, and a schedule can start future work and send reports.
 
 Reconcile audit counts before naming affected trackers: tags, saved cookies,
 storage items and providers are different units. Finish relevant pagination, then
@@ -417,6 +439,13 @@ Report unmatched items and distinguish configured eligibility after refusal from
 cookie creation actually observed in the browser.
 
 ### Guide dashboard-only configuration
+
+First check whether a discovered, reviewed operation supports the requested tracker,
+banner, region or sharing change. Execute supported authorized fields and verify the
+saved values; use the paths below only for unavailable operations or a customer-selected
+manual route. Do not infer support for every field from a broad tool name. Resetting
+banners, deleting a tracker and sharing choices across domains need their exact effects
+reviewed; they are not implicit in ordinary setup. Keep draft changes and publication separate.
 
 Use current project reads or the selected dashboard to prepare the exact before/after proposal. For a custom site,
 the documented navigation is below. Verify current labels if the UI differs; do not invent
@@ -473,7 +502,10 @@ connecting MCP, accepting a draft edit or wanting to try the product. Before
 recommending release, resolve known conflicting CMPs, observed tracking contrary
 to the agreed behavior and failures of the main visitor action affected by this
 setup. Appearance refinement and unrelated feature configuration need not delay it.
-If no reviewed publication operation is available, guide the customer through
+When a reviewed publication operation is available and authorized, confirm its exact
+domains and included saved changes, execute through its documented safeguards and verify
+the returned publication state. Do not include unrelated drafts without review. If no
+reviewed publication operation is available, guide the customer through
 Consent Pro's dashboard and verify the result. Re-check the ordinary domain in a fresh session: publication
 can succeed while edge-cache clearing fails. A never-published project may serve no
 configuration. Source: [Publishing](https://docs.consentpro.com/web-app/publishing).

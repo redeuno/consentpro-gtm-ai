@@ -12,12 +12,12 @@ deferred or unavailable. Persistent instructions are optional. For an explicit
 
 ## Optional: get the ready package
 
-Download the reviewed assets from [release 0.3.1](https://github.com/redeuno/consentpro-gtm-ai/releases/tag/v0.3.1):
+Download the reviewed assets from [release 0.3.2](https://github.com/redeuno/consentpro-gtm-ai/releases/tag/v0.3.2):
 
 | Asset | Use |
 |---|---|
-| `consent-pro-0.3.1-preview.zip` | Start here for the whole Consent Pro journey, including GTM guidance |
-| `consent-pro-gtm-0.3.1-preview.zip` | Optional specialist for focused GTM work |
+| `consent-pro-0.3.2-preview.zip` | Start here for the whole Consent Pro journey, including GTM guidance |
+| `consent-pro-gtm-0.3.2-preview.zip` | Optional specialist for focused GTM work |
 | `SHA256SUMS` | Compare the downloaded bytes with the release checksums |
 
 This is a preview distribution. Follow the host-specific procedure below and verify
@@ -246,7 +246,7 @@ When file tools are available, first verify the reviewed ZIP and manifest using
 the checks below. Otherwise provide the reviewed asset link and keep byte
 verification marked unavailable. In Customize,
 Skills, open Add Skill (`+`) and choose Upload Skill, then select the reviewed
-`consent-pro-0.3.1-preview.zip` and enable it. The primary package includes the GTM reference and its
+`consent-pro-0.3.2-preview.zip` and enable it. The primary package includes the GTM reference and its
 scripts; the specialist ZIP is available for direct GTM tasks. Each ZIP must contain
 its named skill folder, including `SKILL.md` and all bundled dependencies. Do not upload
 the entire repository as if it were one skill.
@@ -352,9 +352,9 @@ does not authorize those changes or require a full audit.
 
 Compute the hash of the ZIP you downloaded and compare it with the line for that
 exact filename in `SHA256SUMS`. For the primary package, use
-`shasum -a 256 consent-pro-0.3.1-preview.zip` on macOS,
-`sha256sum consent-pro-0.3.1-preview.zip` on Linux, or
-`Get-FileHash consent-pro-0.3.1-preview.zip -Algorithm SHA256` on Windows.
+`shasum -a 256 consent-pro-0.3.2-preview.zip` on macOS,
+`sha256sum consent-pro-0.3.2-preview.zip` on Linux, or
+`Get-FileHash consent-pro-0.3.2-preview.zip -Algorithm SHA256` on Windows.
 Substitute the specialist ZIP's filename if that is the package you chose.
 
 If you downloaded both ZIPs listed in `SHA256SUMS` into the same directory, you
@@ -407,9 +407,14 @@ For editing releases, verify the real tools and both grants through
 [the evolving GTM path](../06-agent-readiness/operations.md#future-gtm-writes).
 If public MCP documentation is unavailable, inspect the connected tool contracts
 and server documentation. Do not infer permission parity between environments.
-To change access, use the selected service's supported reauthorization flow.
-Full access does not authorize an agent to make unsolicited changes. A missing permission requires
-reconnection or a guided manual path, not an automatic credential fallback.
+New tools covered by an already granted permission do not require reauthorization.
+A newly introduced permission is not added to an older grant, even if its preset
+was called Full access. Google authorization is separate: missing edit or publish
+scopes need Google's supported connection flow, and the account must also have the
+required role on the selected container.
+Full access does not authorize an agent to make unsolicited changes. Use the
+recovery procedure below for a missing operation instead of reconnecting everything
+or silently switching credentials.
 
 Keep the selected project's official dashboard open to compare saved state.
 The [operations guide](../06-agent-readiness/operations.md) distinguishes drafts,
@@ -431,11 +436,37 @@ which is separate from Finsweet OAuth. Confirm the returned containers after Goo
 | Consent Pro works but GTM is disconnected | Use GTM status and its private user-opened connection flow, then re-read status and containers |
 | Expected project/container is missing | Check workspace, Google account and completed pagination; have the appropriate administrator resolve missing access |
 | Changes fail with read-only access | Present the exact pending change and reconnect with the necessary scope or guide the approved manual path; do not switch credentials silently |
+| A release announces tools that are absent here | Refresh discovery, check the selected environment and available permission evidence. Absence alone does not distinguish an undeployed operation, an older client catalogue or an insufficient grant |
 | Package may be outdated | Compare actual installed content with a known source package; do not infer freshness from the plugin name or a test count |
 | No browser or site access | Complete supported reads, prepare the exact code/manual handoff and mark deployment and behavior unverified |
 
 Use the [onboarding checkpoint](../reference/onboarding.md#start-and-resume) to resume after the
 missing layer is restored. Do not restart every connection or repeat a scan by default.
+
+### When reauthorization helps
+
+First refresh the client's tool discovery, or start a new conversation if that is
+the host's supported refresh path. Keep the working connector and selected
+workspace. Compare the missing operation with current server documentation,
+advertised permissions and the account's effective grant when those are available.
+An advertised permission means the server offers it, not that this connection has
+it or that the corresponding operation has passed a live test.
+
+- New tool, existing permission: refresh discovery; do not reinstall the skill or
+  revoke the connection just because the tool is new.
+- New Consent Pro permission: explain the exact access needed and use the supported
+  reauthorization flow for the existing connection. Remove and re-add it only when
+  the service requires that, after identifying the environment and workspace to restore.
+- Missing Google scope: use a new user-opened Google connection link for the intended
+  account. A new Consent Pro grant does not refresh Google scopes or container roles.
+- Missing deployment or unresolved cause: preserve working access, report what is
+  unverified and continue supported work. Reauthorization cannot deploy a tool.
+
+After authorization, rediscover tools and perform a relevant read before continuing
+the previously approved task. A successful login, tool listing or Full access label
+does not prove editing or publishing. Do not test a write merely to discover whether
+it is permitted. Removing a client connector does not remove a separately saved
+Google connection or undo earlier changes.
 
 ## First read-only conversation
 
