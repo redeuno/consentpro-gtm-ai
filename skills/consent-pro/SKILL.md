@@ -78,6 +78,9 @@ Check these separately:
   environment and access. Installation, OAuth completion and a successful target
   read are different checkpoints. Refresh discovery after a tool-list change or
   rejection. A dated catalogue is evidence, not a live capability or permission.
+  New tools under an existing permission do not require reconnection; newly required
+  permissions need a grant upgrade. Inspect the evidence before proposing one, and
+  check Google authorization separately from Consent Pro access.
 - **Target confirmed:** resolve CP workspace, project/site ID, exact public
   hostname, environment and goal through reads. Finish pagination and follow
   shortened responses to detail. Resolve ambiguous matches. Inspect platform and
@@ -165,8 +168,12 @@ through the reviewed capability path and safeguards in
 [Future GTM writes](../../docs/06-agent-readiness/operations.md#future-gtm-writes).
 A release date or Full access does not prove an edit tool, a new Google grant or
 publication authority. Partial capabilities authorize only the supported work.
-Guide category edits and publication in the dashboard when not exposed by a
-reviewed contract. Keep these outcomes distinct: request
+Execute authorized tracker, banner, region, sharing and publication operations when
+their discovered contracts are reviewed and supported. Use the dashboard for missing
+operations or the customer's chosen manual route. GTM workspace evidence can come
+from reliable edit-tool previews/results as described in the capability path;
+do not require a separate read tool when that evidence is sufficient.
+Keep these outcomes distinct: request
 accepted, scan completed, draft saved, user approval, GTM version created, GTM
 published, Consent Pro published, site deployed and browser behavior observed.
 Never infer one from another or publication approval from installation approval.
