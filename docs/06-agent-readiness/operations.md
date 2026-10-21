@@ -11,6 +11,8 @@ needs them, not as a mandatory audit of every feature before the banner can go l
 ## Contents
 
 - [Capabilities and targets](#capabilities-and-targets)
+- [Dashboard data and menus](#dashboard-data-and-menus)
+- [Conflicting status and findings](#conflicting-status-and-findings)
 - [Account, workspace and first project](#account-workspace-and-first-project)
 - [Future GTM writes](#future-gtm-writes)
 - [Connect Google Tag Manager](#connect-google-tag-manager)
@@ -29,9 +31,11 @@ service, a product development environment and the customer's own test hostname.
 A customer test site or a preview entitlement does not grant access to an internal
 service. Do not guess endpoints or move credentials between environments.
 
-Discover tools and read schemas each session, including after `tools.listChanged`. Names
-below provide operation vocabulary, not availability or permission grants. Scopes, selected workspace,
-platform and account access constrain every call.
+Discover relevant tools each session and read an operation's schema before using
+it. Refresh affected discovery after `tools.listChanged` or a rejection; do not
+re-read every guide for every turn. Names below provide operation vocabulary, not
+availability or permission grants. Scopes, selected workspace, platform and account
+access constrain every call.
 
 | Operation | Tool examples | Boundary |
 |---|---|---|
@@ -69,6 +73,35 @@ and relevant evidence the customer chooses to share. Before a step, state the
 object, current and intended values, save/publish effect and success check. After
 the step, distinguish customer report, inspected configuration and browser test.
 Use the [manual handoff loop](../reference/onboarding.md#manual-handoffs) throughout.
+
+## Dashboard data and menus
+
+For a request to see the panel's status or menus, use connected MCP/API reads for
+project data and the current platform guide for navigation. Say which is which:
+configuration returned by an API does not show the screen's appearance. Answer the
+requested view without starting a full tracker or GTM audit unless a finding or
+the customer calls for it.
+
+Use a permitted browser when actual layout or a UI-only problem needs inspection;
+do not open an administrative login just to retrieve data already available through
+the connector. If the customer restricts access to API/MCP, keep that route across
+turns and delegated work. Explain the exact visual or behavioral observation it
+cannot provide, and continue supported reads. Do not mark browser verification
+complete from configuration checks or automatically switch to another channel.
+
+## Conflicting status and findings
+
+Before calling a contradiction a product or installation defect, compare the
+underlying evidence for the same object, domain, environment and platform. Check
+whether each response describes a draft, published version or live observation,
+and its timestamp or revision. Read omitted details and field definitions when
+available; an undocumented, empty or platform-inapplicable field is not a confirmed
+failure. A positive checklist does not erase a concrete contrary observation either.
+
+If the discrepancy remains unresolved, report the exact conflict as unverified,
+identify the missing evidence and continue independent work. Do not recommend
+changing a trigger or reinstalling a banner solely to clear an unexplained summary
+alert. Tie any proposed correction to the supported cause and the affected target.
 
 ## Account, workspace and first project
 
@@ -375,6 +408,14 @@ If category editing is not exposed, guide it in the dashboard. A completed scan 
 prove blocking. Scheduling and history exist in the dashboard; this does not imply an MCP
 scheduling tool.
 
+Reconcile audit counts before naming affected trackers: tags, saved cookies,
+storage items and providers are different units. Finish relevant pagination, then
+map selected tag IDs and their code, triggers and consent checks to the matching
+tracker identities and source. One tag can set several cookies, and several tags
+can affect the same cookie; do not copy an aggregate tag count into a cookie claim.
+Report unmatched items and distinguish configured eligibility after refusal from
+cookie creation actually observed in the browser.
+
 ### Guide dashboard-only configuration
 
 Use current project reads or the selected dashboard to prepare the exact before/after proposal. For a custom site,
@@ -394,10 +435,15 @@ visitor identifiers and other personal records. Do not mark a manual task verifi
 because the customer clicked Save. Avoid repeated scans as a way to observe a draft edit.
 Source for project sections: [Web App navigation](https://docs.consentpro.com/web-app/).
 
-Keep three durations distinct: the lifetime requested by a tracker's code, the remembered
-visitor choice (`consent_remembered_days` in project data) and retention of consent analytics.
-A cookie's saved description is not evidence of its observed expiry. Investigate differences
-before recommending a value; do not overwrite them with a generic duration.
+For cookie retention, distinguish the lifetime requested by the matching code,
+the description saved in Consent Pro, the expiry observed in a named browser and
+the lifetime intended by the responsible owner. Match the cookie's source and
+identity, including domain/path where relevant. Code and catalogue disagreement
+proves a configuration discrepancy, not the browser's actual retention. Browser
+limits or later writes can change the observed value. Confirm the intended value
+before proposing a code change, a catalogue correction or both; the code is not
+automatically the desired policy. Keep these separate from remembered visitor
+choice (`consent_remembered_days`) and retention of consent analytics.
 
 ## Draft, preview and release
 
@@ -459,7 +505,11 @@ Do not introduce a third-party pixel into a customer's site merely to test block
 For a reported initialization problem, inspect the actual trigger type and timing. A public
 `gtm.js` artifact can suggest what visitors receive, but cannot establish the latest workspace
 state. Confirm through authenticated data or the selected GTM workspace and Tag Assistant.
-Use **Consent Initialization - All Pages** for the Consent Pro initialization tag.
+Use **Consent Initialization - All Pages** for the Consent Pro initialization tag:
+the built-in ID is `2147479572`; `2147479573` is **Initialization - All Pages**.
+Source: [Google's trigger mapping](https://github.com/google-marketing-solutions/ga4-gtm-utilities/blob/9a4d06d2edbcf677ee178a58cae77069e9b34a07/features/eventTags.js#L25-L35).
+When an audit and local helper disagree, compare the returned trigger with this
+primary mapping rather than treating the helper's constant as independent evidence.
 
 If a lab contains an intentionally ungated pixel or synthetic cookies, retain its controls
 until the customer chooses whether the lab should remain a test fixture or become a corrected

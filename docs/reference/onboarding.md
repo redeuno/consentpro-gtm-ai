@@ -35,10 +35,11 @@ access and site/browser access as separate checkpoints in the working record.
 1. Establish the next useful step from the request, including when the customer has
    no account yet. Use the [entry routes](#route-the-customers-starting-state). Do not
    require a purchase, connector or technical questionnaire before helping.
-2. Discover available tools and effective access when a connector is available. Distinguish a missing connector,
-   a missing permission and an expired Google connection. Read the current MCP
-   documentation before offering setup guidance. For full setup with no route
-   chosen, recommend the supported connection and offer the reusable skill once.
+2. Discover relevant tools and effective access when a connector is available.
+   Distinguish a missing connector, a missing permission and an expired Google
+   connection. Read the current contract and documentation for the next operation,
+   rather than surveying all features before resolving the site. For full setup
+   with no route chosen, recommend the supported connection and offer the reusable skill once.
    Confirm the product environment before providing an endpoint; do not silently
    choose manual work because no tools are connected yet. Reuse a working route.
    Keep the recommendation brief and do not let optional skill installation or
@@ -53,8 +54,9 @@ access and site/browser access as separate checkpoints in the working record.
 5. Read the current state before presenting a plan. Reuse existing configuration
    and tests when their scope and versions remain applicable. Do not reinstall,
    reconnect, start another scan or change a working value merely to follow a list.
-6. Proceed to the next dependency that can be resolved. Show the next useful action
-   in plain language; reserve a progress table for a requested status, complex
+6. Proceed to the next dependency that can be resolved. If a missing target or
+   decision prevents progress, ask for it without waiting for unrelated research.
+   Show the next useful action in plain language; reserve a progress table for a requested status, complex
    checkpoint or handoff. Continue independent reads while another step waits for access.
 
 Use the customer's language. Introduce the current step, its purpose and its
@@ -94,7 +96,11 @@ not the release or the behavior. On resume, refresh relevant state before writin
 do not treat an old checklist or approval of an outdated plan as current evidence.
 
 Carry the exact target, current access, requested outcome, authorization limits and
-recovery values with the progress record. Do not claim it persists across chats.
+recovery values with the progress record. Include any chosen or prohibited access
+route, such as API/MCP only, guided manual work or permitted browser inspection,
+and pass it to delegated work. A narrower follow-up question changes the current
+step, not the stored installation goal; answer it without restarting or forcing the
+whole journey. Do not claim this record persists across chats.
 Provide a short resume summary without secrets or signed URLs when the customer
 switches conversations, then refresh relevant state in the new conversation.
 
@@ -108,6 +114,7 @@ Target: [public hostname, platform, CP workspace/project, environment]
 GTM, if used: [account, container, workspace, known live version]
 Goal and decisions: [first activation or deeper setup, agreed task, mode/regions if relevant, open decisions]
 Current step: [state, next action, responsible person or role]
+Access route: [available tools, customer restrictions, unavailable observations]
 Saved: [settings and evidence, including customer-reported changes]
 License: [verified entitlement for this hostname, unresolved, or not yet checked]
 Live: [site deployment, CP publication, GTM publication, or unknown]
