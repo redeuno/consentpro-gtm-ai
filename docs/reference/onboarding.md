@@ -218,7 +218,7 @@ a published test site, and both distinct from Consent Pro's internal staging.
 | 3. Agree behavior | Review the initial banner, actual plan/license and privacy page; resolve tracker purposes, business events and Basic/Advanced mode only where applicable | Concrete decisions and before/after plan; unknown classifications are not silently treated as Essential |
 | 4. Prepare Consent Pro | Save the authorized settings needed for the chosen result; guide unsupported fields in the dashboard | Saved values read back; suitable appearance retained, with cosmetic refinement and unrelated settings left for later |
 | 5. Prepare site code | Compare the exact project snippet with the served core, attributes, version/environment and order; review pixels, embeds and preferences access | Authorized code change and deployment verified, or exact manual instructions; HTML presence alone does not prove enforcement |
-| 6. Scan and reconcile when needed | Reuse a recent relevant scan or perform one required by the selected workflow or a concrete finding; follow any started work to completion | Time, coverage and errors recorded; publication-relevant findings addressed, with broader coverage explicitly pending |
+| 6. Scan and reconcile when needed | Reuse a recent relevant scan or perform one required by the selected workflow or a concrete finding; follow any started work to completion. Review the proposed import, apply only approved discoveries, and read back the saved draft before tracker review | Time, coverage, errors, imported changes and outstanding classification decisions recorded separately; publication-relevant findings addressed, with broader coverage explicitly pending |
 | 7. Prepare GTM when relevant | Inspect affected tags and the applicable live/workspace state; preserve business-event triggers and regional rows | Use reviewed authorized edits or manual steps; neither GTM adoption, Google authorization nor a comprehensive container audit is a universal activation gate |
 | 8. Preview and release | Test the draft where available; coordinate site deployment, CP publication and GTM publication as separate actions | Each applicable release independently confirmed; preview does not establish ordinary visitor behavior |
 | 9. Verify the current result and continue | Re-read relevant state, exercise applicable consent choices and the main visitor action on the ordinary site | Initial activation and named behavior reported separately; wider untested coverage and the next improvement remain explicit |
@@ -233,6 +233,11 @@ requested, stop after the findings and proposed plan, without writes or a new sc
 A scan may be needed before tracker decisions or repeated after an authorized
 change. Do not promise full-site coverage or start repeated scans without a reason.
 Apply the current scanner's sitemap and pinned-page limits from operations.
+Scan completion, findings imported, tracker review and publication are separate
+states. An empty saved tracker list can coexist with discoveries awaiting import.
+Suggestions do not save categories or prove their accuracy. Explain any selected
+tracker data sent to Consent Pro's suggestion service before the requested use;
+retain unknown purposes as decisions for the responsible person.
 
 Before recommending publication, resolve observed consent failures, conflicting
 CMPs and failures of the site's main visitor action that affect the proposed setup.

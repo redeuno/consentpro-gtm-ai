@@ -15,12 +15,13 @@ home page (`/`). Put the project script in the site's shared `<head>`, not only
 on a landing-page path. For `shop.example.com`, this means that subdomain's own
 home page and pages, not automatically `example.com`.
 
-The current MCP can provide the script, but it does not install website code,
-create the initial banner or publish Consent Pro configuration. The assistant
-guides the [three activation handoffs](docs/06-agent-readiness/operations.md#current-first-installation-handoffs):
+There are [three activation checkpoints](docs/06-agent-readiness/operations.md#current-first-installation-handoffs):
 site installation, banner creation and publication in the selected environment.
-Separate authorized site-editing tools may handle the first step. Discover tools
-again when the connection changes; these limits are not promises about future releases.
+The MCP supplies the script; separate authorized site tools or the customer install
+it first in the shared head, without `async` or `defer`. Banner setup and publishing
+can use reviewed MCP operations when exposed and authorized. Otherwise, the assistant
+guides that specific dashboard step. Discover each operation separately: an older
+connection can expose banner creation while still lacking publication permission.
 
 If the assistant cannot retrieve this GitHub page, share the
 [plain-text entry](https://raw.githubusercontent.com/redeuno/consentpro-gtm-ai/main/README.md)
@@ -68,7 +69,7 @@ the next useful action, not the whole procedure at once.
 
 ## Save the instructions for future conversations
 
-The [ready preview packages](https://github.com/redeuno/consentpro-gtm-ai/releases/tag/v0.3.4)
+The [ready preview packages](https://github.com/redeuno/consentpro-gtm-ai/releases/tag/v0.3.5)
 contain the instructions and references for optional persistent installation.
 The [installation guide](docs/07-agent-installation/README.md)
 distinguishes ChatGPT, Claude chat, Codex and Claude Code. Both skills share the

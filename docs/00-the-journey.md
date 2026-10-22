@@ -59,10 +59,14 @@ not an unsolicited appearance exercise. Missing release authority remains a
 separate decision even when the customer asked for the overall installation.
 
 At the start, briefly explain the
-[current three handoffs](06-agent-readiness/operations.md#current-first-installation-handoffs):
+[three activation checkpoints](06-agent-readiness/operations.md#current-first-installation-handoffs):
 install the supplied script on the site, create the initial banner in Consent Pro,
 then publish its reviewed configuration. Give only the next actionable step.
-Project creation and script retrieval through MCP do not complete these handoffs.
+Site installation requires separate site access or customer action. Discover banner
+setup and publication separately and use each reviewed, authorized MCP operation
+when available; guide the dashboard only for the missing or declined operation.
+Project creation and script retrieval do not complete these checkpoints. Install
+the core first in the shared head without `async` or `defer`.
 
 Do not require a new GTM installation, Google connection, complete tracker inventory,
 fresh comprehensive scan or full GTM audit merely to advance the checklist. Reuse

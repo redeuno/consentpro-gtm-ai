@@ -19,12 +19,15 @@ a universal prerequisite. Treat known consent failures and broken site functions
 within the initial path; record wider untested coverage separately. A working
 Preview, ordinary publication, tested behavior and license status are distinct.
 
-Explain the [current first-installation handoffs](../../docs/06-agent-readiness/operations.md#current-first-installation-handoffs)
+Explain the [first-installation checkpoints](../../docs/06-agent-readiness/operations.md#current-first-installation-handoffs)
 briefly before the customer starts: install the supplied core on the site, create
-the initial banner in Consent Pro and publish the reviewed configuration. The
-current MCP supplies the snippet but does not deploy site code or expose banner
-creation/publication. Separate authorized site tools may install it; otherwise
-guide the customer. Use reviewed new operations only when actually available.
+the initial banner in Consent Pro and publish the reviewed configuration. The MCP
+supplies the snippet but does not deploy site code. Separate authorized site tools
+may install it; otherwise guide the customer. Discover banner setup and publication
+independently, use each reviewed operation within its authorization, and guide the
+dashboard only for the missing or declined step. Do not repeat an older package's
+claim that banner creation or publication is universally unavailable.
+Place the core first in the shared head without `async` or `defer`.
 Custom-site setup requires the core in the shared head across the selected hostname,
 including its own home page (`/`), not just an inner path. A subdomain needs its own
 root; do not substitute the parent domain. Resolve any page-only scope conflict
@@ -162,7 +165,7 @@ prevent independent permitted checks.
 | Project and core | Follow [account/project diagnosis](../../docs/06-agent-readiness/operations.md#account-workspace-and-first-project), match domain and license, then obtain the exact snippet. Inspect the head and existing CMP before approved installation and readback. Use [HTML inspection](../../scripts/inspect-site.py) only when a terminal exists; it does not observe execution. |
 | Banner and project setup | Use operations to inspect and guide documented settings, including type, region, style, privacy link and preferences. Execute fields exposed by the actual contract; teach dashboard steps for the rest. Do not infer the client's legal purpose, policy URL or tracker categories from a business name. |
 | Panel or menu question | Use the [dashboard reading route](../../docs/06-agent-readiness/operations.md#dashboard-data-and-menus). Distinguish project data from documented navigation and observed UI; preserve the customer's access restriction. |
-| Scan and trackers | Read settings and any active scan before starting work; follow progress, coverage and details. Reconcile GTM, hardcoded scripts and pixels. Ask for the actual use of unknown trackers and category decisions, especially Essential. |
+| Scan and trackers | Read settings and any active scan before starting work; follow progress, coverage and details. Review discoveries and the proposed import before applying approved changes. Read back imported drafts; scan completion does not import or confirm categories. Reconcile GTM, hardcoded scripts and pixels. Ask for the actual use of unknown trackers and category decisions, especially Essential. |
 | Google Tag Manager | Continue with the [GTM skill](../../skill/SKILL.md): select the manual or connected route, inspect the live version before an absent snippet is deployed, choose Basic/Advanced and preserve business events/regions through the [nine steps](../../docs/reference/nine-steps.md). |
 | Preview, repair and verification | Use operations and [browser verification](../../docs/reference/verify-behaviour.md) for the exact draft/live target, named tracker controls, preferences, revocation and reload. Fix authorized causes and repeat the affected checks. |
 | Ongoing operation | Use operations for sampled statistics, logs, scan history, optional storage and recovery. Introduce optional features when relevant to the client's goal; do not activate them merely because they exist. |
@@ -193,8 +196,9 @@ operations or the customer's chosen manual route. GTM workspace evidence can com
 from reliable edit-tool previews/results as described in the capability path;
 do not require a separate read tool when that evidence is sufficient.
 Keep these outcomes distinct: request
-accepted, scan completed, draft saved, user approval, GTM version created, GTM
-published, Consent Pro published, site deployed and browser behavior observed.
+accepted, scan completed, findings imported, tracker review completed, draft saved,
+user approval, GTM version created, GTM published or rolled back, Consent Pro
+published, site deployed and browser behavior observed.
 Never infer one from another or publication approval from installation approval.
 
 Poll existing asynchronous work rather than duplicating it. If pinned scan pages
