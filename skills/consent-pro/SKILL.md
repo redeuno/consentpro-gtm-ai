@@ -135,6 +135,13 @@ confirmation is needed. Do not dump the whole manual or simply say "do this in
 the dashboard." After the client reports completion, read the result if tools
 allow; otherwise mark it user-reported. Resume the next authorized step without
 asking whether to continue. If the action did not take, troubleshoot that step.
+During an active installation, answer a capability question briefly and resume the
+next activation dependency. A saved banner is a checkpoint, not a reason to switch
+to styling before preview or publication. For "I installed it, test now", follow
+[reported-installation verification](../../docs/06-agent-readiness/operations.md#verify-a-reported-installation):
+use the available live MCP check, retain the exact page path and distinguish its
+scope from HTML inspection and browser behavior. Missing browser access does not
+prevent independent permitted checks.
 
 ## Follow the relevant part of the journey
 

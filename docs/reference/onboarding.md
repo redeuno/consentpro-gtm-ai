@@ -47,7 +47,10 @@ access and site/browser access as separate checkpoints in the working record.
 3. Resolve the site from the request and current project inventory or selected dashboard. If the target
    is ambiguous, show matching names and domains and ask which one to use. If the
    exact target is already known, read it without asking the customer to repeat it.
-4. Record environment, CP workspace/project/site ID and hostname when established. Associate GTM
+4. Record environment, CP workspace/project/site ID, hostname and the exact requested
+   page URL when established. Preserve its path and intended page coverage; a project
+   is associated with a hostname, but a request for one landing page does not authorize
+   changing every page on that host. Associate GTM
    only through explicit target selection or corroborated site/container evidence;
    a scanner match alone is insufficient. Record the Google account and container
    separately. Never use the first accessible container by default.
@@ -99,8 +102,12 @@ Carry the exact target, current access, requested outcome, authorization limits 
 recovery values with the progress record. Include any chosen or prohibited access
 route, such as API/MCP only, guided manual work or permitted browser inspection,
 and pass it to delegated work. A narrower follow-up question changes the current
-step, not the stored installation goal; answer it without restarting or forcing the
-whole journey. Do not claim this record persists across chats.
+step, not the stored installation goal. Answer a capability or status question
+briefly using current evidence, then state or carry out the next activation action.
+Do not end with a generic menu of available features when the installation still
+has a known dependency. Keep the selected product environment until the customer
+changes it; a reported purchase does not move an agreed test project to production
+or verify its entitlement. Do not claim this record persists across chats.
 Provide a short resume summary without secrets or signed URLs when the customer
 switches conversations, then refresh relevant state in the new conversation.
 
@@ -110,7 +117,7 @@ private destination. It is context, not proof of current access or permission:
 
 ```text
 Resume Consent Pro setup
-Target: [public hostname, platform, CP workspace/project, environment]
+Target: [exact public page URL, intended page coverage, hostname, platform, CP workspace/project, environment]
 GTM, if used: [account, container, workspace, known live version]
 Goal and decisions: [first activation or deeper setup, agreed task, mode/regions if relevant, open decisions]
 Current step: [state, next action, responsible person or role]
@@ -302,15 +309,28 @@ is not the default first request. If the screen differs, inspect its language,
 selected object, permissions and current controls before repeating instructions.
 Do not invent a button or treat the mismatch as the customer failing the step.
 
-When the customer says "done", re-read the relevant state if supported. Explain
-that the published-only MCP will not show an unpublished workspace edit. Keep
-that edit marked as reported, and verify the live version after authorized
-publication. Do not publish solely to make the audit able to see a draft.
+When the customer says "done", identify which requested action they completed and
+re-read that state if supported. Update only the corresponding checkpoint, then
+continue the next missing dependency for first activation. For example:
+
+| Customer reports | Verify and continue |
+|---|---|
+| The script was installed | Read the exact requested page and compare the project snippet, site ID and installation scope. Run the supported install check; reconcile a disagreement before prescribing another script change. |
+| The banner was saved | Read back the banner and publication state. Continue with unresolved installation, entitlement or preview checks, then the applicable authorized publication. Do not divert to colors or fonts while the banner is still not available to visitors. |
+| The configuration was published | Re-read publication for the selected domain, then check the ordinary requested page outside Preview using the allowed access route. Mark unavailable browser behavior as unverified. |
+
+If a read exposes only the published GTM container, it will not verify an
+unpublished workspace edit. Keep that edit marked as reported and verify the live
+version after authorized publication. Do not publish solely to make the audit able
+to see a draft. A confirmation that a banner was saved grants no publication
+authority; prepare the exact next release for approval if that approval is missing.
 
 When a Google link expires, obtain a fresh link through the supported status tool.
 Only the customer opens it. A successful connection proves access, not a finished
-setup. If an operation or scope is unavailable, continue useful independent work
-and name the remaining blocker. Do not silently switch to broader credentials.
+setup. If an operation or scope is unavailable, give the concrete manual step for
+the current dependency and continue useful independent work. Do not wait for a
+future tool release when the customer can complete that step in the dashboard.
+Do not silently switch to broader credentials.
 
 For a draft the MCP cannot read, use an authorized dashboard view or ask for the
 relevant setting with personal records excluded. If the action did not take, resolve

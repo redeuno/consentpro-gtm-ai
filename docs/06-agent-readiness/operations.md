@@ -335,12 +335,14 @@ record that scope and do not report an ordinary visitor installation as complete
    Use setup details for the related checks. For a custom site, use its
    single `/cdn/core/<site-id>.js` tag with `data-consentpro-script="runtime"` and matching
    `data-consentpro-site-id`. Do not add `async`, `defer` or another runtime by guess.
-2. Inspect the shared head and existing runtimes before placing the core ahead of analytics
-   and tag managers. Compare original response HTML with a rendered scrape or DOM;
+2. Inspect the intended pages' head, shared-layout effects and existing runtimes before
+   placing the core ahead of analytics and tag managers within the agreed page coverage.
+   Compare original response HTML with a rendered scrape or DOM;
    they are not the same evidence. Deploy with the authority for that site.
-3. Re-read the served page and run **Check script** or **Verify installation**. Presence and
-   order are separate from runtime behaviour. Removing the tag also requires a deployment;
-   it does not delete project data.
+3. Re-read the exact served page and run the supported live installation check,
+   following [reported-installation verification](#verify-a-reported-installation).
+   Presence and order are separate from runtime behaviour. Removing the tag also
+   requires a deployment; it does not delete project data.
 4. Check the public hostname, connected domains and licence. A reverse proxy uses the
    hostname visitors see. Production subdomains are distinct licence targets. A signed
    preview does not make unlicensed ordinary visits work.
@@ -370,6 +372,39 @@ matters. A tracker gaining `src` in rendered HTML needs the consent state and
 request evidence; it is not proof of a declared duplicate or successful blocking.
 Hosting on Vercel or another platform does not establish whether the site uses a
 CMS. Confirm editing ownership when it affects the next action.
+
+### Verify a reported installation
+
+When the customer says the script is installed and asks to test, use available
+read-only MCP checks without waiting for them to ask specifically for MCP. For the
+current diagnosis contract, resolve the project and request
+`consentpro_project_diagnose` with `live: true`; verify `live_checked`, unavailable
+sections and per-domain results before describing what ran. If the contract changes,
+use its supported equivalent. A saved-state read alone is not a live installation check.
+
+Keep the customer's exact page URL and path alongside the project's hostname.
+Compare the original HTML at that URL, the fresh project snippet and the checker
+result. Record redirects/final URLs when available. A response naming a domain
+does not prove which path the checker fetched. Do not invent a path argument when
+the tool accepts only a project. If permitted, reading the root and requested path
+can reveal different served HTML; label each observation with its URL. That does
+not prove the checker's cause or authorize installing code on additional pages.
+
+If the script is present but the checker says missing, compare project ID,
+required attributes, declaration order, response accessibility, environment and
+runtime origin before changing anything. Different runtime hosts are an unresolved
+discrepancy, not proof of incompatibility; the same site ID does not prove they are
+interchangeable. Use fresh evidence from the selected project's installation screen
+or MCP, and resolve conflicting sources rather than inventing a CDN hostname.
+Do not repeat an unchanged failed check as if it resolves the contradiction.
+Rerun after a relevant change or a justified transient-failure retry.
+
+Report separately: markup observed on the named page, product check result and
+browser behavior. If browser access is unavailable or denied, respect that boundary
+and continue allowed MCP/HTTP reads; do not imply that a browser is needed to run
+the MCP check or that the check tested buttons and tracker blocking. End with the
+next evidence-gathering action or activation dependency, not just a discrepancy.
+Continue independent banner or entitlement work while an install question is unresolved.
 
 ### Existing CMP and tracking transition
 
@@ -486,6 +521,10 @@ Use **Preview** or `consentpro_banner_preview` for a signed link; never construc
 The preview serves the saved draft in its tab with a debugger. Use the actual
 expiry, install status and notes; keep the link private. Preview does
 not prove licence validity or live publication for ordinary visitors.
+Check whether the returned preview opens the requested page. If the tool only
+targets a domain, explain that limit and use a documented product route for page
+selection when available. Do not rewrite the signed link or invent a path parameter.
+An install error returned by preview is a diagnostic result, not a working preview.
 
 The debugger reports runtime activity, resolved region, banner and category state.
 **Reset Banner** changes stored consent in the test browser. Compare its display with
