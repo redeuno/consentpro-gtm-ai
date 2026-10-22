@@ -19,6 +19,17 @@ a universal prerequisite. Treat known consent failures and broken site functions
 within the initial path; record wider untested coverage separately. A working
 Preview, ordinary publication, tested behavior and license status are distinct.
 
+Explain the [current first-installation handoffs](../../docs/06-agent-readiness/operations.md#current-first-installation-handoffs)
+briefly before the customer starts: install the supplied core on the site, create
+the initial banner in Consent Pro and publish the reviewed configuration. The
+current MCP supplies the snippet but does not deploy site code or expose banner
+creation/publication. Separate authorized site tools may install it; otherwise
+guide the customer. Use reviewed new operations only when actually available.
+Custom-site setup requires the core in the shared head across the selected hostname,
+including its own home page (`/`), not just an inner path. A subdomain needs its own
+root; do not substitute the parent domain. Resolve any page-only scope conflict
+before deploying, while retaining the exact requested URL for verification.
+
 For a setup request with a repository link, use the instructions you can read and
 begin helping in this chat. Do not answer with a repository summary, another prompt
 to copy or a mandatory skill-installation detour. For full setup, actively recommend
@@ -139,7 +150,8 @@ During an active installation, answer a capability question briefly and resume t
 next activation dependency. A saved banner is a checkpoint, not a reason to switch
 to styling before preview or publication. For "I installed it, test now", follow
 [reported-installation verification](../../docs/06-agent-readiness/operations.md#verify-a-reported-installation):
-use the available live MCP check, retain the exact page path and distinguish its
+use the available live MCP check, verify the selected hostname's home page and
+requested inner page, retain the exact page path and distinguish its
 scope from HTML inspection and browser behavior. Missing browser access does not
 prevent independent permitted checks.
 

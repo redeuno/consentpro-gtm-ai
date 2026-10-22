@@ -12,12 +12,12 @@ deferred or unavailable. Persistent instructions are optional. For an explicit
 
 ## Optional: get the ready package
 
-Download the reviewed assets from [release 0.3.3](https://github.com/redeuno/consentpro-gtm-ai/releases/tag/v0.3.3):
+Download the reviewed assets from [release 0.3.4](https://github.com/redeuno/consentpro-gtm-ai/releases/tag/v0.3.4):
 
 | Asset | Use |
 |---|---|
-| `consent-pro-0.3.3-preview.zip` | Start here for the whole Consent Pro journey, including GTM guidance |
-| `consent-pro-gtm-0.3.3-preview.zip` | Optional specialist for focused GTM work |
+| `consent-pro-0.3.4-preview.zip` | Start here for the whole Consent Pro journey, including GTM guidance |
+| `consent-pro-gtm-0.3.4-preview.zip` | Optional specialist for focused GTM work |
 | `SHA256SUMS` | Compare the downloaded bytes with the release checksums |
 
 This is a preview distribution. Follow the host-specific procedure below and verify
@@ -70,6 +70,14 @@ not authorize migration to another product environment. An unavailable
 connector does not stop guided Consent Pro or GTM dashboard work. Installing
 instructions, signing in to Consent Pro, connecting Google and editing the site
 are separate steps.
+
+For current custom-site setup, explain the
+[three activation handoffs](../06-agent-readiness/operations.md#current-first-installation-handoffs):
+the script goes in the selected hostname's shared head, including its home page;
+the initial banner and Consent Pro publication use that environment's dashboard
+while those MCP operations are unavailable. A landing-page URL does not establish
+support for page-only installation. A subdomain uses its own home page, not the
+parent domain's. Keep the original page URL for verification.
 
 ## Start in your current chat
 
@@ -246,7 +254,7 @@ When file tools are available, first verify the reviewed ZIP and manifest using
 the checks below. Otherwise provide the reviewed asset link and keep byte
 verification marked unavailable. In Customize,
 Skills, open Add Skill (`+`) and choose Upload Skill, then select the reviewed
-`consent-pro-0.3.3-preview.zip` and enable it. The primary package includes the GTM reference and its
+`consent-pro-0.3.4-preview.zip` and enable it. The primary package includes the GTM reference and its
 scripts; the specialist ZIP is available for direct GTM tasks. Each ZIP must contain
 its named skill folder, including `SKILL.md` and all bundled dependencies. Do not upload
 the entire repository as if it were one skill.
@@ -352,9 +360,9 @@ does not authorize those changes or require a full audit.
 
 Compute the hash of the ZIP you downloaded and compare it with the line for that
 exact filename in `SHA256SUMS`. For the primary package, use
-`shasum -a 256 consent-pro-0.3.3-preview.zip` on macOS,
-`sha256sum consent-pro-0.3.3-preview.zip` on Linux, or
-`Get-FileHash consent-pro-0.3.3-preview.zip -Algorithm SHA256` on Windows.
+`shasum -a 256 consent-pro-0.3.4-preview.zip` on macOS,
+`sha256sum consent-pro-0.3.4-preview.zip` on Linux, or
+`Get-FileHash consent-pro-0.3.4-preview.zip -Algorithm SHA256` on Windows.
 Substitute the specialist ZIP's filename if that is the package you chose.
 
 If you downloaded both ZIPs listed in `SHA256SUMS` into the same directory, you

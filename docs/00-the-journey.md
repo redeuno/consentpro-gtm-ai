@@ -36,9 +36,9 @@ preferences relevant to the customer's intended behavior.
 
 | Next result | Necessary work for this site |
 |---|---|
-| Target and available route | Identify the exact requested page URL, intended page coverage, hostname, project and intended product environment. Reuse working access, recommend the supported Consent Pro connection once when relevant, or guide the selected dashboard. A persistent skill and Google authorization are not activation requirements. |
+| Target and available route | Identify the exact requested URL, selected hostname, project and intended product environment. Explain the required hostname-wide core installation, including its home page, and resolve scope before deployment. Reuse working access, recommend the supported Consent Pro connection once when relevant, or guide the selected dashboard. A persistent skill and Google authorization are not activation requirements. |
 | Project ready for installation | Select or create the correct project, confirm the domain and applicable entitlement, and review the initial banner and policy choices. Ask only for missing decisions; do not start with visual customization. |
-| Correct core installed | Use the exact project snippet and platform instructions. Preserve a working installation; resolve a conflicting CMP or deployment dependency rather than adding another runtime. |
+| Correct core installed | Use the exact project snippet in the shared head for the selected hostname, including `/` and inner pages. Preserve a working installation; resolve a conflicting CMP or deployment dependency rather than adding another runtime. |
 | Initial behavior checked | Test the visible banner, preferences and the site's main visitor action. Check the named tracking paths affected by the setup, including refusal and acceptance where applicable. Investigate relevant failures without requiring a complete site audit. |
 | Authorized publication reaches the chosen site | Review the exact target and live effect, obtain any missing publication authorization, and coordinate only the applicable site, Consent Pro and GTM releases. Recheck an ordinary visit outside Preview. |
 | Activation result and next action | Record what is installed, published and observed, plus any unresolved issue. Continue with the customer's next useful improvement; wider untested coverage remains explicitly pending. |
@@ -57,6 +57,12 @@ for a brief capability answer plus the next concrete step. A saved banner should
 lead toward installation consistency, entitlement, preview and authorized release,
 not an unsolicited appearance exercise. Missing release authority remains a
 separate decision even when the customer asked for the overall installation.
+
+At the start, briefly explain the
+[current three handoffs](06-agent-readiness/operations.md#current-first-installation-handoffs):
+install the supplied script on the site, create the initial banner in Consent Pro,
+then publish its reviewed configuration. Give only the next actionable step.
+Project creation and script retrieval through MCP do not complete these handoffs.
 
 Do not require a new GTM installation, Google connection, complete tracker inventory,
 fresh comprehensive scan or full GTM audit merely to advance the checklist. Reuse
@@ -105,7 +111,7 @@ before an initial publication.
 | Identify | Workspace, project, hostname, platform and goal agree | Read project state and inspect the installed engine; resolve ambiguous matches |
 | Connect domain | Correct custom-site project and public hostname | MCP can create a project or update its domain when authorised; Webflow onboarding uses the dashboard |
 | Configure banner | Initial behavior, applicable regions and privacy link reviewed; appearance can follow | Use available reviewed banner operations; if the required operation is absent, give the exact dashboard step, read back the result and continue |
-| Install core | Exact project snippet deployed and checked | Read the snippet, confirm page coverage and placement, deploy with the corresponding authority and verify the requested URL and applicable domain check |
+| Install core | Exact project snippet deployed across the selected hostname and checked | Read the snippet, agree hostname-wide placement including its home page, deploy with the corresponding authority and verify `/`, the requested inner URL and the supported domain check |
 | Scan | Completed scan with stated coverage | Detect targets, review settings, start an authorised scan and follow its report |
 | Review trackers | Categories and descriptions reflect actual use | Review detected and missing trackers with the customer; guide dashboard edits when the reviewed connector lacks the operation |
 | Decide and configure GTM | No GTM by choice, or the selected container's mode, regions, triggers and checks match the plan | Guide manual setup, use reviewed supported operations, or explicitly selected local scripts; preserve direct integrations |
@@ -118,10 +124,16 @@ before an initial publication.
 Use the public hostname, including the domain visible through a reverse proxy. Match the
 project site ID against the script URL and `data-consentpro-site-id`; keep
 `data-consentpro-script="runtime"`. The custom-site core is one project-specific script
-at the top of the intended pages' `<head>`, before trackers and tag managers. For
-site-wide installation, use the shared head or layout. For a page-limited request,
-inspect the page and explain the effect of a shared-layout change before expanding
-coverage. Do not add the core to an unrelated root page solely to satisfy a checker.
+at the top of the site's shared `<head>`, before trackers and tag managers.
+Current custom-site onboarding requires it across the selected hostname,
+including the home page (`/`); placing it only on `/campaign/` is not a supported
+single-page installation. Explain this requirement and agree the scope before
+deploying when the customer requested only one page. Banner page-visibility
+settings, when available, do not replace hostname-wide core installation.
+For `shop.example.com/campaign/`, the home page is `https://shop.example.com/`.
+Do not substitute the parent `https://example.com/` or modify it without authority.
+If the selected hostname's root belongs to another application or cannot be edited,
+resolve that ownership/deployment dependency instead of promising a path-only setup.
 Do not reuse another project's snippet or replace it with a generic two-script
 runtime example.
 
@@ -131,7 +143,10 @@ Source: [Install the Core Script](https://docs.consentpro.com/web-app/install).
 
 Keep that result separate from evidence for the customer's exact page URL. A
 negative domain check and a script present on a landing-page path may refer to
-different responses. Inspect the checked URL when available, redirects, snippet
+different responses. A missing core on the selected hostname's home page is an
+incomplete installation even if the inner page has it. That does not establish
+which URL the checker fetched or the cause of every failed check.
+Inspect the checked URL when available, redirects, snippet
 identity and environment before recommending a change. Do not infer a broken
 runtime from a hostname difference alone. Follow the
 [installation reconciliation](06-agent-readiness/operations.md#core-installation-and-licence)

@@ -48,9 +48,10 @@ access and site/browser access as separate checkpoints in the working record.
    is ambiguous, show matching names and domains and ask which one to use. If the
    exact target is already known, read it without asking the customer to repeat it.
 4. Record environment, CP workspace/project/site ID, hostname and the exact requested
-   page URL when established. Preserve its path and intended page coverage; a project
-   is associated with a hostname, but a request for one landing page does not authorize
-   changing every page on that host. Associate GTM
+   page URL when established. Preserve its path for verification. Explain that current
+   custom-site setup needs the core across that hostname, including its own home page.
+   A page-only request is not a supported installation path and does not authorize
+   silently widening the deployment; resolve the hostname-wide scope first. Associate GTM
    only through explicit target selection or corroborated site/container evidence;
    a scanner match alone is insufficient. Record the Google account and container
    separately. Never use the first accessible container by default.
@@ -117,7 +118,7 @@ private destination. It is context, not proof of current access or permission:
 
 ```text
 Resume Consent Pro setup
-Target: [exact public page URL, intended page coverage, hostname, platform, CP workspace/project, environment]
+Target: [exact public page URL, selected hostname and home URL, hostname-wide installation scope, platform, CP workspace/project, environment]
 GTM, if used: [account, container, workspace, known live version]
 Goal and decisions: [first activation or deeper setup, agreed task, mode/regions if relevant, open decisions]
 Current step: [state, next action, responsible person or role]
@@ -315,7 +316,7 @@ continue the next missing dependency for first activation. For example:
 
 | Customer reports | Verify and continue |
 |---|---|
-| The script was installed | Read the exact requested page and compare the project snippet, site ID and installation scope. Run the supported install check; reconcile a disagreement before prescribing another script change. |
+| The script was installed | Check the selected hostname's home page and requested inner page against the project snippet, site ID and required shared-head installation. Run the supported install check. An inner page alone does not complete setup; reconcile remaining disagreements before prescribing another script change. |
 | The banner was saved | Read back the banner and publication state. Continue with unresolved installation, entitlement or preview checks, then the applicable authorized publication. Do not divert to colors or fonts while the banner is still not available to visitors. |
 | The configuration was published | Re-read publication for the selected domain, then check the ordinary requested page outside Preview using the allowed access route. Mark unavailable browser behavior as unverified. |
 

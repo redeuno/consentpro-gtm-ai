@@ -10,6 +10,18 @@ and the checks performed clearly confirmed. Start with the necessary configurati
 personalize and explore additional features afterward. A temporary Preview is a
 separate result from a banner served to ordinary visitors.
 
+Custom-site setup currently covers the whole selected hostname, including its
+home page (`/`). Put the project script in the site's shared `<head>`, not only
+on a landing-page path. For `shop.example.com`, this means that subdomain's own
+home page and pages, not automatically `example.com`.
+
+The current MCP can provide the script, but it does not install website code,
+create the initial banner or publish Consent Pro configuration. The assistant
+guides the [three activation handoffs](docs/06-agent-readiness/operations.md#current-first-installation-handoffs):
+site installation, banner creation and publication in the selected environment.
+Separate authorized site-editing tools may handle the first step. Discover tools
+again when the connection changes; these limits are not promises about future releases.
+
 If the assistant cannot retrieve this GitHub page, share the
 [plain-text entry](https://raw.githubusercontent.com/redeuno/consentpro-gtm-ai/main/README.md)
 in the same conversation. This is another reading route, not a different setup.
@@ -56,7 +68,7 @@ the next useful action, not the whole procedure at once.
 
 ## Save the instructions for future conversations
 
-The [ready preview packages](https://github.com/redeuno/consentpro-gtm-ai/releases/tag/v0.3.3)
+The [ready preview packages](https://github.com/redeuno/consentpro-gtm-ai/releases/tag/v0.3.4)
 contain the instructions and references for optional persistent installation.
 The [installation guide](docs/07-agent-installation/README.md)
 distinguishes ChatGPT, Claude chat, Codex and Claude Code. Both skills share the
