@@ -331,15 +331,52 @@ entitlement and deployment/publication authority; do not require a test hostname
 as an extra prerequisite. If the chosen result is only a temporary draft Preview,
 record that scope and do not report an ordinary visitor installation as complete.
 
+Current custom-site onboarding is hostname-wide. Install the core in the shared
+head/layout for the selected hostname, including its home page (`/`) and inner
+pages. Installing it only on `/campaign/`, or only on the home page, does not
+complete that setup. For `shop.example.com/campaign/`, the root to check is
+`https://shop.example.com/`, not the parent `https://example.com/`. Banner page
+visibility settings do not change this installation requirement.
+
+If the customer requested only one page, explain this limit and resolve the wider
+scope before deployment. If the root is owned by another application/team or cannot
+be edited, identify that access or hosting dependency. Do not create a root page,
+redirect, duplicate runtime or parent-domain installation as an assumed workaround.
+
+### Current first-installation handoffs
+
+Explain these three remaining actions briefly after resolving the target, then
+guide one step at a time. In the current connection, the MCP can create a project,
+return its exact script, read saved banners and publication state, and preview a
+draft. It does not deploy website code, create the initial banner or publish the
+Consent Pro configuration. Banner style editing is not banner creation.
+
+| Action | Who performs it and how to verify |
+| --- | --- |
+| Install the core script | MCP supplies the snippet. With separately authorized site-code/platform access, the assistant can place it in the shared head and deploy within that authority. Otherwise guide the customer to the platform's global head/custom-code setting, paste the exact tag before other scripts and GTM, then deploy the site. Read the home page and requested inner page, then run the supported live installation check. |
+| Create the initial banner | In the selected Consent Pro environment and project, open **Consent banner**. If no suitable banner exists, guide adding **Opt In Banner** with **Global (default)** as the initial choice, review the intended behavior and save. Re-read the banner. The dashboard wizard may already create it; do not duplicate it or assume MCP project creation did the same. Keep styling optional. |
+| Publish Consent Pro configuration | With the exact target, included changes, applicable entitlement and publication authority resolved, guide the customer to **Publish changes** in that project's header, review the displayed domains and changes, then publish. Re-read publication state and verify the ordinary site outside Preview through the allowed route. Site deployment and GTM publication do not perform this step. |
+
+Use the dashboard and snippet belonging to the agreed product environment. Do not
+send a staging customer to production merely because the site is public. Describe
+draft saved, site deployed and Consent Pro published separately, and keep preview
+distinct from ordinary visitor availability. If a missing operation becomes
+available, inspect its actual contract and permissions and use it within existing
+authorization; this current handoff is not a permanent prohibition. Do not reconnect
+working accounts solely because an operation has not been deployed.
+
+### Install and verify the core
+
 1. Read the exact snippet from `consentpro_project_get` at `install.script`, or the dashboard.
    Use setup details for the related checks. For a custom site, use its
    single `/cdn/core/<site-id>.js` tag with `data-consentpro-script="runtime"` and matching
    `data-consentpro-site-id`. Do not add `async`, `defer` or another runtime by guess.
-2. Inspect the intended pages' head, shared-layout effects and existing runtimes before
-   placing the core ahead of analytics and tag managers within the agreed page coverage.
+2. Inspect the selected hostname's shared head, home page, inner-page layouts and
+   existing runtimes before placing the core ahead of analytics and tag managers
+   across that hostname, with the agreed site-wide authority.
    Compare original response HTML with a rendered scrape or DOM;
    they are not the same evidence. Deploy with the authority for that site.
-3. Re-read the exact served page and run the supported live installation check,
+3. Re-read the served home page and requested inner page and run the supported live installation check,
    following [reported-installation verification](#verify-a-reported-installation).
    Presence and order are separate from runtime behaviour. Removing the tag also
    requires a deployment; it does not delete project data.
@@ -382,13 +419,16 @@ current diagnosis contract, resolve the project and request
 sections and per-domain results before describing what ran. If the contract changes,
 use its supported equivalent. A saved-state read alone is not a live installation check.
 
-Keep the customer's exact page URL and path alongside the project's hostname.
-Compare the original HTML at that URL, the fresh project snippet and the checker
+Keep the customer's exact page URL and path alongside the project's hostname and
+home URL. Compare the original HTML at the home page and requested inner URL, the
+fresh project snippet and the checker
 result. Record redirects/final URLs when available. A response naming a domain
 does not prove which path the checker fetched. Do not invent a path argument when
 the tool accepts only a project. If permitted, reading the root and requested path
-can reveal different served HTML; label each observation with its URL. That does
-not prove the checker's cause or authorize installing code on additional pages.
+can reveal different served HTML; label each observation with its URL. If the
+core exists only on an inner path, report the hostname-wide installation as
+incomplete and guide the required shared-head installation within agreed authority.
+That does not prove the checker's cause or authorize changes to another hostname.
 
 If the script is present but the checker says missing, compare project ID,
 required attributes, declaration order, response accessibility, environment and
