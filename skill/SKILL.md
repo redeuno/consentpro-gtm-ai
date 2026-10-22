@@ -103,6 +103,11 @@ permissions and effects on existing behavior. Use specific authorization already
 given; ask only for missing scope or a materially changed plan. Saving, creating
 a version, publishing GTM, publishing Consent Pro and deploying site code are
 separate actions. Never infer publication approval from setup approval.
+MCP edits belong in its dedicated **Consent Pro MCP** workspace, never Default.
+For tag, trigger or variable changes, review the exact resource IDs, dependencies
+and before/after fields; preserve unrelated fields and business-event conditions.
+An authorized paused test tag remains paused. A test request does not authorize
+editing similarly named production resources or publishing the test artifact.
 
 ## Choose the available execution path
 
@@ -127,6 +132,14 @@ a newly required permission needs a grant upgrade. Confirm any required Google s
 upgrade separately and preserve the selected container's access limits. If a write
 times out, inspect the workspace before retrying; never repeat a create/import
 blindly or publish unrelated pending changes with the requested fix.
+
+Rollback is a separate live change, with its own operation, permission and user
+approval. Identify the exact prior version, review its full differences from the
+current live container, and verify the live version after restoration. Do not
+assume publishing authority includes rollback or that undoing a workspace edit
+restores the live version. A rollback does not reset Google's latest version used
+for workspace synchronization; inspect live, latest and saved workspace state
+before resuming edits or an interrupted publication.
 
 The local writer is deliberately conservative. Check its `--help` and simulation
 before applying. If it refuses an unsupported event, regional table or existing

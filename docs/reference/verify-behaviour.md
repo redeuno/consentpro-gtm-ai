@@ -17,7 +17,7 @@ do not prove that every tracker was blocked beforehand.
 
 ## Why this is a procedure and not a script
 
-An agent with a browser tool runs this directly, and adapts to the banner in front of it.
+An agent with permitted browser access runs this procedure and adapts to the banner in front of it.
 Every banner has different button labels, different markup and different languages, so a
 script with fixed selectors can miss the controls needed for the test. Report any browser
 state you cannot inspect.
@@ -25,6 +25,22 @@ state you cannot inspect.
 If the customer is driving, offer the relevant short instruction below and check its
 result before introducing another tool. A terminal, Google API access and a complete
 container export are not prerequisites.
+
+### MCP page audit and access limits
+
+When the discovered `consentpro_site_audit` contract is available, follow the
+[published-page audit](https://docs.consentpro.com/mcp/site-audit) procedure. Its
+prepare phase reads expectations; the client's browser supplies observations.
+It is not a remote browser test performed by MCP. Show the exact page and expected
+behavior for confirmation before navigation, and retain that contract's approval
+boundary even for a connected project. Default to the homepage; another exact
+page requires the customer's request and confirmation. Do not crawl other pages.
+
+An API/MCP-only restriction remains in effect. Complete allowed configuration
+reads and report browser scenarios as unverified instead of opening a browser or
+inventing observations for assessment. Audit results propose fixes; they do not
+authorize edits, imports, checklist updates, publication or rollback. A single-page
+audit does not change the hostname-wide installation requirement.
 
 ## First activation and further verification
 

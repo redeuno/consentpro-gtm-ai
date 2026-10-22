@@ -12,12 +12,12 @@ deferred or unavailable. Persistent instructions are optional. For an explicit
 
 ## Optional: get the ready package
 
-Download the reviewed assets from [release 0.3.4](https://github.com/redeuno/consentpro-gtm-ai/releases/tag/v0.3.4):
+Download the reviewed assets from [release 0.3.5](https://github.com/redeuno/consentpro-gtm-ai/releases/tag/v0.3.5):
 
 | Asset | Use |
 |---|---|
-| `consent-pro-0.3.4-preview.zip` | Start here for the whole Consent Pro journey, including GTM guidance |
-| `consent-pro-gtm-0.3.4-preview.zip` | Optional specialist for focused GTM work |
+| `consent-pro-0.3.5-preview.zip` | Start here for the whole Consent Pro journey, including GTM guidance |
+| `consent-pro-gtm-0.3.5-preview.zip` | Optional specialist for focused GTM work |
 | `SHA256SUMS` | Compare the downloaded bytes with the release checksums |
 
 This is a preview distribution. Follow the host-specific procedure below and verify
@@ -72,10 +72,12 @@ instructions, signing in to Consent Pro, connecting Google and editing the site
 are separate steps.
 
 For current custom-site setup, explain the
-[three activation handoffs](../06-agent-readiness/operations.md#current-first-installation-handoffs):
+[three activation checkpoints](../06-agent-readiness/operations.md#current-first-installation-handoffs):
 the script goes in the selected hostname's shared head, including its home page;
-the initial banner and Consent Pro publication use that environment's dashboard
-while those MCP operations are unavailable. A landing-page URL does not establish
+the initial banner and Consent Pro publication use reviewed MCP operations when
+available and authorized, or that environment's dashboard for each missing step.
+Do not assume that all three actions must be manual or that one available write
+enables every other write. A landing-page URL does not establish
 support for page-only installation. A subdomain uses its own home page, not the
 parent domain's. Keep the original page URL for verification.
 
@@ -254,7 +256,7 @@ When file tools are available, first verify the reviewed ZIP and manifest using
 the checks below. Otherwise provide the reviewed asset link and keep byte
 verification marked unavailable. In Customize,
 Skills, open Add Skill (`+`) and choose Upload Skill, then select the reviewed
-`consent-pro-0.3.4-preview.zip` and enable it. The primary package includes the GTM reference and its
+`consent-pro-0.3.5-preview.zip` and enable it. The primary package includes the GTM reference and its
 scripts; the specialist ZIP is available for direct GTM tasks. Each ZIP must contain
 its named skill folder, including `SKILL.md` and all bundled dependencies. Do not upload
 the entire repository as if it were one skill.
@@ -360,9 +362,9 @@ does not authorize those changes or require a full audit.
 
 Compute the hash of the ZIP you downloaded and compare it with the line for that
 exact filename in `SHA256SUMS`. For the primary package, use
-`shasum -a 256 consent-pro-0.3.4-preview.zip` on macOS,
-`sha256sum consent-pro-0.3.4-preview.zip` on Linux, or
-`Get-FileHash consent-pro-0.3.4-preview.zip -Algorithm SHA256` on Windows.
+`shasum -a 256 consent-pro-0.3.5-preview.zip` on macOS,
+`sha256sum consent-pro-0.3.5-preview.zip` on Linux, or
+`Get-FileHash consent-pro-0.3.5-preview.zip -Algorithm SHA256` on Windows.
 Substitute the specialist ZIP's filename if that is the package you chose.
 
 If you downloaded both ZIPs listed in `SHA256SUMS` into the same directory, you
@@ -381,6 +383,13 @@ Consent Pro product interface or the customer, and confirm which product
 environment and workspace it serves. This guide does not supply or imply a
 production MCP endpoint. Do not derive one from a website or runtime hostname.
 If no approved URL is available, continue through the product dashboard.
+
+Use the dashboard URL supplied for the current testing round when the customer
+chooses product staging. A changed staging dashboard does not by itself require
+changing the MCP endpoint, moving a project or replacing its installed script.
+Documentation returned by a staging connection can describe production. Match
+the environment before using its connection examples; a documented endpoint is
+not proof that this client's authenticated production access works.
 
 For an approved Streamable HTTP endpoint with Finsweet OAuth, use the following
 steps. Replace `APPROVED_MCP_URL` with that exact URL before running a command; it
@@ -424,7 +433,9 @@ Full access does not authorize an agent to make unsolicited changes. Use the
 recovery procedure below for a missing operation instead of reconnecting everything
 or silently switching credentials.
 
-Keep the selected project's official dashboard open to compare saved state.
+When the customer's permitted route includes the dashboard, keep the selected
+project open to compare saved state. For API/MCP-only work, use authoritative
+reads and retain any unavailable UI or browser evidence as unverified.
 The [operations guide](../06-agent-readiness/operations.md) distinguishes drafts,
 scans, email requests and separate publication authority. Discover the operations
 actually available to this connection before choosing a supported path.
@@ -467,6 +478,11 @@ it or that the corresponding operation has passed a live test.
   the service requires that, after identifying the environment and workspace to restore.
 - Missing Google scope: use a new user-opened Google connection link for the intended
   account. A new Consent Pro grant does not refresh Google scopes or container roles.
+- Expanded testing access: check tracker import/review, suggestions, translation
+  edits, setup acknowledgements, Consent Pro publication, GTM edits, entity management,
+  publication and rollback separately when the server advertises them. A translation
+  read tool is not an editing permission. Do not claim the entire testing workflow
+  is available merely because some new tools appeared.
 - Missing deployment or unresolved cause: preserve working access, report what is
   unverified and continue supported work. Reauthorization cannot deploy a tool.
 
