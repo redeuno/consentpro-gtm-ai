@@ -36,7 +36,7 @@ preferences relevant to the customer's intended behavior.
 
 | Next result | Necessary work for this site |
 |---|---|
-| Target and available route | Identify the hostname, project and intended product environment. Reuse working access, recommend the supported Consent Pro connection once when relevant, or guide the selected dashboard. A persistent skill and Google authorization are not activation requirements. |
+| Target and available route | Identify the exact requested page URL, intended page coverage, hostname, project and intended product environment. Reuse working access, recommend the supported Consent Pro connection once when relevant, or guide the selected dashboard. A persistent skill and Google authorization are not activation requirements. |
 | Project ready for installation | Select or create the correct project, confirm the domain and applicable entitlement, and review the initial banner and policy choices. Ask only for missing decisions; do not start with visual customization. |
 | Correct core installed | Use the exact project snippet and platform instructions. Preserve a working installation; resolve a conflicting CMP or deployment dependency rather than adding another runtime. |
 | Initial behavior checked | Test the visible banner, preferences and the site's main visitor action. Check the named tracking paths affected by the setup, including refusal and acceptance where applicable. Investigate relevant failures without requiring a complete site audit. |
@@ -49,6 +49,14 @@ hostname is not Consent Pro's product development staging. A signed Preview is a
 separate draft result, not publication to ordinary visitors. Keep purchase and
 license evidence separate: a production hostname or visible banner does not prove
 payment, and a test hostname does not prove the absence of a purchase.
+
+Retain the customer's selected product environment and target throughout follow-up
+questions. After a reported save or install, verify that change and resume the
+next missing activation dependency. A question about what the MCP can do calls
+for a brief capability answer plus the next concrete step. A saved banner should
+lead toward installation consistency, entitlement, preview and authorized release,
+not an unsolicited appearance exercise. Missing release authority remains a
+separate decision even when the customer asked for the overall installation.
 
 Do not require a new GTM installation, Google connection, complete tracker inventory,
 fresh comprehensive scan or full GTM audit merely to advance the checklist. Reuse
@@ -96,8 +104,8 @@ before an initial publication.
 | Enter | Correct account/workspace or a precise access dependency | Use official entry/recovery, investigate existing purchases and support manual dashboard work |
 | Identify | Workspace, project, hostname, platform and goal agree | Read project state and inspect the installed engine; resolve ambiguous matches |
 | Connect domain | Correct custom-site project and public hostname | MCP can create a project or update its domain when authorised; Webflow onboarding uses the dashboard |
-| Configure banner | Initial behavior, applicable regions and privacy link reviewed; appearance can follow | MCP supports selected style and privacy-link edits; do not infer type, region or category writes |
-| Install core | Exact project snippet deployed and checked | Read the snippet, edit the shared head, deploy with the corresponding authority and verify the domain |
+| Configure banner | Initial behavior, applicable regions and privacy link reviewed; appearance can follow | Use available reviewed banner operations; if the required operation is absent, give the exact dashboard step, read back the result and continue |
+| Install core | Exact project snippet deployed and checked | Read the snippet, confirm page coverage and placement, deploy with the corresponding authority and verify the requested URL and applicable domain check |
 | Scan | Completed scan with stated coverage | Detect targets, review settings, start an authorised scan and follow its report |
 | Review trackers | Categories and descriptions reflect actual use | Review detected and missing trackers with the customer; guide dashboard edits when the reviewed connector lacks the operation |
 | Decide and configure GTM | No GTM by choice, or the selected container's mode, regions, triggers and checks match the plan | Guide manual setup, use reviewed supported operations, or explicitly selected local scripts; preserve direct integrations |
@@ -109,13 +117,25 @@ before an initial publication.
 
 Use the public hostname, including the domain visible through a reverse proxy. Match the
 project site ID against the script URL and `data-consentpro-site-id`; keep
-`data-consentpro-script="runtime"`. The custom-site core is one project-specific script at
-the top of the shared `<head>`, before trackers and tag managers. Do not reuse another
-project's snippet or replace it with a generic two-script runtime example.
+`data-consentpro-script="runtime"`. The custom-site core is one project-specific script
+at the top of the intended pages' `<head>`, before trackers and tag managers. For
+site-wide installation, use the shared head or layout. For a page-limited request,
+inspect the page and explain the effect of a shared-layout change before expanding
+coverage. Do not add the core to an unrelated root page solely to satisfy a checker.
+Do not reuse another project's snippet or replace it with a generic two-script
+runtime example.
 
 **Check script** verifies the published domain. In the wizard, **Finish setup** remains
 disabled until **Verify installation** passes; **Do it later** leaves this outstanding.
 Source: [Install the Core Script](https://docs.consentpro.com/web-app/install).
+
+Keep that result separate from evidence for the customer's exact page URL. A
+negative domain check and a script present on a landing-page path may refer to
+different responses. Inspect the checked URL when available, redirects, snippet
+identity and environment before recommending a change. Do not infer a broken
+runtime from a hostname difference alone. Follow the
+[installation reconciliation](06-agent-readiness/operations.md#core-installation-and-licence)
+and retain any unresolved checker result as a specific dependency.
 
 Production domains and subdomains require their own licences. A preview hostname must be
 connected to the project. A signed preview can temporarily show a saved draft before a
