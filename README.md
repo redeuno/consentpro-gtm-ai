@@ -69,7 +69,7 @@ the next useful action, not the whole procedure at once.
 
 ## Save the instructions for future conversations
 
-The [ready preview packages](https://github.com/redeuno/consentpro-gtm-ai/releases/tag/v0.3.5)
+The [ready preview packages](https://github.com/redeuno/consentpro-gtm-ai/releases/tag/v0.3.6)
 contain the instructions and references for optional persistent installation.
 The [installation guide](docs/07-agent-installation/README.md)
 distinguishes ChatGPT, Claude chat, Codex and Claude Code. Both skills share the
@@ -109,7 +109,9 @@ connection is available, continue through the official product dashboard.
    adopting GTM, connecting Google and a full inventory are not universal gates.
 4. Apply the approved setup and run the relevant choice and site-function checks.
    Use an existing valid scan; request a new one when evidence or the product
-   requires it, not merely because a checklist includes scanning.
+   requires it, not merely because a checklist includes scanning. Before a new scan,
+   [check site access and robots rules](docs/06-agent-readiness/operations.md#before-starting-or-retrying-a-scan)
+   so a known block gets a clear fix before another attempt.
 5. Review and authorize the required site, Consent Pro and optional GTM releases.
    Confirm the ordinary address outside Preview and report exactly what was tested.
 6. Continue with the customer's chosen personalization and broader review.

@@ -28,6 +28,12 @@ it into a container redesign or require Google authorization when the customer c
 complete the same step in GTM. Known consent failures in the initial path need
 treatment; broader inventory and optional improvements can follow publication.
 
+If reconciliation needs a new scan, follow the shared
+[scan access check](../docs/06-agent-readiness/operations.md#before-starting-or-retrying-a-scan)
+before starting or retrying. A robots or firewall block is a site-access dependency,
+not a reason to reconnect Google or change GTM triggers. Reuse a relevant scan and
+continue independent configuration while the site owner resolves a known blocker.
+
 Read [operations](../docs/06-agent-readiness/operations.md) for the target, available
 tools and permission boundaries. Read the [nine steps](../docs/reference/nine-steps.md)
 before configuring a container. Resolve document and script links relative to the
