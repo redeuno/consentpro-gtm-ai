@@ -169,6 +169,12 @@ Neither path implies access to a product development MCP environment.
 
 ## Scan and review
 
+Before a new scan, [check access](06-agent-readiness/operations.md#before-starting-or-retrying-a-scan):
+the selected site must be published and reachable, and its robots rules and security
+controls may prevent scanning. Explain a known blocker and guide its correction
+before retrying. Continue independent setup work while it is resolved; an existing
+relevant scan may already be sufficient.
+
 A sitemap improves discovery. Without one, the scanner follows discoverable same-origin
 links; authenticated pages, disallowed paths, unlinked pages and interaction-only trackers
 can remain outside the scan. A sitemap does not prove full coverage.

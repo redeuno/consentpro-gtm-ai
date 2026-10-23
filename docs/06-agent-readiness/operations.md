@@ -535,6 +535,55 @@ those pages will be read and obtain agreement before changing them. Use the
 documented restoration control, not a guessed empty-list convention. Preserve
 before-values and unrelated settings.
 
+### Before starting or retrying a scan
+
+Explain the next check in plain language: "Before scanning, I will check whether
+your published site lets the Consent Pro scanner in. If something blocks it, I
+will show you the relevant setting and how to verify the fix."
+
+Use the current MCP report and permitted public HTTP reads, or guide the customer
+through the same checks. Respect an API-only instruction; opening a browser or
+changing a security setting is not a prerequisite for explaining the problem.
+
+1. Read the latest result and any active scan. Reuse a relevant completed result;
+   follow an active scan instead of starting another. Record a failed attempt's
+   tracking ID, time, affected URL and actual reason before recommending a retry.
+2. Confirm the selected hostname and its published home page (`/`), plus the
+   intended scan pages. A working landing-page path does not prove the home page
+   is published. A subdomain has its own home page and `/robots.txt`. Check the
+   final destination after redirects; a successful HTTP response containing a
+   login or challenge is not evidence that the scanner can reach the site.
+3. Read that origin's `/robots.txt` and evaluate the rules applicable to
+   `ConsentProScanner` for the intended paths. A dedicated matching group takes
+   precedence over the wildcard group; preserve any exclusions needed in that
+   group. A missing robots file is not the same as a missing website. A failed
+   read leaves access unknown, not confirmed blocked or allowed.
+4. Check known firewall challenges, password protection and reachability errors
+   against the report. Robots permission does not bypass a firewall, and a page
+   fetched from the assistant's connection does not prove access from the scanner.
+   Preserve authentication and private staging. Do not remove a password or expose
+   private content to make scanning work; use an explicitly approved public test
+   environment or a support handoff when the scanner cannot access the target.
+5. Report the result as allowed by the inspected rules, blocked with evidence, or
+   unknown. For a known blocker, give the customer the affected setting, a narrow
+   proposed correction, who can apply it and the expected result. Follow
+   [scan access and recovery](../reference/troubleshooting.md#scan-access-and-recovery).
+
+Do not start another scan against an unchanged, confirmed blocker. Once the owner
+has applied an approved fix, re-read the published page or rules and then run the
+requested retry. If access cannot be verified, explain that limit; an already
+requested diagnostic scan may still establish the reason. Do not turn uncertainty
+into repeated automatic attempts. Continue independent banner and installation
+work while access is being resolved, without marking the scan or untested tracking
+as verified. This check reduces avoidable failures; it cannot guarantee completion.
+
+The scanner follows its robots policy: a total block prevents scanning and path
+restrictions can leave gaps. Never suggest bypassing those rules. Sources:
+[Scanner](https://docs.consentpro.com/scanner#robots-txt),
+[robots group selection](https://www.rfc-editor.org/rfc/rfc9309.html#section-2.2.1).
+
+### Follow results and review discoveries
+
 Start only the requested scan, then follow `consentpro_scans_report`. A start acknowledgement
 is not completion; an existing active scan may be returned. Explain failure or limited
 coverage before offering a retry. Sources: [Sitemap Setup](https://docs.consentpro.com/web-app/sitemap),

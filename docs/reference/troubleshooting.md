@@ -227,17 +227,87 @@ before reviewing a new simulation. A failed response alone does not establish wh
 earlier writes were saved; read back the workspace before retrying. Keep version
 creation and publication pending until the intended draft is complete and verified.
 
+### Scan access and recovery
+
+Before starting or retrying, follow the
+[scan access check](../06-agent-readiness/operations.md#before-starting-or-retrying-a-scan).
+Tell the customer what stopped the scan and the next useful action. Do not make
+them interpret an error code or repeatedly click Scan. A failure reason needs the
+actual report or response; the symptom alone does not establish the cause.
+
+| Evidence | Next action and owner | Condition for retry or completion |
+| --- | --- | --- |
+| Applicable robots rule blocks the intended site or path | Show the rule and affected URL; ask the site owner to review a scanner-specific change, or retain the intentional exclusion | Read back the published rules; record excluded paths as a coverage limit |
+| Selected home page or target returns 404 | Confirm the hostname, redirects, deployment and access controls; a private site can hide behind this response | Correct the confirmed cause; publish only if the site is genuinely unpublished, intended to be public and the owner authorizes it. A 404 at `/robots.txt` alone is not this case |
+| Login, password protection or private staging prevents access | Preserve that protection; explain the scanner's access limit and continue independent setup | Use an explicitly approved public test environment or support; never remove authentication or switch targets silently |
+| Firewall or bot challenge appears | Have the security administrator match the failed request/time to the relevant security event and rule | Confirm the approved exception and try the requested scan once; robots changes alone do not remove a firewall challenge |
+| Scan is cancelled | Read the available cancellation state; confirm whether the stop was intentional, without guessing who cancelled it | Restart only within the customer's current request; do not report cancellation as a scanner outage |
+| Timeout or temporary reachability error | Recheck the page, active scan and latest result; explain that the cause is still unconfirmed if no detail is available | One bounded retry may be appropriate when reachable and authorized; a repeat failure needs investigation, not a loop |
+| Some pages succeed and others are skipped or fail | Report reached and omitted pages with reasons; review discovery, robots and pinned-page scope | Keep coverage partial until evidence supports more; never pin only successful pages to hide errors |
+| Reason or access evidence is unavailable | Preserve the tracking ID/time and unresolved check; prepare a support handoff | Do not label it a robots failure or say the scanner is healthy solely because other scans succeeded |
+
+#### Help the owner review robots rules
+
+`robots.txt` is a public file that tells cooperating crawlers which paths they may
+read. First inspect the exact hostname's file, then propose the smallest change
+for `User-agent: ConsentProScanner` and the approved public paths. Show the existing
+and proposed rules before asking the owner to save them. Do not replace the file
+with a blanket allow for every bot, remove unrelated rules, or open intentionally
+excluded areas. When adding a dedicated group, carry forward exclusions that must
+still apply: wildcard restrictions are not automatically inherited by it.
+
+If the customer only has a dashboard, identify the platform's robots editor or the
+person who maintains it. Give the exact reviewed values there; a terminal or Google
+connection is not required. After "done", fetch the served `/robots.txt` again or
+ask the customer to show its current contents. A saved editor value is not proof
+that the published file changed. Robots rules are not access control for private
+content. Sources: [Scanner](https://docs.consentpro.com/scanner#robots-txt),
+[robots rules](https://www.rfc-editor.org/rfc/rfc9309.html#section-2.2).
+
+For Webflow, begin at **Site settings > SEO > Indexing**. Inspect the staging
+indexing setting and custom robots rules before proposing a change. Consent Pro's
+Webflow guide describes a staging workaround, but warns that custom robots rules
+apply to staging and production domains. Do not copy its wildcard `Disallow: /`
+example onto a production site that should remain crawlable, or toggle indexing
+without reviewing the effect. Have the owner approve the affected domains, preserve
+the intended search-engine rules and publish only to the agreed destinations.
+Check the served rules on each affected hostname afterward. If the available
+settings cannot preserve both requirements, use support instead of guessing.
+Sources: [Consent Pro Webflow troubleshooting](https://docs.consentpro.com/webflow/troubleshooting),
+[Webflow robots editor](https://help.webflow.com/hc/en-us/articles/41954080897683-Set-robots-txt-rules),
+[Webflow indexing](https://help.webflow.com/hc/en-us/articles/33961368603539-Disable-search-engine-indexing).
+
+#### Keep firewall recovery specific
+
+Ask the security administrator to identify the blocking product and rule before
+changing it. Use a scoped exception only where that product supports it, limited
+to the reviewed host, paths and necessary rule. Do not disable site-wide protection
+automatically. `ConsentProScanner` identifies the crawler in its User-Agent, but
+the header can be copied and is not proof of identity. Shared Cloudflare addresses
+and generic browser-rendering identities are not safe scanner-only allowlists.
+
+Cloudflare **Bot Fight Mode** cannot be skipped using a WAF custom rule.
+**Super Bot Fight Mode** supports the relevant Skip option. Confirm which product
+actually blocked the request; do not promise that a Skip rule will fix basic Bot
+Fight Mode. If no suitable exception exists, the owner and support must choose a
+safe recovery path. Sources: [Cloudflare Skip options](https://developers.cloudflare.com/waf/custom-rules/skip/options/),
+[Bot Fight Mode limitations](https://developers.cloudflare.com/bots/get-started/bot-fight-mode/).
+
+If the same failure recurs after a verified change, prepare a private support
+summary: selected environment, affected hostname/path, scan ID/time, returned
+reason, relevant rules or challenge, attempted fix and readback. Share no tokens,
+private preview links or unrelated visitor data. Send it only when requested.
+See [support and assisted setup](#support-and-assisted-setup).
+
 ### Other causes
 
 **Core/API blocked by CSP.** Inspect console and response headers. Both `script-src` and
 `connect-src` may need the Consent Pro API origin. Merge into the existing policy and
 respect nonces/hashes rather than replacing it.
 
-**Scan blocked by a firewall.** Inspect the actual challenge and `robots.txt`. The scanner
-identifies itself with the `ConsentProScanner` token, but header matches are not proof of
-identity. Do not allow all shared Cloudflare IPs or disable protection automatically.
-Sources: [Troubleshooting](https://docs.consentpro.com/web-app/troubleshooting),
-[Scanner](https://docs.consentpro.com/scanner).
+**Scan blocked or incomplete.** Use [scan access and recovery](#scan-access-and-recovery)
+to distinguish robots restrictions, unpublished pages, firewall challenges and
+other causes before recommending another attempt.
 
 **Regional preview works but ordinary visits differ.** Compare plan eligibility and saved
 versus published region mappings. Basic applies Global instances, while a preview can show

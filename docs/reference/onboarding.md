@@ -232,6 +232,12 @@ requested, stop after the findings and proposed plan, without writes or a new sc
 
 A scan may be needed before tracker decisions or repeated after an authorized
 change. Do not promise full-site coverage or start repeated scans without a reason.
+Before starting, use the [scan access check](../06-agent-readiness/operations.md#before-starting-or-retrying-a-scan)
+to inspect the selected published site, applicable robots rules and known blockers.
+Explain the result in the customer's language and give one concrete next action.
+If blocked, retain the scan ID, reason, owner and expected fix in the checkpoint;
+after "done", verify the published correction before retrying. Continue independent
+banner setup instead of repeatedly starting the same failing scan.
 Apply the current scanner's sitemap and pinned-page limits from operations.
 Scan completion, findings imported, tracker review and publication are separate
 states. An empty saved tracker list can coexist with discoveries awaiting import.
