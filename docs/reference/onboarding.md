@@ -14,6 +14,7 @@ dependency; unrelated personalization is later work.
 ## Contents
 
 - [Start and resume](#start-and-resume)
+- [Ask for the next decision](#ask-for-the-next-decision)
 - [Route the customer's starting state](#route-the-customers-starting-state)
 - [Adapt to the delivery team](#adapt-to-the-delivery-team)
 - [Sequence and completion evidence](#sequence-and-completion-evidence)
@@ -85,6 +86,9 @@ batch independent reads. Infer the pace and adapt without an experience question
 Experience does not select Basic or Advanced Consent Mode. The same target, permission
 and verification checks apply to both audiences.
 
+Follow [the question procedure](#ask-for-the-next-decision) whenever a missing
+decision prevents the next action. It applies to terminal and web conversations.
+
 Maintain this record in the conversation. Save it elsewhere only when the customer
 explicitly requests an appropriate private destination:
 
@@ -129,6 +133,7 @@ Live: [site deployment, CP publication, GTM publication, or unknown]
 Tested: [named trackers, actions, choices, browser/region, result and date]
 Open issues: [failure or unavailable evidence, attempted steps]
 Prior authorization: [who approved which target/effect; publication limits]
+Pending decisions: [question, pending/answered/declined/deferred, answer and affected step]
 Resume check: [state, access and versions to re-read before continuing]
 ```
 
@@ -138,6 +143,74 @@ reported manual edit needs readback; a different live version needs comparison.
 If a write may have succeeded before interruption, inspect its result before
 retrying. Reuse valid approval for the same person, target and unchanged effect;
 the card does not transfer another person's authority or grant a successor access.
+
+## Ask for the next decision
+
+Use questions to advance the customer's installation, not to demonstrate every
+feature. Inspect available evidence first. Keep known answers, explicit requests
+and valid authorization; do not ask whether to continue after each completed step.
+
+1. Identify the missing decision and the action it changes. Ask one question at a time by default.
+   Combine related questions only when their answers are needed together and this
+   makes the task easier. Do not combine site selection, Google access and publication.
+2. Check the host's actual question tools and current mode. Use a native question
+   tool when available and permitted for this question. Read its schema and limits.
+   If unavailable, restricted or failing, ask the same question in ordinary text.
+   Do not change operating modes, install tools or request another subscription just to show choices.
+3. Explain the immediate purpose in one sentence. For a bounded decision, offer
+   two or three short, distinct options when the host supports them. Put a
+   justified recommendation first and explain its effect. Accept a free-text answer.
+   For a URL, error message or other unknown value, ask for that value without invented options.
+4. Record the response and continue the dependent step. If the tool waits for a
+   reply, respect that behavior. With an asynchronous tool, continue useful independent
+   work while the question is pending. Do not duplicate it in another channel.
+5. After "done", verify the reported action through the available permitted read.
+   If verification is unavailable, label it customer-reported. Resume the next
+   dependency without reopening answered questions or declined connection offers.
+
+These controls belong to the AI client, not the Consent Pro MCP. Reading this
+guide or installing its skill does not add buttons to a host. Claude Code may
+expose `AskUserQuestion`; Codex may expose `request_user_input` or an asynchronous
+equivalent. Tool names alone do not establish availability or permission.
+ChatGPT and Claude web must use their own available controls or ordinary text.
+For Claude Code, see the [official interactive-command reference](https://github.com/anthropics/claude-code/blob/387dc35db708150c229d7ed2d34342042e417fa0/plugins/plugin-dev/skills/command-development/references/interactive-commands.md).
+
+Do not recommend an arbitrary project, container, tracker category or policy decision
+to fill an option list. Show verified matching targets without a default recommendation
+when evidence cannot distinguish them. "I don't know" is a valid response when
+the customer needs investigation or help from an owner.
+If the tool requires an unjustified recommendation, use neutral text instead.
+Request files or screenshots only through a channel that accepts attachments,
+not through a text-only question tool. Never request credentials or signed URLs.
+
+Keep preferences separate from authorization. A connection choice is not approval
+to edit, publish, roll back or email reports. Before requesting a missing approval,
+show the exact target, reviewed change and effect. Use only a channel permitted
+for approval; if a question tool excludes approvals, request explicit confirmation in text.
+Do not disguise approval as a preference or recommend publication merely to finish onboarding.
+
+A preselected option, timeout, silence or skipped question is neither an answer
+nor authorization. Keep required decisions pending and pause only dependent work.
+For optional unanswered choices, continue the existing authorized route and keep
+the question pending. Record a deferral only when the customer defers it.
+Recheck authorization if the target, proposed change or effect changes.
+
+Keep decision state in the existing conversation record: pending, answered, declined
+or deferred, with the affected step. Do not persist customer answers elsewhere
+without their request. An answer may arrive as normal text instead of a button.
+
+### Use the procedure at the relevant checkpoint
+
+These are examples, not a questionnaire. Omit any question already resolved by
+the request or evidence. Translate the wording into the customer's language.
+
+| Checkpoint | Question or next action |
+|---|---|
+| Missing site or ambiguous project | Ask for the URL as free text, or show verified project names and domains. Do not select the first match. |
+| Verified connection route, undecided customer | "Connect Consent Pro (recommended)" allows supported account reads and authorized actions. "Guide me in the dashboard" continues manually. Ask once; skill installation remains optional. |
+| GTM dependency or unknown tracker purpose | Explain the relevant tradeoff or missing evidence. Preserve direct integration and manual routes; do not choose Consent Mode or Essential based on convenience. |
+| Access blocked or customer-only action | Ask only for the necessary owner, observation or completed step. Continue independent setup; never request passwords, tokens or private authorization URLs. |
+| Preview, publication or rollback | Present the exact reviewed operation and request any missing explicit approval through an allowed channel. An earlier preference, scan or draft save does not approve release. |
 
 ## Route the customer's starting state
 

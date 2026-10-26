@@ -12,12 +12,12 @@ deferred or unavailable. Persistent instructions are optional. For an explicit
 
 ## Optional: get the ready package
 
-Download the reviewed assets from [release 0.3.6](https://github.com/redeuno/consentpro-gtm-ai/releases/tag/v0.3.6):
+Download the reviewed assets from [release 0.3.7](https://github.com/redeuno/consentpro-gtm-ai/releases/tag/v0.3.7):
 
 | Asset | Use |
 |---|---|
-| `consent-pro-0.3.6-preview.zip` | Start here for the whole Consent Pro journey, including GTM guidance |
-| `consent-pro-gtm-0.3.6-preview.zip` | Optional specialist for focused GTM work |
+| `consent-pro-0.3.7-preview.zip` | Start here for the whole Consent Pro journey, including GTM guidance |
+| `consent-pro-gtm-0.3.7-preview.zip` | Optional specialist for focused GTM work |
 | `SHA256SUMS` | Compare the downloaded bytes with the release checksums |
 
 This is a preview distribution. Follow the host-specific procedure below and verify
@@ -162,7 +162,13 @@ Make the skill offer at a natural pause without requiring an answer before site
 setup can continue. These are recommendations, not conditions for getting help
 or proof of any access.
 
-Use one next decision at a time:
+Use [one next decision at a time](../reference/onboarding.md#ask-for-the-next-decision).
+Prefer a native question tool when available and permitted, with ordinary text as
+the fallback. The same procedure applies in terminal and web chat; installing this
+skill does not add question controls. A URL request usually needs free text,
+while a connection choice can use two short options.
+
+Choose the next action from the known state:
 
 - If the connector already works, reuse it and resolve the project. Offer missing
   persistent instructions without reinstalling a working connection or stopping
@@ -178,10 +184,11 @@ Use one next decision at a time:
 - If connection was declined, deferred or is restricted, preserve that choice. Continue
   useful reads and manual steps. Do not make the reusable skill mandatory either.
 
-For a customer with an approved connection route, a short reply can be:
-"I recommend connecting Consent Pro so I can inspect your project and make changes
-you authorize. We can also save this guide as a skill for future chats. Shall we
-connect your account, or continue with guided dashboard steps?"
+For a customer with a verified endpoint who has not chosen a route, explain:
+"Connecting Consent Pro lets me read your project and carry out changes you authorize."
+Then ask: "How would you like to continue?" Offer "Connect Consent Pro (recommended)"
+and "Guide me in the dashboard" through the permitted question control or text.
+Keep the optional skill offer for a useful pause instead of adding another decision.
 If the environment is unknown, replace that choice with the one question needed
 to identify it. Do not ask about the website, skill, Google and licensing together.
 
@@ -211,7 +218,10 @@ unverified endpoint. If the customer explicitly requests connection first, honor
 Use the controls available to the actual account. Organization policies can restrict skills,
 plugins or connectors; explain the required administrator action instead of promising a
 menu that is not available. A file installed on a laptop is not automatically uploaded to
-a hosted chat. Browser automation and local scripts are also host-dependent capabilities.
+a hosted chat. Browser automation, question controls and local scripts are also
+host-dependent capabilities. Do not assume Claude Code tools exist in Claude web,
+or that a Codex question tool is enabled in every operating mode. Respect the
+actual tool contract, including whether it accepts approval requests.
 
 ### ChatGPT: keep instructions and MCP in the intended plugin
 
@@ -256,7 +266,7 @@ When file tools are available, first verify the reviewed ZIP and manifest using
 the checks below. Otherwise provide the reviewed asset link and keep byte
 verification marked unavailable. In Customize,
 Skills, open Add Skill (`+`) and choose Upload Skill, then select the reviewed
-`consent-pro-0.3.6-preview.zip` and enable it. The primary package includes the GTM reference and its
+`consent-pro-0.3.7-preview.zip` and enable it. The primary package includes the GTM reference and its
 scripts; the specialist ZIP is available for direct GTM tasks. Each ZIP must contain
 its named skill folder, including `SKILL.md` and all bundled dependencies. Do not upload
 the entire repository as if it were one skill.
@@ -362,9 +372,9 @@ does not authorize those changes or require a full audit.
 
 Compute the hash of the ZIP you downloaded and compare it with the line for that
 exact filename in `SHA256SUMS`. For the primary package, use
-`shasum -a 256 consent-pro-0.3.6-preview.zip` on macOS,
-`sha256sum consent-pro-0.3.6-preview.zip` on Linux, or
-`Get-FileHash consent-pro-0.3.6-preview.zip -Algorithm SHA256` on Windows.
+`shasum -a 256 consent-pro-0.3.7-preview.zip` on macOS,
+`sha256sum consent-pro-0.3.7-preview.zip` on Linux, or
+`Get-FileHash consent-pro-0.3.7-preview.zip -Algorithm SHA256` on Windows.
 Substitute the specialist ZIP's filename if that is the package you chose.
 
 If you downloaded both ZIPs listed in `SHA256SUMS` into the same directory, you

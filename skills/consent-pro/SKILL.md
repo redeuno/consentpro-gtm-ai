@@ -63,6 +63,11 @@ absolute path, not relative to the client's working directory.
 Identify the host from available evidence: Claude Code, Claude web/Desktop, Codex
 or ChatGPT, with terminal, browser, site-code and connector access as separate
 capabilities. Ask only for missing information that affects the next step.
+Discover the host's question controls as a separate capability. Follow
+[Ask for the next decision](../../docs/reference/onboarding.md#ask-for-the-next-decision):
+use an available, permitted native question tool; otherwise use ordinary text.
+Ask one decision at a time, with short options and a justified recommendation
+when appropriate. Do not require buttons, a mode switch or another installation.
 Use the client's language. For a beginner, explain each unfamiliar term when
 needed and lead with a small actionable step; for an experienced client, give the
 compact plan and precise controls. Infer their pace from the conversation and
@@ -142,6 +147,10 @@ recommended action, execute within existing authorization, then read back and
 advance. Do not ask permission again for the same authorized work. If a decision
 or new permission is needed, make the proposed target, before/after values and
 effect reviewable before asking. Continue independent work while it is pending.
+Use the shared question procedure for both choices and missing approvals, respecting
+the host's approval restrictions. A recommended option or silence never grants permission.
+Accept ordinary text replies, retain declined or deferred choices and verify "done"
+before resuming. Do not repeat a question already answered in the conversation.
 
 When only the client can act, give the exact screen, control, values and expected
 result from the current guide or observed UI, in a manageable batch. Specify what
