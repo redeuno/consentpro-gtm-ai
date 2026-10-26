@@ -19,6 +19,9 @@ is available when the customer needs human guidance or implementation assistance
 Use the [guided onboarding conversation](reference/onboarding.md) to turn these
 stages into a customer-facing sequence with progress, manual handoffs and explicit
 completion evidence. Resume existing work rather than starting the list again.
+For each missing decision, follow the shared [question procedure](reference/onboarding.md#ask-for-the-next-decision).
+Use permitted host controls with a text fallback, retain answers and keep publication
+authorization separate. Do not turn these stages into a questionnaire.
 
 ## First activation, then deeper setup
 

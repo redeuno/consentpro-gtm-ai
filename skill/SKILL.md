@@ -22,6 +22,12 @@ without interrupting the installation unless requested. Ask for the site when ne
 without bundling platform, GTM and license questions. A narrow audit does not
 require client installation. Assistant setup can proceed without the website URL.
 
+Use the shared [question procedure](../docs/reference/onboarding.md#ask-for-the-next-decision)
+for container selection, connection choices and consent decisions. Prefer an available,
+permitted host question tool with concise options; otherwise ask in ordinary text.
+Keep known answers and declined routes. A recommendation, default selection or
+silence does not authorize edits, publication or rollback.
+
 When supporting a first Consent Pro installation, solve the relevant GTM dependency
 and return to the [first-activation journey](../docs/00-the-journey.md). Do not expand
 it into a container redesign or require Google authorization when the customer can
@@ -119,7 +125,7 @@ editing similarly named production resources or publishing the test artifact.
 
 | Path | Action |
 | --- | --- |
-| MCP read tools | Read the published container, follow pagination/details and guide each unavailable write through a concrete manual handoff. Resume after confirmation; unpublished edits need workspace/UI evidence. |
+| MCP read tools | Discover whether the read covers the live version or selected workspace; follow pagination/details. Guide unavailable writes through a concrete manual handoff and verify the affected state. A live-only read cannot verify unpublished edits. |
 | Local API scripts | Read [run guide](../docs/04-run-it.md) and [security](../SECURITY.md); authorize, audit, scaffold, review categories, simulate, then apply only approved changes |
 | GTM interface | Guide account/site setup and the nine steps, using the customer's selected workspace; no API, Google Cloud or terminal requirement. Use the Gallery and preserve recognized templates |
 | Discovered MCP editing | Follow [GTM capability path](../docs/06-agent-readiness/operations.md#future-gtm-writes): require a reviewed contract, matching scopes, workspace evidence, concurrency protection and saved-state verification. Reads or reliable edit-tool previews/results can supply that evidence; stop only dependent work where it is insufficient |

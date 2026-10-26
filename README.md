@@ -59,6 +59,9 @@ conversation; it does not install a persistent skill or connect an account.
   that setup step first; a website URL is not needed to prepare the assistant.
 - Do the authorized work your tools support. For a customer-only action, give one
   short sequence of clicks and the expected result, then verify and continue.
+- For a missing decision, use the host's available question tool. Offer short choices
+  and a justified recommendation when appropriate. Follow the [question procedure](docs/reference/onboarding.md#ask-for-the-next-decision),
+  including ordinary-text fallback and separate approval for changes.
 - If Claude cannot add a connector in that account, keep the guided dashboard
   route available. Do not turn missing connector tools into a demand to install a
   skill or into proof that the account cannot use connectors.
@@ -69,7 +72,7 @@ the next useful action, not the whole procedure at once.
 
 ## Save the instructions for future conversations
 
-The [ready preview packages](https://github.com/redeuno/consentpro-gtm-ai/releases/tag/v0.3.6)
+The [ready preview packages](https://github.com/redeuno/consentpro-gtm-ai/releases/tag/v0.3.7)
 contain the instructions and references for optional persistent installation.
 The [installation guide](docs/07-agent-installation/README.md)
 distinguishes ChatGPT, Claude chat, Codex and Claude Code. Both skills share the
