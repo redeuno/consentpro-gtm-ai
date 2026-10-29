@@ -1,9 +1,43 @@
 # Basic and Advanced Google Consent Mode
 
-Choose the mode explicitly before configuring Google tags. Basic is the documented default;
-Advanced sends cookieless Google requests when storage consent is denied and requires a
-separate customer decision. It is not a fix to enable just because analytics traffic falls.
-Source: [Consent Pro mode guide](https://docs.consentpro.com/web-app/google-consent-mode).
+Choose explicitly when configuring Google measurement. If no Google measurement is
+being installed or changed, defer this choice until it affects the work.
+
+## Explain the choice before asking
+
+Lead with what visitors experience, not the technical mode names. Translate this
+comparison into the customer's language before using the host's question tool:
+
+| Choice | Before acceptance, or after rejection | After acceptance |
+|---|---|---|
+| Wait for acceptance (Basic) | The configured Google measurement tags send no measurement data until the relevant consent is granted. | Measurement can run for the categories the visitor accepted. |
+| Send limited measurements (Advanced) | Supported Google tags can send limited information to Google without measurement cookies while consent is denied. | Measurement can use the cookies and data allowed by the accepted categories. |
+
+Advanced still sends data to Google. Do not describe it as anonymous, zero data
+or no tracking. These choices concern the configured Google measurement tags;
+other scripts and pixels need their own consent rules.
+Source: [Google's mode comparison](https://developers.google.com/tag-platform/security/concepts/consent-mode#basic_versus_advanced_consent_mode).
+
+Ask one question: "When should Google measurement start on this site?"
+Use the two short choice labels above, with their consequences as descriptions.
+The terms Basic and Advanced identify behavior, not the customer's experience
+level or their Consent Pro subscription.
+
+Recommend waiting for acceptance when the stated goal is no Google measurement
+before consent, including a first test with that goal. Explain that it leaves
+non-consenting visits out of those tags' measurement. Present Advanced when the
+customer wants to consider limited measurements before acceptance; do not imply
+that it guarantees better reports or is required to install the banner.
+
+If the customer asks for an explanation, explain and keep the decision pending.
+Reuse an explicit choice already given. A recommendation, preselected option or
+silence does not select a mode or authorize publication.
+
+## Configure the selected behavior
+
+Basic is the product's documented default, not permission to choose for the customer.
+Advanced requires a separate decision; do not enable it merely because analytics
+traffic falls. Source: [Consent Pro mode guide](https://docs.consentpro.com/web-app/google-consent-mode).
 
 | Setting | Basic GA4 | Advanced GA4 |
 |---|---|---|

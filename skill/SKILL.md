@@ -104,9 +104,11 @@ defaults to marketing as a restrictive placeholder, not a classification. Read
 the tag's actual purpose and obtain missing business decisions; a product name
 does not establish legal necessity or permission.
 
-Agree explicitly on Google Basic or Advanced mode. Read
-[categories](../docs/reference/categories.md) for the distinction. Do not enable
-Advanced because a tag has built-in consent checks or the client is experienced.
+Explain [waiting for acceptance versus sending limited measurements](../docs/reference/consent-mode.md#explain-the-choice-before-asking)
+before asking when Google measurement should start. Use Basic/Advanced as secondary
+labels; Advanced still sends data before acceptance. Agree explicitly and keep
+an explanation request pending. Do not enable Advanced because a tag has built-in
+consent checks or the client is experienced.
 Preserve purchase, form and
 other business-event conditions. The consent event must not replace a conversion.
 

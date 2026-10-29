@@ -72,8 +72,10 @@ Use the client's language. For a beginner, explain each unfamiliar term when
 needed and lead with a small actionable step; for an experienced client, give the
 compact plan and precise controls. Infer their pace from the conversation and
 adapt without making an experience questionnaire a prerequisite.
-Experience level does not select Google Basic or Advanced Consent Mode; that is
-a separate, explicit configuration decision.
+For Google measurement, explain [waiting for acceptance versus sending limited
+measurements](../../docs/reference/consent-mode.md#explain-the-choice-before-asking)
+before asking for a mode. Basic/Advanced are secondary labels, not experience
+levels. An explanation request leaves that decision pending.
 Use [delivery-team guidance](../../docs/reference/onboarding.md#adapt-to-the-delivery-team)
 for agencies, freelancers and businesses: keep each client's targets and decisions
 separate, identify the next action's owner and include maintenance in the handoff.

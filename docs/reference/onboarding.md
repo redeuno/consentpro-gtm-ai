@@ -83,8 +83,9 @@ If instructions are readable, a missing persistent skill is not a blocker.
 For a beginner, give one action or a small group of clicks, explain why it is needed
 and what success looks like. For an experienced customer, give the compact plan and
 batch independent reads. Infer the pace and adapt without an experience questionnaire.
-Experience does not select Basic or Advanced Consent Mode. The same target, permission
-and verification checks apply to both audiences.
+Explain [when Google measurement starts](consent-mode.md#explain-the-choice-before-asking)
+before asking the customer to choose a mode. Experience does not select Basic or
+Advanced. The same target, permission and verification checks apply to both audiences.
 
 Follow [the question procedure](#ask-for-the-next-decision) whenever a missing
 decision prevents the next action. It applies to terminal and web conversations.
@@ -208,6 +209,7 @@ the request or evidence. Translate the wording into the customer's language.
 |---|---|
 | Missing site or ambiguous project | Ask for the URL as free text, or show verified project names and domains. Do not select the first match. |
 | Verified connection route, undecided customer | "Connect Consent Pro (recommended)" allows supported account reads and authorized actions. "Guide me in the dashboard" continues manually. Ask once; skill installation remains optional. |
+| Google measurement behavior is undecided | Explain [waiting for acceptance versus sending limited measurements](consent-mode.md#explain-the-choice-before-asking), then ask when Google measurement should start. Advanced still sends data before acceptance. Keep an explanation request pending as a decision. |
 | GTM dependency or unknown tracker purpose | Explain the relevant tradeoff or missing evidence. Preserve direct integration and manual routes; do not choose Consent Mode or Essential based on convenience. |
 | Access blocked or customer-only action | Ask only for the necessary owner, observation or completed step. Continue independent setup; never request passwords, tokens or private authorization URLs. |
 | Preview, publication or rollback | Present the exact reviewed operation and request any missing explicit approval through an allowed channel. An earlier preference, scan or draft save does not approve release. |
@@ -257,7 +259,7 @@ Map the customer's concern to an action and evidence, rather than explaining eve
 | Concern | Agent action and evidence |
 |---|---|
 | Trackers run before a choice or after refusal | Identify the source and expected consent behavior, inspect GTM and direct scripts/pixels/embeds, then test named requests and storage with an acceptance control. Keep intentionally broken lab controls separate. |
-| Google Consent Mode is confusing | Explain Basic and Advanced in terms of the chosen behavior, obtain the decision, verify defaults and updates, then test the applicable Google tags. Do not promise zero requests for an explicitly selected Advanced-mode setup. |
+| Google Consent Mode is confusing | Use the [plain-language comparison](consent-mode.md#explain-the-choice-before-asking), obtain the decision, verify defaults and updates, then test the applicable Google tags. Keep Basic/Advanced as secondary labels, not experience levels. |
 | The customer needs evidence | Distinguish configuration evidence, observed browser behavior and consent records. Explain what the available logs/statistics actually cover; request an emailed export or proof only when explicitly asked. Never promise that every decision was logged. |
 | Different audiences need different settings | Review the customer's policy decisions, banner/plan eligibility and actual regional defaults. Use current authoritative guidance when a jurisdiction-specific question arises; do not turn broad geographic labels into legal rules. |
 | Someone adds a tool after delivery | Compare the new tag, direct script, pixel or embed with the last verified state; review purpose/category and repeat affected consent and business-event tests. Assign a maintenance owner and an agreed review trigger. |
