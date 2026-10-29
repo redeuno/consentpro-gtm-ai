@@ -12,12 +12,12 @@ deferred or unavailable. Persistent instructions are optional. For an explicit
 
 ## Optional: get the ready package
 
-Download the reviewed assets from [release 0.3.11](https://github.com/redeuno/consentpro-gtm-ai/releases/tag/v0.3.11):
+Download the reviewed assets from [release 0.3.12](https://github.com/redeuno/consentpro-gtm-ai/releases/tag/v0.3.12):
 
 | Asset | Use |
 |---|---|
-| `consent-pro-0.3.11-preview.zip` | Start here for the whole Consent Pro journey, including GTM guidance |
-| `consent-pro-gtm-0.3.11-preview.zip` | Optional specialist for focused GTM work |
+| `consent-pro-0.3.12-preview.zip` | Start here for the whole Consent Pro journey, including GTM guidance |
+| `consent-pro-gtm-0.3.12-preview.zip` | Optional specialist for focused GTM work |
 | `SHA256SUMS` | Compare the downloaded bytes with the release checksums |
 
 This is a preview distribution. Follow the host-specific procedure below and verify
@@ -56,6 +56,11 @@ You can begin planning or inspecting a site before buying. Current public
 Preview in the open tab, not a free custom-site domain for visitors. The separate
 [Webflow test-domain rule](https://docs.consentpro.com/webflow/licenses) must not be
 generalized to custom sites. These public sources were checked on 2026-10-16.
+When the customer already chose Preview without buying, retain that choice and
+continue the installation and tests it supports. Do not reopen purchase or require
+a publication license for an independent Preview step. Check the actual operation's
+requirements and returned errors; do not promise that every project can use Preview.
+Record ordinary publication and its license separately as pending.
 Preview does not publish its draft or prove that ordinary visitors see no banner.
 An existing published banner may still appear. Before claiming what visitors see,
 read the published state and check the ordinary URL without Preview in a permitted
@@ -71,8 +76,9 @@ unverified.
 | Customer test website | The customer's own test hostname, project and container. It does not identify the Consent Pro account environment or imply a free production license |
 | Customer production website | Confirm the project, license and publication authority before making changes that reach ordinary visitors |
 
-Confirm the product environment before connecting or changing anything. Use the
-selected dashboard/project or ask which service the customer is using. A public
+Reuse the confirmed product environment, dashboard and project. If that evidence
+is missing or conflicts, ask which service the customer is using before connecting
+or changing anything. Do not redirect an agreed staging target to production. A public
 site, a test hostname, a runtime URL or a comment in website code does
 not authorize migration to another product environment. An unavailable
 connector does not stop guided Consent Pro or GTM dashboard work. Installing
@@ -326,7 +332,7 @@ When file tools are available, first verify the reviewed ZIP and manifest using
 the checks below. Otherwise provide the reviewed asset link and keep byte
 verification marked unavailable. In Customize,
 Skills, open Add Skill (`+`) and choose Upload Skill, then select the reviewed
-`consent-pro-0.3.11-preview.zip` and enable it. The primary package includes the GTM reference and its
+`consent-pro-0.3.12-preview.zip` and enable it. The primary package includes the GTM reference and its
 scripts; the specialist ZIP is available for direct GTM tasks. Each ZIP must contain
 its named skill folder, including `SKILL.md` and all bundled dependencies. Do not upload
 the entire repository as if it were one skill.
@@ -433,9 +439,9 @@ does not authorize those changes or require a full audit.
 
 Compute the hash of the ZIP you downloaded and compare it with the line for that
 exact filename in `SHA256SUMS`. For the primary package, use
-`shasum -a 256 consent-pro-0.3.11-preview.zip` on macOS,
-`sha256sum consent-pro-0.3.11-preview.zip` on Linux, or
-`Get-FileHash consent-pro-0.3.11-preview.zip -Algorithm SHA256` on Windows.
+`shasum -a 256 consent-pro-0.3.12-preview.zip` on macOS,
+`sha256sum consent-pro-0.3.12-preview.zip` on Linux, or
+`Get-FileHash consent-pro-0.3.12-preview.zip -Algorithm SHA256` on Windows.
 Substitute the specialist ZIP's filename if that is the package you chose.
 
 If you downloaded both ZIPs listed in `SHA256SUMS` into the same directory, you

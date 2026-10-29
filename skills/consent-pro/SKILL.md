@@ -51,6 +51,10 @@ new GTM installation, Google connection, scan repetition or persistent skill int
 a universal prerequisite. Treat known consent failures and broken site functions
 within the initial path; record wider untested coverage separately. A working
 Preview, ordinary publication, tested behavior and license status are distinct.
+When Preview without purchase is already chosen, retain the confirmed environment
+and continue supported installation and tests. Keep ordinary publication and its
+license pending instead of reopening purchase. Resolve actual access or entitlement
+errors for the current action; Preview availability is not universal.
 Preview does not establish that ordinary visitors see no banner. Check published
 state and the ordinary URL in a permitted browser before making that claim;
 otherwise keep it unverified.
@@ -199,7 +203,7 @@ prevent independent permitted checks.
 
 | Stage or request | Instruction |
 | --- | --- |
-| Project and core | Follow [account/project diagnosis](../../docs/06-agent-readiness/operations.md#account-workspace-and-first-project), match domain and license, then obtain the exact snippet. Inspect the head and existing CMP before approved installation and readback. Use [HTML inspection](../../scripts/inspect-site.py) only when a terminal exists; it does not observe execution. |
+| Project and core | Follow [account/project diagnosis](../../docs/06-agent-readiness/operations.md#account-workspace-and-first-project), match the domain and obtain the exact snippet. Check requirements for the selected Preview or publication result; a publication license is not a prerequisite for an independent Preview step. Inspect the head and existing CMP before approved installation and readback. Use [HTML inspection](../../scripts/inspect-site.py) only when a terminal exists; it does not observe execution. |
 | Banner and project setup | Use operations to inspect and guide documented settings, including type, region, style, privacy link and preferences. Execute fields exposed by the actual contract; teach dashboard steps for the rest. Do not infer the client's legal purpose, policy URL or tracker categories from a business name. |
 | Panel or menu question | Use the [dashboard reading route](../../docs/06-agent-readiness/operations.md#dashboard-data-and-menus). Distinguish project data from documented navigation and observed UI; preserve the customer's access restriction. |
 | Scan and trackers | Reuse relevant results and follow active scans. Before starting or retrying, [check published-site access, robots rules and known blockers](../../docs/06-agent-readiness/operations.md#before-starting-or-retrying-a-scan); explain the concrete recovery and verify a fix before repeating a blocked scan. Follow progress, coverage and details. Review discoveries and the proposed import before applying approved changes. Read back imported drafts; scan completion does not import or confirm categories. Reconcile GTM, hardcoded scripts and pixels. Ask for the actual use of unknown trackers and category decisions, especially Essential. |

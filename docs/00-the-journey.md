@@ -47,10 +47,10 @@ preferences relevant to the customer's intended behavior.
 | Next result | Necessary work for this site |
 |---|---|
 | Target and available route | Identify the exact requested URL, selected hostname, project and intended product environment. Explain the required hostname-wide core installation, including its home page, and resolve scope before deployment. Reuse working access, recommend the supported Consent Pro connection once when relevant, or guide the selected dashboard. A persistent skill and Google authorization are not activation requirements. |
-| Project ready for installation | Select or create the correct project, confirm the domain and applicable entitlement, and review the initial banner and policy choices. Ask only for missing decisions; do not start with visual customization. |
+| Project ready for installation | Select or create the correct project, confirm the domain and requirements for the selected Preview or publication result, and review the initial banner and policy choices. Ask only for missing decisions; do not start with visual customization. |
 | Correct core installed | Use the exact project snippet in the shared head for the selected hostname, including `/` and inner pages. Preserve a working installation; resolve a conflicting CMP or deployment dependency rather than adding another runtime. |
 | Initial behavior checked | Test the visible banner, preferences and the site's main visitor action. Check the named tracking paths affected by the setup, including refusal and acceptance where applicable. Investigate relevant failures without requiring a complete site audit. |
-| Authorized publication reaches the chosen site | Review the exact target and live effect, obtain any missing publication authorization, and coordinate only the applicable site, Consent Pro and GTM releases. Recheck an ordinary visit outside Preview. |
+| Authorized publication, when selected | Review the exact target and live effect, obtain any missing publication authorization, and coordinate only the applicable site, Consent Pro and GTM releases. Recheck an ordinary visit outside Preview. |
 | Activation result and next action | Record what is installed, published and observed, plus any unresolved issue. Continue with the customer's next useful improvement; wider untested coverage remains explicitly pending. |
 
 The customer can choose production directly. Do not force a test-domain detour,
@@ -59,6 +59,12 @@ hostname is not Consent Pro's product development staging. A signed Preview is a
 separate draft result, not publication to ordinary visitors. Keep purchase and
 license evidence separate: a production hostname or visible banner does not prove
 payment, and a test hostname does not prove the absence of a purchase.
+
+If the customer chose Preview without buying, continue the installation and tests
+supported by that Preview. Keep ordinary publication and its license pending;
+do not reopen the purchase decision or block independent work on that dependency.
+Resolve actual access or entitlement errors for the current action. Report the
+observed Preview result and its limits, not a completed ordinary publication.
 
 Retain the customer's selected product environment and target throughout follow-up
 questions. After a reported save or install, verify that change and resume the
