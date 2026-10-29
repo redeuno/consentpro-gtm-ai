@@ -12,12 +12,12 @@ deferred or unavailable. Persistent instructions are optional. For an explicit
 
 ## Optional: get the ready package
 
-Download the reviewed assets from [release 0.3.10](https://github.com/redeuno/consentpro-gtm-ai/releases/tag/v0.3.10):
+Download the reviewed assets from [release 0.3.11](https://github.com/redeuno/consentpro-gtm-ai/releases/tag/v0.3.11):
 
 | Asset | Use |
 |---|---|
-| `consent-pro-0.3.10-preview.zip` | Start here for the whole Consent Pro journey, including GTM guidance |
-| `consent-pro-gtm-0.3.10-preview.zip` | Optional specialist for focused GTM work |
+| `consent-pro-0.3.11-preview.zip` | Start here for the whole Consent Pro journey, including GTM guidance |
+| `consent-pro-gtm-0.3.11-preview.zip` | Optional specialist for focused GTM work |
 | `SHA256SUMS` | Compare the downloaded bytes with the release checksums |
 
 This is a preview distribution. Follow the host-specific procedure below and verify
@@ -101,6 +101,8 @@ needs them. Conduct the request in this conversation. Do not answer a setup requ
 with a repository overview, another prompt to copy, or a requirement to install
 the skill before proceeding.
 The longer procedure is for the agent, not an intake form for the customer.
+A request to only consult limits changes; it does not turn setup into a repository
+review. Honor narrower permissions and explain risks relevant to the current step.
 
 Use known package/repository locations and available tool descriptions to establish
 the host and access. Inspect the active manifest or instruction source once if
@@ -191,8 +193,10 @@ Choose the next action from the known state:
   persistent instructions without reinstalling a working connection or stopping
   the first-publication path.
 - If the environment and endpoint are verified, recommend connecting now and ask
-  whether to connect or continue with guided dashboard work. If already accepted
-  or requested, proceed to the host's setup steps without asking again.
+  about the route only when the next step needs project access. If a missing site
+  URL enables a useful public read first, ask for that URL instead. Do not combine
+  the URL request with a connection choice. If connection is already accepted or
+  requested, proceed to the host's setup steps without asking again.
 - If the environment is unknown, ask which Consent Pro dashboard/service the
   customer is using, without private URL parameters. For confirmed production,
   use the official URL in [Connect Consent Pro](#connect-consent-pro). For product
@@ -322,7 +326,7 @@ When file tools are available, first verify the reviewed ZIP and manifest using
 the checks below. Otherwise provide the reviewed asset link and keep byte
 verification marked unavailable. In Customize,
 Skills, open Add Skill (`+`) and choose Upload Skill, then select the reviewed
-`consent-pro-0.3.10-preview.zip` and enable it. The primary package includes the GTM reference and its
+`consent-pro-0.3.11-preview.zip` and enable it. The primary package includes the GTM reference and its
 scripts; the specialist ZIP is available for direct GTM tasks. Each ZIP must contain
 its named skill folder, including `SKILL.md` and all bundled dependencies. Do not upload
 the entire repository as if it were one skill.
@@ -429,9 +433,9 @@ does not authorize those changes or require a full audit.
 
 Compute the hash of the ZIP you downloaded and compare it with the line for that
 exact filename in `SHA256SUMS`. For the primary package, use
-`shasum -a 256 consent-pro-0.3.10-preview.zip` on macOS,
-`sha256sum consent-pro-0.3.10-preview.zip` on Linux, or
-`Get-FileHash consent-pro-0.3.10-preview.zip -Algorithm SHA256` on Windows.
+`shasum -a 256 consent-pro-0.3.11-preview.zip` on macOS,
+`sha256sum consent-pro-0.3.11-preview.zip` on Linux, or
+`Get-FileHash consent-pro-0.3.11-preview.zip -Algorithm SHA256` on Windows.
 Substitute the specialist ZIP's filename if that is the package you chose.
 
 If you downloaded both ZIPs listed in `SHA256SUMS` into the same directory, you

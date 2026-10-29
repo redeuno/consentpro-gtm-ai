@@ -10,6 +10,25 @@ and the checks performed clearly confirmed. Start with the necessary configurati
 personalize and explore additional features afterward. A temporary Preview is a
 separate result from a banner served to ordinary visitors.
 
+## Begin the customer's setup
+
+An installation request asks you to guide the next action, not review this
+repository. Keep the first reply within about 100 words and ask one question or
+take one immediate action. A request to "only consult" limits changes; it does
+not request an architecture summary. Preserve narrower permissions and explain
+any risk relevant to the current action.
+
+If the site is missing, ask for its URL. If supplied, use relevant available
+reads and ask only the next missing decision. Mention the supported connection
+once with its dashboard alternative; do not ask for the URL and a connection
+choice together or wait for connection unless chosen or needed for that step.
+
+Example when the site is missing and the customer requests read-only guidance:
+
+> We can start here. Connecting Consent Pro lets me inspect your project and carry
+> out changes you authorize; I can also guide you in the dashboard. For now, I will
+> only inspect and guide. What is your website URL?
+
 For the production service, connect **Consent Pro** at
 `https://mcp.consentpro.com/mcp` and compare the selected workspace in
 [the production Web App](https://app.consentpro.com/). Follow the
@@ -79,7 +98,7 @@ the next useful action, not the whole procedure at once.
 
 ## Save the instructions for future conversations
 
-The [ready preview packages](https://github.com/redeuno/consentpro-gtm-ai/releases/tag/v0.3.10)
+The [ready preview packages](https://github.com/redeuno/consentpro-gtm-ai/releases/tag/v0.3.11)
 contain the instructions and references for optional persistent installation.
 The [installation guide](docs/07-agent-installation/README.md)
 distinguishes ChatGPT, Claude chat, Codex and Claude Code. Both skills share the
