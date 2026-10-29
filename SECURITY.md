@@ -112,6 +112,16 @@ Read each operation's effect and scope. Distinguish published GTM reads from
 workspace edits. Use only operations with a reviewed contract and verified scope;
 an unfamiliar or materially changed write operation remains pending review.
 
+Keep production (`https://mcp.consentpro.com/mcp`) and staging
+(`https://mcp-staging.consentpro.com/mcp`) as separate connections and grants.
+Authenticate the intended account/workspace; do not copy tokens, project IDs or install
+snippets between environments. A production connection does not migrate a staging site.
+The released tool count is a discovery check, not permission or proof of a successful write.
+
+Production release tests use explicitly selected test assets owned by the tester.
+Read first, obtain specific change authorization, and keep publication and rollback
+approvals separate. Do not use a customer's site or container to discover failure behavior.
+
 Read-only access must not silently fall back to a broader local Google token.
 An access grant is not a request to change an asset. Reuse precise approval already
 given, and request only missing scope. Separate saving, version creation, GTM

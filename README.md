@@ -10,6 +10,13 @@ and the checks performed clearly confirmed. Start with the necessary configurati
 personalize and explore additional features afterward. A temporary Preview is a
 separate result from a banner served to ordinary visitors.
 
+For the production service, connect **Consent Pro** at
+`https://mcp.consentpro.com/mcp` and compare the selected workspace in
+[the production Web App](https://app.consentpro.com/). Follow the
+[client connection steps](docs/07-agent-installation/README.md#connect-consent-pro)
+for Finsweet sign-in and access selection. Existing staging connections remain
+separate; connecting production does not move a project or replace its site script.
+
 Custom-site setup currently covers the whole selected hostname, including its
 home page (`/`). Put the project script in the site's shared `<head>`, not only
 on a landing-page path. For `shop.example.com`, this means that subdomain's own
@@ -72,7 +79,7 @@ the next useful action, not the whole procedure at once.
 
 ## Save the instructions for future conversations
 
-The [ready preview packages](https://github.com/redeuno/consentpro-gtm-ai/releases/tag/v0.3.8)
+The [ready preview packages](https://github.com/redeuno/consentpro-gtm-ai/releases/tag/v0.3.9)
 contain the instructions and references for optional persistent installation.
 The [installation guide](docs/07-agent-installation/README.md)
 distinguishes ChatGPT, Claude chat, Codex and Claude Code. Both skills share the
@@ -93,13 +100,15 @@ changes. A successful connection does not install the instructions, prove Google
 access or authorize publication. If a tool is missing, continue through the dashboard
 where the customer has access. Use only reviewed and tested operations.
 The [GTM capability path](docs/06-agent-readiness/operations.md#future-gtm-writes)
-prepares for editing releases: use reviewed draft operations when available, retain
+supports discovered editing tools: use reviewed draft operations when available, retain
 manual steps for missing operations and verify publication authority separately.
 
 The [connection guide](docs/07-agent-installation/README.md#connect-consent-pro)
-uses the exact MCP URL approved for the customer's product environment, supplied
-by Consent Pro or the customer. Do not invent a production endpoint. If no approved
-connection is available, continue through the official product dashboard.
+uses the [official production endpoint](https://docs.consentpro.com/mcp/setup)
+and keeps product staging separate. Confirm the selected environment, workspace
+and discovered tools before operating. A dated tool count is a release check,
+not proof of permission or a successful installation. If connection is unavailable
+or declined, continue through the selected environment's dashboard.
 
 ## Reach the first publication
 

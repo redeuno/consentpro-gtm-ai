@@ -12,12 +12,12 @@ deferred or unavailable. Persistent instructions are optional. For an explicit
 
 ## Optional: get the ready package
 
-Download the reviewed assets from [release 0.3.8](https://github.com/redeuno/consentpro-gtm-ai/releases/tag/v0.3.8):
+Download the reviewed assets from [release 0.3.9](https://github.com/redeuno/consentpro-gtm-ai/releases/tag/v0.3.9):
 
 | Asset | Use |
 |---|---|
-| `consent-pro-0.3.8-preview.zip` | Start here for the whole Consent Pro journey, including GTM guidance |
-| `consent-pro-gtm-0.3.8-preview.zip` | Optional specialist for focused GTM work |
+| `consent-pro-0.3.9-preview.zip` | Start here for the whole Consent Pro journey, including GTM guidance |
+| `consent-pro-gtm-0.3.9-preview.zip` | Optional specialist for focused GTM work |
 | `SHA256SUMS` | Compare the downloaded bytes with the release checksums |
 
 This is a preview distribution. Follow the host-specific procedure below and verify
@@ -28,7 +28,9 @@ not itself a connector or a hosted plugin installation. Check its
 
 ## Account, purchase and workspace
 
-Start from the [official Finsweet Account page](https://finsweet.com/products/account).
+For an existing production Web App account, open [Consent Pro](https://app.consentpro.com/)
+and retain the customer's selected workspace. For account creation or recovery,
+use the [official Finsweet Account page](https://finsweet.com/products/account).
 Choose **Create Account** if new or **Log in** if an account already exists. Complete
 sign-in on the official page, never in chat. Use the same sign-in method originally
 used for the purchase. If it fails, use the recovery controls actually shown there;
@@ -59,7 +61,8 @@ generalized to custom sites. These public sources were checked on 2026-10-16.
 
 | Environment | Entry and scope |
 |---|---|
-| Consent Pro account | Use the official account/product entry above. Connect only with the exact MCP URL approved for this product environment and supplied by Consent Pro or the customer |
+| Consent Pro production service | Web App: `https://app.consentpro.com/`. MCP: `https://mcp.consentpro.com/mcp`. Use the customer's production Finsweet account and selected workspace |
+| Consent Pro product staging | Retain a separately named staging connection and the approved staging dashboard supplied for that testing round. It has separate account/workspace data; do not repoint it to production |
 | Customer test website | The customer's own test hostname, project and container. It does not identify the Consent Pro account environment or imply a free production license |
 | Customer production website | Confirm the project, license and publication authority before making changes that reach ordinary visitors |
 
@@ -70,6 +73,10 @@ not authorize migration to another product environment. An unavailable
 connector does not stop guided Consent Pro or GTM dashboard work. Installing
 instructions, signing in to Consent Pro, connecting Google and editing the site
 are separate steps.
+
+For production integration testing, use a test website, workspace and GTM container
+you own and can safely change. Do not use a customer's live project as a test fixture.
+Testing access does not authorize project changes, publication or rollback.
 
 For current custom-site setup, explain the
 [three activation checkpoints](../06-agent-readiness/operations.md#current-first-installation-handoffs):
@@ -177,10 +184,10 @@ Choose the next action from the known state:
   whether to connect or continue with guided dashboard work. If already accepted
   or requested, proceed to the host's setup steps without asking again.
 - If the environment is unknown, ask which Consent Pro dashboard/service the
-  customer is using, without private URL parameters. Obtain its approved MCP URL
-  from Consent Pro or the customer before configuring a connection. If that URL
-  is unavailable, explain the limit and continue through the dashboard. Do not
-  invent a production endpoint or substitute a different product environment.
+  customer is using, without private URL parameters. For confirmed production,
+  use the official URL in [Connect Consent Pro](#connect-consent-pro). For product
+  staging, retain that environment's approved entry. If the route is unavailable,
+  explain the limit and continue through its dashboard. Do not substitute environments.
 - If connection was declined, deferred or is restricted, preserve that choice. Continue
   useful reads and manual steps. Do not make the reusable skill mandatory either.
 
@@ -238,6 +245,14 @@ second lookalike. With Plugin Creator and edit access, use a request such as:
 > or package you used and any installation you could not verify. This request changes
 > the assistant package only, not a customer's Consent Pro project, GTM or website.
 
+If the existing plugin is bound to staging and the customer requests production,
+keep staging clearly named and configure a separate production connection using
+the host's supported account controls. Do not relabel a staging App as production
+or replace an App binding through a skill-only update. Add the reviewed instructions
+to the intended production plugin when that workflow is supported. If the host
+requires the customer to add or authorize the connection, guide that step and
+verify it afterward. A saved plugin is not an authenticated connection.
+
 Review the saved plugin, install it if prompted, start a new conversation and select it
 with `@`. Test instruction loading and a read-only project query separately. Only report
 the update complete after inspecting the resulting plugin; a builder's promise is not
@@ -266,7 +281,7 @@ When file tools are available, first verify the reviewed ZIP and manifest using
 the checks below. Otherwise provide the reviewed asset link and keep byte
 verification marked unavailable. In Customize,
 Skills, open Add Skill (`+`) and choose Upload Skill, then select the reviewed
-`consent-pro-0.3.8-preview.zip` and enable it. The primary package includes the GTM reference and its
+`consent-pro-0.3.9-preview.zip` and enable it. The primary package includes the GTM reference and its
 scripts; the specialist ZIP is available for direct GTM tasks. Each ZIP must contain
 its named skill folder, including `SKILL.md` and all bundled dependencies. Do not upload
 the entire repository as if it were one skill.
@@ -313,8 +328,9 @@ environment's endpoint and guide Customize, Connectors, Add. Inspect the actual
 controls before choosing Add custom connector or Custom, Web; labels vary. In an
 organization, an owner may need to add the connector before a member can connect
 their account. After authentication, enable it for the conversation and perform a
-read to verify the intended workspace. Do not ask for secrets in chat or use a
-production endpoint that has not been verified.
+read to verify the intended workspace. For confirmed production, use
+`https://mcp.consentpro.com/mcp`; for staging, preserve its separate entry.
+Do not ask for secrets in chat or treat a saved connector as an authenticated read.
 
 If the customer cannot find Add, ask what controls are visible and whether this is
 an organization-managed account only if that changes the next step. Do not infer
@@ -372,9 +388,9 @@ does not authorize those changes or require a full audit.
 
 Compute the hash of the ZIP you downloaded and compare it with the line for that
 exact filename in `SHA256SUMS`. For the primary package, use
-`shasum -a 256 consent-pro-0.3.8-preview.zip` on macOS,
-`sha256sum consent-pro-0.3.8-preview.zip` on Linux, or
-`Get-FileHash consent-pro-0.3.8-preview.zip -Algorithm SHA256` on Windows.
+`shasum -a 256 consent-pro-0.3.9-preview.zip` on macOS,
+`sha256sum consent-pro-0.3.9-preview.zip` on Linux, or
+`Get-FileHash consent-pro-0.3.9-preview.zip -Algorithm SHA256` on Windows.
 Substitute the specialist ZIP's filename if that is the package you chose.
 
 If you downloaded both ZIPs listed in `SHA256SUMS` into the same directory, you
@@ -388,60 +404,95 @@ account or connect a service.
 
 ## Connect Consent Pro
 
-Reuse a working connection. Otherwise obtain the exact approved MCP URL from the
-Consent Pro product interface or the customer, and confirm which product
-environment and workspace it serves. This guide does not supply or imply a
-production MCP endpoint. Do not derive one from a website or runtime hostname.
-If no approved URL is available, continue through the product dashboard.
+The [official setup guide](https://docs.consentpro.com/mcp/setup), checked on
+2026-10-29, identifies the production endpoint as `https://mcp.consentpro.com/mcp`.
+Use **Consent Pro** as its display name and `consent-pro` in terminal commands.
+It uses Streamable HTTP and Finsweet OAuth. The matching Web App is
+`https://app.consentpro.com/`. No API key or manually copied bearer token is needed.
 
-Use the dashboard URL supplied for the current testing round when the customer
-chooses product staging. A changed staging dashboard does not by itself require
-changing the MCP endpoint, moving a project or replacing its installed script.
-Documentation returned by a staging connection can describe production. Match
-the environment before using its connection examples; a documented endpoint is
-not proof that this client's authenticated production access works.
+Reuse an existing working production connection. Keep any `consent-pro-staging`
+entry separate, with its own approved endpoint and workspace. Adding production
+does not migrate a project, replace the installed core or authorize site changes.
+A staging connection can return documentation about production; match the selected
+endpoint and account rather than inferring the environment from that documentation.
 
-For an approved Streamable HTTP endpoint with Finsweet OAuth, use the following
-steps. Replace `APPROVED_MCP_URL` with that exact URL before running a command; it
-is a placeholder, not a working endpoint. Follow the authentication offered by the
-selected service without asking for a password, token or verification code in chat.
+### Codex CLI or app
 
-- Codex: Settings, MCP, Add MCP Server; name it `Consent Pro`, select
-  Streamable HTTP, enter the approved endpoint, save and authenticate. The terminal
-  alternative is `codex mcp add consent-pro --url "APPROVED_MCP_URL"`,
-  followed by `codex mcp login consent-pro`. Use `codex mcp --help` if the
-  installed client differs. Inspect an existing entry before adding another one.
-- Claude web or Desktop: Customize, Connectors, Add, Custom, Web; use the same
-  name and endpoint. Older client instructions may call this Settings, Connectors,
-  Add custom connector. Review the detected authentication, choose Sign in now and
-  Claude's published identity when offered, then complete Finsweet authorization.
-  Enable the connector for the conversation. See [Claude connectors](https://support.claude.com/en/articles/11176164-use-connectors-to-extend-claude-s-capabilities).
-- Claude Code: in the intended project, run
-  `claude mcp add --transport http consent-pro "APPROVED_MCP_URL"`.
-  Open `/mcp` in Claude Code to authenticate. If the server already exists, inspect it
-  rather than adding a duplicate. See [Claude Code MCP](https://code.claude.com/docs/en/mcp).
-- ChatGPT: add the remote MCP through the custom app/plugin controls available
-  to your account and workspace, then complete OAuth. UI labels and availability
-  vary by account. Installing a local folder does not deliver a hosted ChatGPT
-  plugin or upload skills. Use the hosted plugin instructions above and verify both
-  the loaded instructions and the connected tools in a new chat.
+Inspect the existing entry first. If production is missing, run:
 
-Read the actual authorization screen. Read-only Consent Pro access may exclude
-GTM; select the specific GTM permission when offered, or the intended broader
-preset, then connect Google separately. Full access does not bypass Google roles
-or add permissions that did not exist when an older connection was authorized.
-For editing releases, verify the real tools and both grants through
-[the evolving GTM path](../06-agent-readiness/operations.md#future-gtm-writes).
-If public MCP documentation is unavailable, inspect the connected tool contracts
-and server documentation. Do not infer permission parity between environments.
-New tools covered by an already granted permission do not require reauthorization.
-A newly introduced permission is not added to an older grant, even if its preset
-was called Full access. Google authorization is separate: missing edit or publish
-scopes need Google's supported connection flow, and the account must also have the
-required role on the selected container.
-Full access does not authorize an agent to make unsolicited changes. Use the
-recovery procedure below for a missing operation instead of reconnecting everything
-or silently switching credentials.
+```bash
+codex mcp add consent-pro --url https://mcp.consentpro.com/mcp
+```
+
+If adding it did not complete sign-in, run:
+
+```bash
+codex mcp login consent-pro
+```
+
+The customer completes browser sign-in. In Codex, use `/mcp` to check the connection.
+For the app route, open Settings, MCP, Add, Add MCP Server. Name it Consent Pro,
+select Streamable HTTP, enter the production URL, save and authenticate.
+The CLI and app share configuration on the same Codex host; do not add a duplicate.
+Use `codex mcp --help` if the installed client's controls differ.
+
+### Claude web or Desktop
+
+Open Settings, Connectors, Add custom connector. Some versions use Customize,
+Connectors, Add, Custom, Web. Name it Consent Pro and enter the production URL.
+Save, choose Sign in now and select **Claude Published Identity** if that choice
+appears. The customer completes Finsweet authorization, then enables the connector
+for the conversation. Account plans or organization settings can restrict custom
+connectors; inspect the available controls rather than assuming access.
+
+### Claude Code
+
+In the intended project, inspect existing servers before adding production:
+
+```bash
+claude mcp add --transport http consent-pro https://mcp.consentpro.com/mcp
+```
+
+Start Claude Code, enter `/mcp`, select consent-pro and authenticate. The customer
+completes browser sign-in. See [Claude Code MCP](https://code.claude.com/docs/en/mcp)
+for client-specific configuration scope.
+
+### ChatGPT
+
+Use the custom app or plugin controls available to the account and workspace.
+Configure the production URL as a remote Streamable HTTP MCP with OAuth, then let
+the customer complete authorization. When a supported plugin builder is available,
+prepare the package and connection configuration; otherwise guide the account
+controls. Do not claim that a skill installed the connector or authenticated it.
+
+Keep any staging App binding intact. Follow the
+[intended plugin procedure](#chatgpt-keep-instructions-and-mcp-in-the-intended-plugin)
+to deliver instructions and production access together when supported. After saving,
+select the intended plugin in a new chat if required by the host and verify both
+instruction loading and an authenticated production read. UI labels and availability
+vary; do not promise controls that the account does not expose.
+
+### Choose access and authorize
+
+Explain the access choice before the customer approves it:
+
+| Choice | What it enables |
+|---|---|
+| Full access | The release's available permissions for end-to-end setup, including drafts, scans, publishing and GTM. Each change still needs the customer's instruction or approval |
+| Read only | Consent Pro inspection without changes. It excludes GTM and consent export/proof requests |
+| Custom | The specific permissions the customer chooses. Include View Google Tag Manager for the separate Google connection and read tools |
+
+For requested end-to-end connected setup, recommend Full access and explain its
+scope. Honor a read-only or narrower choice. The customer signs in with the account
+used in the production Web App, selects the intended workspace and approves access.
+Never request passwords, authorization codes, callback URLs or tokens in chat.
+
+Full access does not bypass Google roles or grant permissions introduced after an
+older authorization. New tools under an existing granted permission can appear
+without reconnecting. A new permission needs a new grant. Missing Google scopes
+need a separate user-opened Google authorization; the selected container's role
+still decides which operations succeed. See the
+[GTM capability path](../06-agent-readiness/operations.md#future-gtm-writes).
 
 When the customer's permitted route includes the dashboard, keep the selected
 project open to compare saved state. For API/MCP-only work, use authoritative
@@ -455,6 +506,31 @@ read that project's setup. If none match, verify workspace and pagination before
 project creation. Do not create a duplicate to work around an access problem. For GTM,
 continue with [Connect Google Tag Manager](../06-agent-readiness/operations.md#connect-google-tag-manager),
 which is separate from Finsweet OAuth. Confirm the returned containers after Google login.
+
+### Verify the connected environment and tool set
+
+Use `consentpro_projects_list` for a harmless account/workspace check. Inspect the
+current tools and schemas exposed by the selected production connection, following
+discovery pagination. Count only that endpoint's tools, including its documentation
+tools. Do not sum staging, production and duplicated host integrations.
+
+The 2026-10-29 production testing release expects **48 tools with Full access**:
+46 Consent Pro tools and two documentation tools. This is a dated release check,
+not a permanent capability contract. Read only and Custom can expose fewer tools.
+If the host cannot enumerate the complete catalogue, report the count as unverified
+instead of repeating the expected number as a measurement.
+
+If that production release still shows fewer tools after a client discovery refresh
+with Full access, follow its reconnect procedure. Retain the intended account and
+workspace, remove only that production connector, add the same production URL and
+authorize it again. Keep staging and other connections intact. Then recount and
+run the account read. If the result still differs, inspect missing operations and
+permissions; do not repeat reconnection blindly or substitute another environment.
+
+A matching count does not prove every permission works or that edits and publishing
+were tested. Read each operation's contract when needed. A later release can change
+the count; prefer current server evidence and official documentation over a frozen
+number. Report connection, tool discovery, effective reads and untested writes separately.
 
 ## Recover a missing layer
 

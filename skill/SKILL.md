@@ -15,9 +15,12 @@ Instructions already read can guide the current chat without persistent skill
 installation. Use the [first-reply procedure](../docs/07-agent-installation/README.md#start-in-your-current-chat)
 instead of sending another starter prompt or a mandatory upload detour. For full
 setup, recommend the verified connection once and explain the manual alternative;
-preserve a declined or deferred route. Use an MCP URL approved for the product
-environment and supplied by Consent Pro or the customer when connection is needed;
-never derive an endpoint from a hostname. Offer the reusable skill at a useful pause,
+preserve a declined or deferred route. For the confirmed production service, use
+`https://mcp.consentpro.com/mcp` and [the production Web App](https://app.consentpro.com/),
+following the [connection procedure](../docs/07-agent-installation/README.md#connect-consent-pro).
+Keep staging separately named. Connecting production does not migrate projects,
+site scripts, Google grants or container selections. Never derive an endpoint
+from a runtime hostname. Offer the reusable skill at a useful pause,
 without interrupting the installation unless requested. Ask for the site when needed,
 without bundling platform, GTM and license questions. A narrow audit does not
 require client installation. Assistant setup can proceed without the website URL.
@@ -57,6 +60,9 @@ absolute path obtained from that link.
 - Discover the connected server's actual tools and schemas when a connector is used.
   Determine whether reads cover the published container or the selected workspace.
   Do not invent future tool names or treat a published audit as an unpublished audit.
+  Follow the [release check](../docs/07-agent-installation/README.md#verify-the-connected-environment-and-tool-set)
+  for the selected endpoint; never sum tools from staging, production or duplicate integrations.
+  Full access still requires a separate Google connection and the target container's role.
 - Use local Google OAuth only when the user selects that broader access path.
   An MCP permission denial is not approval to switch credentials or use the UI.
 

@@ -37,8 +37,12 @@ For a setup request with a repository link, use the instructions you can read an
 begin helping in this chat. Do not answer with a repository summary, another prompt
 to copy or a mandatory skill-installation detour. For full setup, actively recommend
 the supported Consent Pro connection once and explain the dashboard alternative.
-Use the exact MCP URL approved for the product environment and supplied by Consent
-Pro or the customer; do not invent an endpoint. Missing tools do not
+For the confirmed production service, use `https://mcp.consentpro.com/mcp` and
+[the production Web App](https://app.consentpro.com/), following the
+[connection procedure](../../docs/07-agent-installation/README.md#connect-consent-pro).
+Keep product staging separately named; connecting production does not migrate
+projects, site scripts or Google connections. Do not derive an endpoint from a
+runtime hostname. Missing tools do not
 mean the customer declined connection. Reuse working connections and honor a
 declined, deferred or unavailable route. Offer the ready skill once at a useful
 pause for future chats, without interrupting installation unless requested.
@@ -99,6 +103,9 @@ Check these separately:
   environment and access. Installation, OAuth completion and a successful target
   read are different checkpoints. Refresh discovery after a tool-list change or
   rejection. A dated catalogue is evidence, not a live capability or permission.
+  Use the [connection verification](../../docs/07-agent-installation/README.md#verify-the-connected-environment-and-tool-set)
+  for a release check. Count only the selected endpoint, following discovery pagination;
+  do not combine production, staging or duplicated host integrations.
   New tools under an existing permission do not require reconnection; newly required
   permissions need a grant upgrade. Inspect the evidence before proposing one, and
   check Google authorization separately from Consent Pro access.
@@ -196,9 +203,9 @@ or another write channel; explain the alternative and obtain the client's choice
 Existing scope still authorizes the work it explicitly covers.
 
 Determine whether the actual MCP reads published containers or workspaces, and
-never infer one from the other. Use new GTM editing only
+never infer one from the other. Use discovered GTM editing tools only
 through the reviewed capability path and safeguards in
-[Future GTM writes](../../docs/06-agent-readiness/operations.md#future-gtm-writes).
+[GTM editing and publication](../../docs/06-agent-readiness/operations.md#future-gtm-writes).
 A release date or Full access does not prove an edit tool, a new Google grant or
 publication authority. Partial capabilities authorize only the supported work.
 Execute authorized tracker, banner, region, sharing and publication operations when

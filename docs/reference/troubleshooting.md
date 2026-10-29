@@ -14,7 +14,10 @@ and retest, or hand off the unresolved blocker. See the
 
 ## Account access and project selection
 
-Start from the layer that failed. Use the official
+Start from the layer that failed. For production, compare the selected project in
+[the Web App](https://app.consentpro.com/) with the connector at
+`https://mcp.consentpro.com/mcp`. A staging login or same-named project does not
+establish production access. Use the official
 [Finsweet Account entry](https://finsweet.com/products/account) for **Log in** or
 **Create Account**. The account page describes password, Google and passwordless
 entry. The customer completes authentication and any recovery offered by the
@@ -26,6 +29,7 @@ does not prove the customer cannot open it in their browser.
 |---|---|
 | Sign-in loops or no session appears | Confirm the official destination and intended login method; inspect the displayed error and retry only the failed session step. Use official recovery or support if it persists |
 | Dashboard works, assistant tools do not | Keep the working dashboard session; inspect the host connector and its grants or continue entirely manually. Do not recreate the account |
+| Only the previous staging projects appear | Inspect the selected connector URL and authorized workspace. Add or select the production connection separately; do not copy IDs or replace site scripts to fix account selection |
 | Expected workspace/project is absent | Confirm account, selected workspace, membership, filters and complete pagination. Have its administrator resolve access before creating a replacement |
 | Paid plan or license is absent | Use [entitlement diagnosis](../06-agent-readiness/operations.md#a-purchased-plan-or-domain-licence-is-missing); compare purchase owner and domain assignment before discussing another purchase |
 | The first project does not exist | Confirm domain, platform and authorization, then use [first-project setup](../06-agent-readiness/operations.md#account-workspace-and-first-project) |
@@ -36,6 +40,25 @@ does not prove the customer cannot open it in their browser.
 When the customer returns after a failed step, use the
 [resume card](onboarding.md#start-and-resume). Refresh affected state rather than
 starting another scan, reconnecting everything or recreating the project.
+
+### Production tools appear missing or outdated
+
+Use the [production inventory check](../06-agent-readiness/operations.md#check-the-production-tool-inventory).
+The 2026-10-29 Full access expectation is 48 tools on that production server.
+Count the complete discovered inventory, excluding staging and duplicate aliases.
+Read only or Custom can correctly show fewer tools; a partial inventory proves no total.
+
+If Full access is confirmed and the complete count remains below that release
+expectation after discovery refresh, reconnect the production connector as directed
+by the release instructions. Keep staging separate and let the user finish authorization.
+Then re-read tools and account/workspace identity. Do not run a write as a permission
+probe, reuse staging credentials or repeatedly reconnect without new evidence.
+
+A missing GTM operation can reflect Consent Pro permission, an unavailable host tool,
+Google scope or the selected container's role. Inspect those layers separately.
+Forty-eight advertised tools does not prove that Google is connected or can publish.
+Follow [GTM connection](../06-agent-readiness/operations.md#connect-google-tag-manager)
+for the user's separate Google authorization, without opening the returned link yourself.
 
 ## Support and assisted setup
 

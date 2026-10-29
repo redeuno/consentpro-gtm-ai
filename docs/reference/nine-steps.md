@@ -7,7 +7,7 @@ First explain [when Google measurement starts](consent-mode.md#explain-the-choic
 and confirm the applicable mode. The local script is a Basic
 configuration path. A connected MCP may have published reads, workspace reads or
 reviewed writes; discover its actual contract rather than assuming a capability.
-For an editing release, follow the [capability path](../06-agent-readiness/operations.md#future-gtm-writes)
+For available editing operations, follow the [capability path](../06-agent-readiness/operations.md#future-gtm-writes)
 to replace supported manual actions with reviewed, authorized draft operations.
 Account for the [three separate releases](../06-agent-readiness/operations.md#draft-preview-and-release).
 
@@ -18,6 +18,12 @@ This is the complete manual configuration path after
 every GTM change through the interface without connecting Google to the assistant,
 creating a Google Cloud project or using a terminal. Consent Pro can also remain
 manual through its [dashboard procedure](../06-agent-readiness/operations.md#guide-dashboard-only-configuration).
+
+For the production MCP, use `https://mcp.consentpro.com/mcp` and compare the project
+in [the production Web App](https://app.consentpro.com/). Confirm its workspace before
+requesting the separate Google connection. Existing staging access does not establish
+production access, and connection does not approve any of the changes below.
+Use your own disposable site and container for release testing, not a customer's assets.
 
 Confirm the selected account, container, workspace, live version and pending
 changes. Inspect the served site for the correct snippet and existing CMP. If the

@@ -51,7 +51,14 @@ states below and check the main site function separately. Do not expand this int
 audit of every page, browser, region and historical tracker before first publication.
 
 Use a draft or isolated test target where available. After authorized publication, repeat
-the relevant checks on the ordinary address outside preview. Keep these results separate:
+the relevant checks on the ordinary address outside preview.
+
+For production release testing, use the tester's own site, workspace and container.
+Connecting the production MCP does not approve site edits, tracker insertion or publication.
+Record which product environment supplied the project snippet; a public test hostname
+does not make a staging project a production project. A production preview is still a draft.
+
+Keep these results separate:
 
 | Result | Evidence needed |
 |---|---|
