@@ -6,6 +6,12 @@ you whether it is.
 The numbered checks start with configuration and end with browser behaviour. Complete the
 partial-consent, revocation and reload branches in the linked browser procedure too.
 
+Record the product environment, exact hostname, Consent Pro project and GTM container
+before checking results. Production uses [this Web App](https://app.consentpro.com/)
+and `https://mcp.consentpro.com/mcp`; staging findings do not verify production.
+Use [connection verification](../06-agent-readiness/operations.md#check-the-production-tool-inventory)
+for tool discovery, then verify the requested operation and target separately.
+
 **[The browser procedure](verify-behaviour.md)** expands checks 6.4 and 6.5 with the
 full procedure for comparing named
 trackers, requests and storage across consent choices. If you only do one

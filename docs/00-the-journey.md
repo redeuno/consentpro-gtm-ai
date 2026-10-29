@@ -9,6 +9,13 @@ workspace and project or guide their selected dashboard, inspect the site, and i
 changes. The [operations guide](06-agent-readiness/operations.md) supplies the capability
 checks, runtime checks and recovery paths for each stage.
 
+For production setup, use the [production connection procedure](07-agent-installation/README.md#connect-consent-pro):
+connect `https://mcp.consentpro.com/mcp`, let the customer sign in and select the
+workspace, then verify the connection with a project read. Compare results in
+[the production Web App](https://app.consentpro.com/). If an existing target uses
+product staging, retain it until the customer selects a separate production target.
+Connection alone does not migrate projects, runtime scripts or Google access.
+
 No account yet, a missing purchase, a login problem or a missing connector belongs
 to the [entry routes](reference/onboarding.md#route-the-customers-starting-state).
 A customer can begin without buying first, connecting Google or using a terminal.
@@ -89,6 +96,9 @@ named follow-up, not a claim that every page or tracker has been verified.
 
 Discover the current server's tools and effective access when using a connector.
 Do not infer its environment, scope or supported writes from an earlier session.
+Use the [connection verification](07-agent-installation/README.md#verify-the-connected-environment-and-tool-set)
+to count only that endpoint's exposed tools and verify its workspace. Complete
+Google authorization separately when the chosen GTM path needs it.
 See the [capability matrix](06-agent-readiness/operations.md#capabilities-and-targets).
 
 | Path | Requirements | What it covers |
@@ -102,7 +112,7 @@ See the [capability matrix](06-agent-readiness/operations.md#capabilities-and-ta
 An MCP permission does not authorise a broader local Google credential. A declined
 connector leaves the manual path available for both CP and GTM. If an operation is
 unavailable, explain the alternative and use only the customer's chosen route.
-Use the [evolving GTM path](06-agent-readiness/operations.md#future-gtm-writes) when
+Use the [GTM editing and publication path](06-agent-readiness/operations.md#future-gtm-writes) when
 new operations appear; confirm their reviewed contract, scopes and workspace evidence
 before replacing the corresponding manual step.
 

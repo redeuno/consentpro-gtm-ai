@@ -33,6 +33,14 @@ for a bare repository link, an unavailable connector or an explicit request to
 prepare the assistant first. Keep instruction loading, Consent Pro access, Google
 access and site/browser access as separate checkpoints in the working record.
 
+The [production connection](../07-agent-installation/README.md#connect-consent-pro)
+is `https://mcp.consentpro.com/mcp`, paired with [the production Web App](https://app.consentpro.com/).
+Use it for the customer's confirmed production account. Keep staging connections
+and their targets separately named; do not replace a working staging project or
+site script because production is now available. The customer completes Finsweet
+sign-in, workspace selection and access approval. Verify the selected connection
+before asking for configuration values it can read.
+
 1. Establish the next useful step from the request, including when the customer has
    no account yet. Use the [entry routes](#route-the-customers-starting-state). Do not
    require a purchase, connector or technical questionnaire before helping.
@@ -45,6 +53,10 @@ access and site/browser access as separate checkpoints in the working record.
    choose manual work because no tools are connected yet. Reuse a working route.
    Keep the recommendation brief and do not let optional skill installation or
    Google authorization delay the site's first useful result.
+   When verifying a release, count the selected endpoint's tools through complete
+   discovery, excluding other environments and duplicate host integrations. Follow
+   [the dated release check](../07-agent-installation/README.md#verify-the-connected-environment-and-tool-set);
+   a number alone does not identify the effective permissions or prove an operation.
 3. Resolve the site from the request and current project inventory or selected dashboard. If the target
    is ambiguous, show matching names and domains and ask which one to use. If the
    exact target is already known, read it without asking the customer to repeat it.
@@ -327,8 +339,8 @@ retested. Do not turn a broken form, cart or login into an Essential classificat
 shortcut. Check the visitor action separately from its analytics or conversion
 event. A narrow verified result is not a whole-site assurance.
 
-When the MCP gains GTM editing, keep this same journey and switch only the applicable
-execution path. Follow [Future GTM writes](../06-agent-readiness/operations.md#future-gtm-writes)
+When the connected MCP exposes GTM editing, keep this journey and use the supported
+execution path. Follow [GTM editing and publication](../06-agent-readiness/operations.md#future-gtm-writes)
 to verify the reviewed tool contract, workspace access, effective permissions and recovery.
 Do not reconnect working accounts, reinstall templates or publish just because new tools
 appeared. A partial rollout can support one edit while another still needs a manual step.
