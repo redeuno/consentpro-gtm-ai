@@ -12,12 +12,12 @@ deferred or unavailable. Persistent instructions are optional. For an explicit
 
 ## Optional: get the ready package
 
-Download the reviewed assets from [release 0.3.9](https://github.com/redeuno/consentpro-gtm-ai/releases/tag/v0.3.9):
+Download the reviewed assets from [release 0.3.10](https://github.com/redeuno/consentpro-gtm-ai/releases/tag/v0.3.10):
 
 | Asset | Use |
 |---|---|
-| `consent-pro-0.3.9-preview.zip` | Start here for the whole Consent Pro journey, including GTM guidance |
-| `consent-pro-gtm-0.3.9-preview.zip` | Optional specialist for focused GTM work |
+| `consent-pro-0.3.10-preview.zip` | Start here for the whole Consent Pro journey, including GTM guidance |
+| `consent-pro-gtm-0.3.10-preview.zip` | Optional specialist for focused GTM work |
 | `SHA256SUMS` | Compare the downloaded bytes with the release checksums |
 
 This is a preview distribution. Follow the host-specific procedure below and verify
@@ -56,6 +56,11 @@ You can begin planning or inspecting a site before buying. Current public
 Preview in the open tab, not a free custom-site domain for visitors. The separate
 [Webflow test-domain rule](https://docs.consentpro.com/webflow/licenses) must not be
 generalized to custom sites. These public sources were checked on 2026-10-16.
+Preview does not publish its draft or prove that ordinary visitors see no banner.
+An existing published banner may still appear. Before claiming what visitors see,
+read the published state and check the ordinary URL without Preview in a permitted
+browser. Report the observed scope; if either check is unavailable, keep that state
+unverified.
 
 ## Choose the environment
 
@@ -108,8 +113,11 @@ environment is still unknown, ask for it before researching snippets, scanning a
 whole account or delegating a full setup review. A documentation timeout must not
 delay that question; retry or use a relevant maintained source when the operation
 needs it. Do not infer a wrong account merely because only a test project appears.
-In the first reply, explain the immediate action and ask only for the next missing
-fact or action:
+Keep the first reply within about 100 words, with one question or one immediate
+action. Explain only what that next step needs, not the whole installation journey
+or a list of future warnings. A proposed change that requires a complete review
+can exceed this limit; do not omit its effects to fit the word count.
+Use the known evidence to choose that next step:
 
 | Evidence already available | Next reply or action |
 |---|---|
@@ -125,7 +133,9 @@ fact or action:
 
 Use the connection choice below for a full setup request. Missing tools alone do
 not select a manual route, but an unanswered optional skill offer is not a waiting
-gate. Ask for the missing site URL when that advances the current step and inspect it.
+gate. A supplied URL or a request to test first does not select the manual route.
+Do not end by waiting for connector setup unless the customer chose that route.
+Ask for the missing site URL when that advances the current step and inspect it.
 Adapt the next action to actual evidence; do not claim a read that did not happen
 or invent an installation duration.
 
@@ -191,13 +201,16 @@ Choose the next action from the known state:
 - If connection was declined, deferred or is restricted, preserve that choice. Continue
   useful reads and manual steps. Do not make the reusable skill mandatory either.
 
-For a customer with a verified endpoint who has not chosen a route, explain:
+When the next step needs project access and the route is undecided, explain:
 "Connecting Consent Pro lets me read your project and carry out changes you authorize."
 Then ask: "How would you like to continue?" Offer "Connect Consent Pro (recommended)"
 and "Guide me in the dashboard" through the permitted question control or text.
 Keep the optional skill offer for a useful pause instead of adding another decision.
-If the environment is unknown, replace that choice with the one question needed
-to identify it. Do not ask about the website, skill, Google and licensing together.
+If a missing site URL enables the next useful public read, ask for that URL first.
+Keep the route undecided; a URL does not select dashboard setup or reject connection.
+Verify the product environment before giving a connector endpoint. When unknown,
+ask the one question needed to identify it at that step. Do not ask about the
+website, skill, Google and licensing together.
 
 After the customer accepts, guide MCP setup, complete the customer-operated login,
 refresh discovery and verify a project read. Return to the first incomplete site
@@ -232,11 +245,30 @@ actual tool contract, including whether it accepts approval requests.
 
 ### ChatGPT: keep instructions and MCP in the intended plugin
 
-Use this section when persistent installation is requested or accepted. Otherwise,
-read the guides and continue the website setup in the current conversation.
-Open Plugins and inspect the intended plugin's contents. If it already has the authenticated
-Consent Pro MCP, edit that plugin to add or update the instructions rather than creating a
-second lookalike. With Plugin Creator and edit access, use a request such as:
+Use this section when connection or persistent installation is requested or accepted.
+Otherwise, read the guides and continue website setup in the current conversation.
+Inspect the intended plugin first. Reuse its authenticated Consent Pro connection
+and update its instructions when requested, instead of creating a second lookalike.
+
+For a new production connection in ChatGPT Work on the web, use the native account
+flow documented in the [plugin quickstart](https://developers.openai.com/plugins/quickstart):
+
+1. Open **Plugins**, select **Add** (`+`), then **Add custom MCP server**.
+2. Enter **Consent Pro**, server URL `https://mcp.consentpro.com/mcp`, and **OAuth** authentication.
+   If a transport choice appears, use **Streamable HTTP**.
+3. Have the customer review the trust notice and choose **Create as a plugin**.
+   If **Connect Consent Pro** appears afterward, continue through it. The customer
+   completes **Continue with Finsweet**, selecting the intended workspace and
+   [access level](#choose-access-and-authorize). Creating the plugin alone does not
+   complete this authorization.
+4. Open the resulting plugin under personal plugins and install it if prompted.
+5. Start a new **Work** conversation, select the plugin with `@`, and verify an authenticated project read.
+
+After creation, obtain the resulting `plugin_asdk_app...` ID from the plugin page
+or supported metadata. With Plugin Creator and edit access, add the reviewed skills
+to that registered connection. Preserve its App mapping and OAuth configuration.
+Do not invent an ID, copy a staging binding or replace the authenticated connection
+with a standalone archive. Use a request such as:
 
 > Update this Consent Pro plugin from the reviewed consentpro-gtm-ai source. Use the
 > primary consent-pro skill and bundle the GTM specialist, linked guides and runtime
@@ -253,12 +285,21 @@ to the intended production plugin when that workflow is supported. If the host
 requires the customer to add or authorize the connection, guide that step and
 verify it afterward. A saved plugin is not an authenticated connection.
 
-Review the saved plugin, install it if prompted, start a new conversation and select it
-with `@`. Test instruction loading and a read-only project query separately. Only report
-the update complete after inspecting the resulting plugin; a builder's promise is not
-evidence. Updating this GitHub repository does not update an existing hosted plugin.
-Sources: [Build plugins](https://learn.chatgpt.com/docs/build-plugins) and
-[Install and use plugins](https://learn.chatgpt.com/docs/plugins), checked 2026-10-16.
+Verify the resulting instructions and authenticated project read separately in the
+intended host. A standalone package may exist alongside the registered connection.
+Saving it, opening its page or seeing an MCP entry does not prove installation or
+availability in the Work web picker. If only a desktop launch is offered, check
+that package's supported host and installation state. Do not infer that all
+standalone plugins are incompatible with web chat from that observation.
+
+Report which checks succeeded: package saved, plugin selectable, instructions loaded
+and authenticated read. Keep any incomplete check explicit. Updating this repository
+does not update an existing hosted plugin. The registered connection and skill
+mapping are documented in [Package your plugin](https://developers.openai.com/plugins/build/plugins);
+host and account availability are described in
+[Plugins in ChatGPT](https://help.openai.com/en/articles/20001256-plugins-in-chatgpt).
+These OpenAI sources were checked on 2026-10-29. If controls differ or are restricted,
+inspect the available account controls and continue the guided dashboard route when needed.
 
 ### Claude web or Desktop: upload the reviewed package
 
@@ -281,7 +322,7 @@ When file tools are available, first verify the reviewed ZIP and manifest using
 the checks below. Otherwise provide the reviewed asset link and keep byte
 verification marked unavailable. In Customize,
 Skills, open Add Skill (`+`) and choose Upload Skill, then select the reviewed
-`consent-pro-0.3.9-preview.zip` and enable it. The primary package includes the GTM reference and its
+`consent-pro-0.3.10-preview.zip` and enable it. The primary package includes the GTM reference and its
 scripts; the specialist ZIP is available for direct GTM tasks. Each ZIP must contain
 its named skill folder, including `SKILL.md` and all bundled dependencies. Do not upload
 the entire repository as if it were one skill.
@@ -388,9 +429,9 @@ does not authorize those changes or require a full audit.
 
 Compute the hash of the ZIP you downloaded and compare it with the line for that
 exact filename in `SHA256SUMS`. For the primary package, use
-`shasum -a 256 consent-pro-0.3.9-preview.zip` on macOS,
-`sha256sum consent-pro-0.3.9-preview.zip` on Linux, or
-`Get-FileHash consent-pro-0.3.9-preview.zip -Algorithm SHA256` on Windows.
+`shasum -a 256 consent-pro-0.3.10-preview.zip` on macOS,
+`sha256sum consent-pro-0.3.10-preview.zip` on Linux, or
+`Get-FileHash consent-pro-0.3.10-preview.zip -Algorithm SHA256` on Windows.
 Substitute the specialist ZIP's filename if that is the package you chose.
 
 If you downloaded both ZIPs listed in `SHA256SUMS` into the same directory, you
@@ -459,18 +500,11 @@ for client-specific configuration scope.
 
 ### ChatGPT
 
-Use the custom app or plugin controls available to the account and workspace.
-Configure the production URL as a remote Streamable HTTP MCP with OAuth, then let
-the customer complete authorization. When a supported plugin builder is available,
-prepare the package and connection configuration; otherwise guide the account
-controls. Do not claim that a skill installed the connector or authenticated it.
-
-Keep any staging App binding intact. Follow the
+Follow the native **Add custom MCP server** flow in the
 [intended plugin procedure](#chatgpt-keep-instructions-and-mcp-in-the-intended-plugin)
-to deliver instructions and production access together when supported. After saving,
-select the intended plugin in a new chat if required by the host and verify both
-instruction loading and an authenticated production read. UI labels and availability
-vary; do not promise controls that the account does not expose.
+for the production URL and OAuth. The customer completes authorization; a skill
+or saved archive does not authenticate the connection. Preserve staging separately,
+then verify selection and a production read in the intended ChatGPT host.
 
 ### Choose access and authorize
 
@@ -483,7 +517,10 @@ Explain the access choice before the customer approves it:
 | Custom | The specific permissions the customer chooses. Include View Google Tag Manager for the separate Google connection and read tools |
 
 For requested end-to-end connected setup, recommend Full access and explain its
-scope. Honor a read-only or narrower choice. The customer signs in with the account
+scope. Do not recommend Read only solely because diagnosis is the first step of
+that setup. Honor an explicit read-only or narrower choice. Explain that granted
+permissions make operations available; the customer's instructions authorize their
+use, with publication separately approved. The customer signs in with the account
 used in the production Web App, selects the intended workspace and approves access.
 Never request passwords, authorization codes, callback URLs or tokens in chat.
 

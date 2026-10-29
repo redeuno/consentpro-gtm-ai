@@ -68,10 +68,10 @@ lead toward installation consistency, entitlement, preview and authorized releas
 not an unsolicited appearance exercise. Missing release authority remains a
 separate decision even when the customer asked for the overall installation.
 
-At the start, briefly explain the
-[three activation checkpoints](06-agent-readiness/operations.md#current-first-installation-handoffs):
-install the supplied script on the site, create the initial banner in Consent Pro,
-then publish its reviewed configuration. Give only the next actionable step.
+Use the [three activation checkpoints](06-agent-readiness/operations.md#current-first-installation-handoffs)
+to choose the next actionable step: site installation, initial banner and reviewed
+publication. Explain that step when needed; do not present the full list as an
+opening checklist.
 Site installation requires separate site access or customer action. Discover banner
 setup and publication separately and use each reviewed, authorized MCP operation
 when available; guide the dashboard only for the missing or declined operation.
@@ -171,9 +171,18 @@ and retain any unresolved checker result as a specific dependency.
 
 Production domains and subdomains require their own licences. A preview hostname must be
 connected to the project. A signed preview can temporarily show a saved draft before a
-production licence is active; it does not enable the banner for ordinary visitors. Basic
-plans apply Global instances; Premium supports regional instances. Read the actual plan
-before promising regional behaviour. Source: [Licenses](https://docs.consentpro.com/web-app/licenses).
+production licence is active. Preview does not publish that draft. It does not establish
+whether an earlier published banner exists or what ordinary visitors currently see.
+Anyone holding an unexpired preview link can open the draft; keep the link private.
+Read publication state and check the ordinary URL without Preview before claiming
+what visitors see. Without those checks, say: "Preview does not publish this draft.
+I have not checked the ordinary site's published banner."
+
+For "test first", give only the next unresolved step toward Preview. Do not assume
+the project, script or banner is missing before inspecting the selected target.
+Basic plans apply Global instances; Premium supports regional instances. Read the
+actual plan before promising regional behaviour. Source:
+[Licenses](https://docs.consentpro.com/web-app/licenses).
 
 For a custom site, Preview is not a free production domain or blanket staging
 entitlement. The documented Webflow test on a `*.webflow.io` domain is a separate
