@@ -11,6 +11,39 @@ what already exists. For a repair request, investigate, prepare and perform the
 authorized supported fix, then check the result. For a narrow request, keep this
 workflow proportional; do not require the whole onboarding journey again.
 
+For a setup request with a repository link, use the instructions you can read and
+begin helping in this chat. Do not answer with a repository summary, another prompt
+to copy or a mandatory skill-installation detour. Keep the first reply within about
+100 words and one question or one immediate action. A change requiring a complete
+review can exceed that limit. A request to only consult limits changes, not the
+setup guidance; preserve narrower permissions and explain relevant current risks.
+For site setup, resolve the target from the request or relevant connected reads;
+ask for its URL only if still needed. An explicit request to connect MCP or install
+the skill comes first and needs no website URL. Use supplied details before asking
+the next missing decision. Do not ask for both a URL and a connection
+choice in the same reply. For full setup, recommend the supported Consent Pro
+connection once and explain the dashboard alternative, without making connection
+a condition for help. Do not end by waiting for it unless that route was chosen.
+Recommend Full access for end-to-end setup even when diagnosis comes first; honor
+a narrower choice. Permissions enable operations; customer instructions authorize
+their use, with publication separately approved.
+For the confirmed production service, use `https://mcp.consentpro.com/mcp` and
+[the production Web App](https://app.consentpro.com/), following the
+[connection procedure](../../docs/07-agent-installation/README.md#connect-consent-pro).
+Keep product staging separately named; connecting production does not migrate
+projects, site scripts or Google connections. Do not derive an endpoint from a
+runtime hostname. Missing tools do not
+mean the customer declined connection. Reuse working connections and honor a
+declined, deferred or unavailable route. Offer the ready skill once at a useful
+pause for future chats, without interrupting installation unless requested.
+Resolve the target through relevant project reads or the missing URL before
+researching installation details. Load other references only for the current step;
+do not delay the next necessary question for a full documentation or account audit.
+Inspect available evidence before asking about platform or GTM.
+A narrow public-site inspection does not need account setup. An explicit request
+to install the skill or connect MCP does not require a website URL. Follow the
+[first-reply procedure](../../docs/07-agent-installation/README.md#start-in-your-current-chat).
+
 For a new installation, lead toward the first working banner on the chosen test
 or production site. Follow the [first-activation journey](../../docs/00-the-journey.md)
 before offering personalization and optional features. Do not turn a full audit,
@@ -36,33 +69,6 @@ Custom-site setup requires the core in the shared head across the selected hostn
 including its own home page (`/`), not just an inner path. A subdomain needs its own
 root; do not substitute the parent domain. Resolve any page-only scope conflict
 before deploying, while retaining the exact requested URL for verification.
-
-For a setup request with a repository link, use the instructions you can read and
-begin helping in this chat. Do not answer with a repository summary, another prompt
-to copy or a mandatory skill-installation detour. Keep the first reply within about
-100 words and one question or one immediate action. A change requiring a complete
-review can exceed that limit. For full setup, recommend the supported Consent Pro
-connection once and explain the dashboard alternative, without making connection
-a condition for help. Do not end by waiting for it unless that route was chosen.
-Recommend Full access for end-to-end setup even when diagnosis comes first; honor
-a narrower choice. Permissions enable operations; customer instructions authorize
-their use, with publication separately approved.
-For the confirmed production service, use `https://mcp.consentpro.com/mcp` and
-[the production Web App](https://app.consentpro.com/), following the
-[connection procedure](../../docs/07-agent-installation/README.md#connect-consent-pro).
-Keep product staging separately named; connecting production does not migrate
-projects, site scripts or Google connections. Do not derive an endpoint from a
-runtime hostname. Missing tools do not
-mean the customer declined connection. Reuse working connections and honor a
-declined, deferred or unavailable route. Offer the ready skill once at a useful
-pause for future chats, without interrupting installation unless requested.
-Resolve the target through relevant project reads or the missing URL before
-researching installation details. Load other references only for the current step;
-do not delay the next necessary question for a full documentation or account audit.
-Inspect available evidence before asking about platform or GTM.
-A narrow public-site inspection does not need account setup. An explicit request
-to install the skill or connect MCP does not require a website URL. Follow the
-[first-reply procedure](../../docs/07-agent-installation/README.md#start-in-your-current-chat).
 
 Use the [journey](../../docs/00-the-journey.md) for sequencing,
 [guided onboarding](../../docs/reference/onboarding.md) for the conversation and completion record,
