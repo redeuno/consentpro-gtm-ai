@@ -101,7 +101,7 @@ the next useful action, not the whole procedure at once.
 
 ## Save the instructions for future conversations
 
-The [ready preview packages](https://github.com/redeuno/consentpro-gtm-ai/releases/tag/v0.3.11)
+The [ready preview packages](https://github.com/redeuno/consentpro-gtm-ai/releases/tag/v0.3.12)
 contain the instructions and references for optional persistent installation.
 The [installation guide](docs/07-agent-installation/README.md)
 distinguishes ChatGPT, Claude chat, Codex and Claude Code. Both skills share the
@@ -134,9 +134,16 @@ or declined, continue through the selected environment's dashboard.
 
 ## Reach the first publication
 
+If the customer already chose temporary Preview without buying, retain that scope
+and the confirmed product environment. Continue installation and tests that the
+available Preview supports. Keep ordinary publication and its license pending;
+do not reopen purchase as a prerequisite. Resolve actual access or entitlement
+errors for the current action, without assuming that Preview is always available.
+
 1. Identify the site and intended environment; reuse the project, connections and
    valid installation already present. Ask only for what the next action needs.
-2. Resolve the account, domain, applicable license and exact project snippet.
+2. Resolve the account, domain, exact project snippet and the requirements for
+   the selected Preview or publication result.
    Prepare the initial banner, privacy link and preferences without a design detour.
 3. Inspect the installation path for conflicts and tracking that would invalidate
    the intended consent behavior. Handle relevant GTM settings when needed;
@@ -146,7 +153,8 @@ or declined, continue through the selected environment's dashboard.
    requires it, not merely because a checklist includes scanning. Before a new scan,
    [check site access and robots rules](docs/06-agent-readiness/operations.md#before-starting-or-retrying-a-scan)
    so a known block gets a clear fix before another attempt.
-5. Review and authorize the required site, Consent Pro and optional GTM releases.
+5. For ordinary publication, review and authorize the applicable site, Consent Pro
+   and GTM releases.
    Confirm the ordinary address outside Preview and report exactly what was tested.
 6. Continue with the customer's chosen personalization and broader review.
 
