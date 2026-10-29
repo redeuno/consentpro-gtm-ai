@@ -415,7 +415,7 @@ continue the next missing dependency for first activation. For example:
 | Customer reports | Verify and continue |
 |---|---|
 | The script was installed | Check the selected hostname's home page and requested inner page against the project snippet, site ID and required shared-head installation. Run the supported install check. An inner page alone does not complete setup; reconcile remaining disagreements before prescribing another script change. |
-| The banner was saved | Read back the banner and publication state. Continue with unresolved installation, entitlement or preview checks, then the applicable authorized publication. Do not divert to colors or fonts while the banner is still not available to visitors. |
+| The banner was saved | Read back the banner and publication state. Continue with unresolved installation, entitlement or preview checks, then the applicable authorized publication. Prioritize the unresolved activation checkpoint over colors or fonts. A draft save does not establish what ordinary visitors see. |
 | The configuration was published | Re-read publication for the selected domain, then check the ordinary requested page outside Preview using the allowed access route. Mark unavailable browser behavior as unverified. |
 
 If a read exposes only the published GTM container, it will not verify an

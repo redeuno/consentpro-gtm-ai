@@ -18,10 +18,14 @@ new GTM installation, Google connection, scan repetition or persistent skill int
 a universal prerequisite. Treat known consent failures and broken site functions
 within the initial path; record wider untested coverage separately. A working
 Preview, ordinary publication, tested behavior and license status are distinct.
+Preview does not establish that ordinary visitors see no banner. Check published
+state and the ordinary URL in a permitted browser before making that claim;
+otherwise keep it unverified.
 
 Explain the [first-installation checkpoints](../../docs/06-agent-readiness/operations.md#current-first-installation-handoffs)
-briefly before the customer starts: install the supplied core on the site, create
-the initial banner in Consent Pro and publish the reviewed configuration. The MCP
+as they become relevant: install the supplied core on the site, create the initial
+banner in Consent Pro and publish the reviewed configuration. Do not turn these
+checkpoints into the opening checklist. The MCP
 supplies the snippet but does not deploy site code. Separate authorized site tools
 may install it; otherwise guide the customer. Discover banner setup and publication
 independently, use each reviewed operation within its authorization, and guide the
@@ -35,8 +39,14 @@ before deploying, while retaining the exact requested URL for verification.
 
 For a setup request with a repository link, use the instructions you can read and
 begin helping in this chat. Do not answer with a repository summary, another prompt
-to copy or a mandatory skill-installation detour. For full setup, actively recommend
-the supported Consent Pro connection once and explain the dashboard alternative.
+to copy or a mandatory skill-installation detour. Keep the first reply within about
+100 words and one question or one immediate action. A change requiring a complete
+review can exceed that limit. For full setup, recommend the supported Consent Pro
+connection once and explain the dashboard alternative, without making connection
+a condition for help. Do not end by waiting for it unless that route was chosen.
+Recommend Full access for end-to-end setup even when diagnosis comes first; honor
+a narrower choice. Permissions enable operations; customer instructions authorize
+their use, with publication separately approved.
 For the confirmed production service, use `https://mcp.consentpro.com/mcp` and
 [the production Web App](https://app.consentpro.com/), following the
 [connection procedure](../../docs/07-agent-installation/README.md#connect-consent-pro).
@@ -90,6 +100,9 @@ with the [entry routes](../../docs/reference/onboarding.md#route-the-customers-s
 Distinguish no account, login failure, a missing purchase, wrong workspace and a
 genuinely absent project. Do not require purchase, Google authorization or terminal
 access to begin. Investigate existing entitlements before proposing another purchase.
+On the manual route, first have the customer find the hostname in the selected
+workspace's Projects list. Guide creation only after absence and authority are
+established. Extracted page text alone cannot establish that an install script is absent.
 
 Check these separately:
 

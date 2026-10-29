@@ -456,9 +456,10 @@ redirect, duplicate runtime or parent-domain installation as an assumed workarou
 
 ### Current first-installation handoffs
 
-Explain these three activation checkpoints briefly after resolving the target,
-then guide one step at a time. They are separate outcomes, not three mandatory
-manual actions. Discover the available operations and use reviewed authorized
+Use these three activation checkpoints to select the next unresolved step after
+resolving the target. Explain one step at a time, not the full list at entry.
+They are separate outcomes, not three mandatory manual actions.
+Discover the available operations and use reviewed authorized
 banner setup or publication when supported. Only hand the customer a dashboard
 step when that operation is unavailable or the customer chose the manual route.
 MCP provides the exact script but does not deploy website code. Banner style
@@ -489,6 +490,8 @@ not been deployed.
    across that hostname, with the agreed site-wide authority.
    Compare original response HTML with a rendered scrape or DOM;
    they are not the same evidence. Deploy with the authority for that site.
+   A reader returning only extracted text cannot establish script presence or
+   absence. Report installation as unverified, not "no script apparent".
 3. Re-read the served home page and requested inner page and run the supported live installation check,
    following [reported-installation verification](#verify-a-reported-installation).
    Presence and order are separate from runtime behaviour. Removing the tag also
@@ -795,9 +798,17 @@ none is a prerequisite for the first banner or an automatic retention policy upd
 | GTM publication | Container version and tag behaviour | Read live version and test relevant page events |
 
 Use **Preview** or `consentpro_banner_preview` for a signed link; never construct the token.
-The preview serves the saved draft in its tab with a debugger. Use the actual
-expiry, install status and notes; keep the link private. Preview does
-not prove licence validity or live publication for ordinary visitors.
+The preview serves the saved draft in the browser tab that opens it, with a debugger.
+Anyone holding the unexpired link can open the draft, not only the account owner.
+Use the returned expiry, install status and notes; keep the link private.
+Preview does not publish the draft or establish licence validity. An earlier
+published banner may still appear on the ordinary site. Until publication state
+and an ordinary visit without Preview are checked, that visitor state is unknown.
+Use: "Preview does not publish this draft. I have not checked the ordinary site's
+published banner." Do not infer an absent live banner from a new draft or preview link.
+For a request to test first, give the next unresolved step toward Preview and
+inspect existing setup before declaring anything missing. Do not list every
+installation or publication task again.
 Check whether the returned preview opens the requested page. If the tool only
 targets a domain, explain that limit and use a documented product route for page
 selection when available. Do not rewrite the signed link or invent a path parameter.
