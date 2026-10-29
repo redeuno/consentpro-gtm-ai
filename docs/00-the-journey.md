@@ -196,7 +196,8 @@ remain separate.
 
 ## GTM configuration
 
-Choose [Basic or Advanced Consent Mode](reference/consent-mode.md) explicitly. Preserve
+Explain [when Google measurement starts](reference/consent-mode.md#explain-the-choice-before-asking)
+and obtain the explicit choice when it affects the setup. Preserve
 business events such as purchase and form submission; never replace them wholesale with a
 consent event. Consent is a permission condition, not evidence that a purchase occurred.
 

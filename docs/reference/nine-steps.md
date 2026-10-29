@@ -3,7 +3,8 @@
 Both documentation trails carry the same nine. Step 2 uses the Gallery; the remaining
 configuration and browser checks still apply to both trails.
 
-Choose [Basic or Advanced Consent Mode](consent-mode.md) first. The local script is a Basic
+First explain [when Google measurement starts](consent-mode.md#explain-the-choice-before-asking)
+and confirm the applicable mode. The local script is a Basic
 configuration path. A connected MCP may have published reads, workspace reads or
 reviewed writes; discover its actual contract rather than assuming a capability.
 For an editing release, follow the [capability path](../06-agent-readiness/operations.md#future-gtm-writes)
