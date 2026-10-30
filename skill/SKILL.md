@@ -149,9 +149,14 @@ Refresh discovery after capability or permission changes. A prior read-only
 contract is not a permanent restriction, and a promised release date is not a
 write grant. A new tool under an existing permission does not require reconnection;
 a newly required permission needs a grant upgrade. Confirm any required Google scope
-upgrade separately and preserve the selected container's access limits. If a write
-times out, inspect the workspace before retrying; never repeat a create/import
-blindly or publish unrelated pending changes with the requested fix.
+upgrade separately and preserve the selected container's access limits. An error
+response does not prove that a write was rejected. Follow the
+[uncertain-write reconciliation](../docs/06-agent-readiness/operations.md#reconcile-an-uncertain-gtm-write):
+read the exact workspace resource, or complete its inventory before matching candidates,
+then verify the approved fields. Report saved and verified, rejected and not applied,
+or unresolved. A missing returned field can leave verification incomplete even when
+the resource exists. Never retry a create/import blindly, infer a normalization bug
+as the cause, switch credentials to bypass a denial, or publish to resolve uncertainty.
 
 Rollback is a separate live change, with its own operation, permission and user
 approval. Identify the exact prior version, review its full differences from the

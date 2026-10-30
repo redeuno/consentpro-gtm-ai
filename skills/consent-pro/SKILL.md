@@ -32,8 +32,11 @@ For the confirmed production service, use `https://mcp.consentpro.com/mcp` and
 [connection procedure](../../docs/07-agent-installation/README.md#connect-consent-pro).
 Keep product staging separately named; connecting production does not migrate
 projects, site scripts or Google connections. Do not derive an endpoint from a
-runtime hostname. Missing tools do not
-mean the customer declined connection. Reuse working connections and honor a
+runtime hostname. Missing or temporarily disabled tools in this conversation do
+not prove the customer's account cannot add a connector. Until that restriction
+is verified or the customer chooses otherwise, retain the one-time connection
+offer and dashboard alternative. Do not silently choose the dashboard for them.
+Reuse working connections and honor a
 declined, deferred or unavailable route. Offer the ready skill once at a useful
 pause for future chats, without interrupting installation unless requested.
 Resolve the target through relevant project reads or the missing URL before
@@ -247,7 +250,10 @@ replace discovery, explain the change and obtain specific confirmation. Check th
 actual scanner's limitations before promising coverage. Export/proof requests send email;
 call them only on explicit request, without equating acknowledgement with delivery.
 Keep signed preview and connection links private; only the client opens a GTM
-authorization link. After an uncertain write, inspect saved state before retrying.
+authorization link. An error can follow a saved write. Use the
+[GTM recovery procedure](../../docs/06-agent-readiness/operations.md#reconcile-an-uncertain-gtm-write)
+to distinguish a verified draft, a confirmed rejection and an unresolved outcome.
+Complete the relevant reads; do not repeat the write or publish to resolve uncertainty.
 
 ## Close the requested outcome with evidence
 
