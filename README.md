@@ -75,7 +75,8 @@ conversation; it does not install a persistent skill or connect an account.
 - Check the tools actually available. For full setup, recommend the supported
   Consent Pro connection once and reuse it when working. Confirm the product
   environment before giving an endpoint. Explain the guided dashboard alternative;
-  missing tools are not a customer's decision to work manually. If connection is
+  missing or session-disabled tools are not a customer's decision to work manually
+  or proof that their account cannot add a connector. If connection is
   unavailable, declined or deferred, continue the installation through that path.
 - Offer the ready skill once for reuse in future chats, explaining that the
   instructions already read can guide this conversation. Make this a brief offer
@@ -101,7 +102,7 @@ the next useful action, not the whole procedure at once.
 
 ## Save the instructions for future conversations
 
-The [ready preview packages](https://github.com/redeuno/consentpro-gtm-ai/releases/tag/v0.3.12)
+The [ready preview packages](https://github.com/redeuno/consentpro-gtm-ai/releases/tag/v0.3.13)
 contain the instructions and references for optional persistent installation.
 The [installation guide](docs/07-agent-installation/README.md)
 distinguishes ChatGPT, Claude chat, Codex and Claude Code. Both skills share the

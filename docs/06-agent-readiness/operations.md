@@ -324,6 +324,37 @@ For each supported write, use this sequence:
 7. Record separately: draft saved, version created, preview tested, GTM published and live
    behavior observed. Consent Pro publication and site deployment remain separate releases.
 
+### Reconcile an uncertain GTM write
+
+An `isError: true` response, timeout or generic confirmation failure does not prove
+that Google rejected a write. Stop dependent writes and reconcile the operation
+before deciding what happens next. Do not repeat a create merely because its
+response looks unsuccessful.
+
+Read the exact resource ID in the selected **Consent Pro MCP** workspace when
+available. Otherwise, finish the applicable workspace inventory, including pagination,
+then read each candidate's complete details. A matching name, published-version
+inventory, incomplete page or different workspace cannot establish the outcome.
+Compare the target, resource ID, approved fields and relevant dependencies with the
+pre-write baseline. Preserve any later edits instead of overwriting them during recovery.
+
+| Outcome | Evidence and next action |
+| --- | --- |
+| Saved and verified | Authoritative workspace readback matches the intended resource and approved configuration. Report that the draft exists despite the error; do not create it again. Publication remains separate. |
+| Rejected and not applied | The operation explicitly confirms rejection before mutation, and available state evidence agrees. Explain the rejection and resolve its cause before a new attempt. An empty inventory alone does not establish this outcome. |
+| Unresolved | Reads are incomplete, unavailable, contradictory or cannot verify an approved field. Keep dependent work pending and retain the operation context for investigation; do not retry automatically. |
+
+A resource can exist while one field remains unverified. For example, omission of
+an approved `paused: false` is not proof of rejection or proof of a matching value.
+Use the current documented contract or an authoritative read that resolves that
+field. Treat server normalization as a hypothesis until evidence confirms it.
+Do not publish to discover the field's value or make a live-only audit see the draft.
+
+An MCP denial or uncertain result does not authorize a direct Google API or browser
+write. Preserve the chosen access path and permission limits. Share the operation,
+observed state and next read in plain language, without claiming a root cause from
+the error wording alone. Keep credentials and signed links out of the handoff.
+
 Check version operations for lifecycle effects, not just returned IDs. Google's
 [create-version contract](https://developers.google.com/tag-platform/tag-manager/api/reference/rest/v2/accounts.containers.workspaces/create_version)
 changes the workspace lifecycle and can return a new workspace path, synchronization status
