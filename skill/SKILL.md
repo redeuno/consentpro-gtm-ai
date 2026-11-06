@@ -59,7 +59,7 @@ file containing the link, not the user's working directory.
 - Discover the connected server's actual tools and schemas when a connector is used.
   Determine whether reads cover the published container or the selected workspace.
   Do not invent future tool names or treat a published audit as an unpublished audit.
-  Follow the [release check](../docs/07-agent-installation/README.md#verify-the-connected-environment-and-tool-set)
+  Follow the [inventory check](../docs/07-agent-installation/README.md#verify-the-connected-environment-and-tool-set)
   for the selected endpoint; never sum tools from staging, production or duplicate integrations.
   Full access still requires a separate Google connection and the target container's role.
 - An MCP permission denial is not approval to switch credentials or use the UI.

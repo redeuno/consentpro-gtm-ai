@@ -53,9 +53,9 @@ before asking for configuration values it can read.
    choose manual work because no tools are connected yet. Reuse a working route.
    Keep the recommendation brief and do not let optional skill installation or
    Google authorization delay the site's first useful result.
-   When verifying a release, count the selected endpoint's tools through complete
+   When checking the connection, inventory the selected endpoint's tools through complete
    discovery, excluding other environments and duplicate host integrations. Follow
-   [the dated release check](../07-agent-installation/README.md#verify-the-connected-environment-and-tool-set);
+   [the inventory check](../07-agent-installation/README.md#verify-the-connected-environment-and-tool-set);
    a number alone does not identify the effective permissions or prove an operation.
 3. Resolve the site from the request and current project inventory or selected dashboard. If the target
    is ambiguous, show matching names and domains and ask which one to use. If the

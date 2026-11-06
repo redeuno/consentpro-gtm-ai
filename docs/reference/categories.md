@@ -3,12 +3,12 @@
 Step seven asks which consents a tag requires. Map the reviewed category for this site's
 actual use, not an unconfirmed automatic suggestion.
 
-| Category in the app | Consent checks to require | What it means on the page |
+| Category in the app | Additional consent checks to consider | What it means on the page |
 |---|---|---|
-| **Marketing** | `ad_storage`, `ad_user_data`, `ad_personalization` | held until the visitor accepts marketing, or accepts everything |
+| **Marketing** | `ad_storage`, `ad_user_data`, `ad_personalization`, as applicable to the tag's purposes | held until the visitor accepts marketing, or accepts everything |
 | **Analytics** | `analytics_storage` | held until the visitor accepts analytics |
-| **Personalization** | `personalization_storage` | held until the visitor accepts personalization |
-| **Essential** | none | does not wait for optional consent; the original business trigger still applies |
+| **Personalization** | `functionality_storage`, `personalization_storage`, as applicable | held until the visitor accepts personalization |
+| **Essential** | `security_storage`; first verify that the purpose is actually essential | does not wait for optional consent; the original business trigger still applies |
 
 ## Essential is the one that deserves a second look
 

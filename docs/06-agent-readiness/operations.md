@@ -42,8 +42,6 @@ or site scripts. Read the production account and workspace before selecting a pr
 Google OAuth app verification does not establish an individual Google grant or role
 on a container. Confirm those independently for the selected production connection.
 
-For release testing in production, use an explicitly selected test site, workspace
-and GTM container owned by the tester. Do not run that QA routine against customer assets.
 Start with reads. Full access enables operations; it does not approve their execution.
 Obtain specific authorization for each proposed change and separate approval for
 publication or rollback. Scans, schedules, checklist acknowledgements and connection
@@ -51,24 +49,30 @@ changes can take effect immediately without a publication step.
 
 ### Check the production tool inventory
 
-The 2026-10-29 production release instructions expect **48 tools** with Full access:
-46 product tools and two documentation tools. Treat this as a dated release expectation,
-not a permanent count or proof of successful deployment in the current conversation.
+The number of tools changes between releases and with the access the customer approved,
+so there is no fixed count to compare against. Read only and Custom can correctly
+expose fewer tools than Full access.
 
-Count the complete advertised inventory of the selected production server. Follow
+Inventory the complete advertised tools of the selected production server. Follow
 discovery pagination when exposed and count unique tool names only once. Do not add
-staging tools, another connector's aliases or unrelated tools to that count. Report
-the endpoint, granted access evidence and observed count; label a partial inventory
-incomplete. Read only and Custom can correctly expose fewer tools.
+staging tools, another connector's aliases or unrelated tools. Report the endpoint,
+granted access evidence and the operations available; label a partial inventory
+incomplete.
 
-Refresh the connector's discovery before diagnosing a stale inventory. If a complete
-production inventory still falls below this release's expectation after Full access
-is confirmed, follow the release instruction to remove and reconnect that production
-connector, then let the user authorize it again. Preserve the separate staging entry.
-Recount after authentication. If the mismatch persists, report the observed tool names
-and missing operations without tokens. Do not reconnect repeatedly or claim a missing
-tool was installed merely because the count changed. Forty-eight tools alone does not
-prove the selected workspace, effective Google role or any write operation works.
+Refresh the connector's discovery before diagnosing a stale inventory. Existing
+connections do not receive newly introduced permissions automatically. Reconnect only
+when all three hold: a refreshed, complete inventory still lacks an operation the
+customer needs; the current MCP guide or advertised permissions offer that operation in
+production; and the grant evidence shows that permission absent or older. Operations
+managed only in the Consent Pro dashboard, such as billing, transferring or deleting a
+project and connecting Webflow sites, never justify a reconnect. Then reconnect that
+production connector once through the client's reauthorization flow, keeping the same
+account and workspace; remove and re-add it only when no such flow exists. Preserve the
+separate staging entry. Inventory again after authentication. If the operation is still
+missing, report the observed tool names and missing operations without tokens. Do not
+reconnect repeatedly or claim a missing tool was installed merely because the inventory
+changed. A complete inventory alone does not prove the selected workspace, effective
+Google role or any write operation works.
 
 ### Use the available operations
 
@@ -111,8 +115,8 @@ New tools under a permission already granted can appear without reconnecting. A 
 required permission is not added to an old grant automatically. Refresh discovery,
 inspect the available grant/status evidence and distinguish a missing permission from
 an undeployed operation before proposing reconnection. If the cause is unknown, say so.
-Use the dated [production inventory check](#check-the-production-tool-inventory)
-when that release expectation applies; a random catalogue total is not a reconnect instruction.
+Use the [production inventory check](#check-the-production-tool-inventory)
+before proposing reconnection; a catalogue total alone is not a reconnect instruction.
 Use the [connection and permissions guide](https://docs.consentpro.com/mcp/setup)
 for the selected environment. Reauthorization grants access, not approval to make
 every change exposed by Full access.

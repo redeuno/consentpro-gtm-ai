@@ -44,19 +44,20 @@ starting another scan, reconnecting everything or recreating the project.
 ### Production tools appear missing or outdated
 
 Use the [production inventory check](../06-agent-readiness/operations.md#check-the-production-tool-inventory).
-The 2026-10-29 Full access expectation is 48 tools on that production server.
-Count the complete discovered inventory, excluding staging and duplicate aliases.
+There is no fixed tool count to compare against: it changes between releases and with the approved access.
+Inventory the complete discovered tools, excluding staging and duplicate aliases.
 Read only or Custom can correctly show fewer tools; a partial inventory proves no total.
+When a needed operation is still missing, follow that check; it refreshes discovery and
+confirms the grant before a single reconnect. Existing connections do not receive newly
+introduced permissions automatically.
 
-If Full access is confirmed and the complete count remains below that release
-expectation after discovery refresh, reconnect the production connector as directed
-by the release instructions. Keep staging separate and let the user finish authorization.
+Keep staging separate and let the user finish authorization.
 Then re-read tools and account/workspace identity. Do not run a write as a permission
 probe, reuse staging credentials or repeatedly reconnect without new evidence.
 
 A missing GTM operation can reflect Consent Pro permission, an unavailable host tool,
 Google scope or the selected container's role. Inspect those layers separately.
-Forty-eight advertised tools does not prove that Google is connected or can publish.
+A complete tool inventory does not prove that Google is connected or can publish.
 Follow [GTM connection](../06-agent-readiness/operations.md#connect-google-tag-manager)
 for the user's separate Google authorization, without opening the returned link yourself.
 

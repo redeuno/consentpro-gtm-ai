@@ -102,7 +102,7 @@ the next useful action, not the whole procedure at once.
 
 ## Save the instructions for future conversations
 
-The [ready preview packages](https://github.com/redeuno/consentpro-gtm-ai/releases/tag/v0.4.1)
+The [ready preview packages](https://github.com/redeuno/consentpro-gtm-ai/releases/tag/v0.4.2)
 contain the instructions and references for optional persistent installation.
 The [installation guide](docs/07-agent-installation/README.md)
 distinguishes ChatGPT, Claude chat, Codex and Claude Code. Both skills share the
@@ -128,7 +128,7 @@ manual steps for missing operations and verify publication authority separately.
 The [connection guide](docs/07-agent-installation/README.md#connect-consent-pro)
 uses the [official production endpoint](https://docs.consentpro.com/mcp/setup)
 and keeps product staging separate. Confirm the selected environment, workspace
-and discovered tools before operating. A dated tool count is a release check,
+and discovered tools before operating. A tool inventory is a connection check,
 not proof of permission or a successful installation. If connection is unavailable
 or declined, continue through the selected environment's dashboard.
 

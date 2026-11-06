@@ -129,7 +129,7 @@ Check these separately:
   read are different checkpoints. Refresh discovery after a tool-list change or
   rejection. A dated catalogue is evidence, not a live capability or permission.
   Use the [connection verification](../../docs/07-agent-installation/README.md#verify-the-connected-environment-and-tool-set)
-  for a release check. Count only the selected endpoint, following discovery pagination;
+  for an inventory check. Count only the selected endpoint, following discovery pagination;
   do not combine production, staging or duplicated host integrations.
   New tools under an existing permission do not require reconnection; newly required
   permissions need a grant upgrade. Inspect the evidence before proposing one, and

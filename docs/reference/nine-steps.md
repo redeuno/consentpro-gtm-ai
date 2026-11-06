@@ -22,7 +22,6 @@ For the production MCP, use `https://mcp.consentpro.com/mcp` and compare the pro
 in [the production Web App](https://app.consentpro.com/). Confirm its workspace before
 requesting the separate Google connection. Existing staging access does not establish
 production access, and connection does not approve any of the changes below.
-Use your own disposable site and container for release testing, not a customer's assets.
 
 Confirm the selected account, container, workspace, live version and pending
 changes. Inspect the served site for the correct snippet and existing CMP. If the

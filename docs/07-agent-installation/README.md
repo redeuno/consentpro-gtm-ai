@@ -12,12 +12,12 @@ deferred or unavailable. Persistent instructions are optional. For an explicit
 
 ## Optional: get the ready package
 
-Download the reviewed assets from [release 0.4.1](https://github.com/redeuno/consentpro-gtm-ai/releases/tag/v0.4.1):
+Download the reviewed assets from [release 0.4.2](https://github.com/redeuno/consentpro-gtm-ai/releases/tag/v0.4.2):
 
 | Asset | Use |
 |---|---|
-| `consent-pro-0.4.1-preview.zip` | Start here for the whole Consent Pro journey, including GTM guidance |
-| `consent-pro-gtm-0.4.1-preview.zip` | Optional specialist for focused GTM work |
+| `consent-pro-0.4.2-preview.zip` | Start here for the whole Consent Pro journey, including GTM guidance |
+| `consent-pro-gtm-0.4.2-preview.zip` | Optional specialist for focused GTM work |
 | `SHA256SUMS` | Compare the downloaded bytes with the release checksums |
 
 This is a preview distribution. Follow the host-specific procedure below and verify
@@ -72,7 +72,7 @@ unverified.
 | Environment | Entry and scope |
 |---|---|
 | Consent Pro production service | Web App: `https://app.consentpro.com/`. MCP: `https://mcp.consentpro.com/mcp`. Use the customer's production Finsweet account and selected workspace |
-| Consent Pro product staging | Retain a separately named staging connection and the approved staging dashboard supplied for that testing round. It has separate account/workspace data; do not repoint it to production |
+| Consent Pro product staging | Only when a staging connection was supplied to you: keep it separately named, with its own account and workspace data, and do not repoint it to production |
 | Customer test website | The customer's own test hostname, project and container. It does not identify the Consent Pro account environment or imply a free production license |
 | Customer production website | Confirm the project, license and publication authority before making changes that reach ordinary visitors |
 
@@ -335,7 +335,7 @@ When file tools are available, first verify the reviewed ZIP and manifest using
 the checks below. Otherwise provide the reviewed asset link and keep byte
 verification marked unavailable. In Customize,
 Skills, open Add Skill (`+`) and choose Upload Skill, then select the reviewed
-`consent-pro-0.4.1-preview.zip` and enable it. The primary package includes GTM guidance;
+`consent-pro-0.4.2-preview.zip` and enable it. The primary package includes GTM guidance;
 the specialist ZIP is available for direct GTM tasks. Each ZIP must contain
 its named skill folder, including `SKILL.md` and all bundled dependencies. Do not upload
 the entire repository as if it were one skill.
@@ -442,9 +442,9 @@ does not authorize those changes or require a full audit.
 
 Compute the hash of the ZIP you downloaded and compare it with the line for that
 exact filename in `SHA256SUMS`. For the primary package, use
-`shasum -a 256 consent-pro-0.4.1-preview.zip` on macOS,
-`sha256sum consent-pro-0.4.1-preview.zip` on Linux, or
-`Get-FileHash consent-pro-0.4.1-preview.zip -Algorithm SHA256` on Windows.
+`shasum -a 256 consent-pro-0.4.2-preview.zip` on macOS,
+`sha256sum consent-pro-0.4.2-preview.zip` on Linux, or
+`Get-FileHash consent-pro-0.4.2-preview.zip -Algorithm SHA256` on Windows.
 Substitute the specialist ZIP's filename if that is the package you chose.
 
 If you downloaded both ZIPs listed in `SHA256SUMS` into the same directory, you
@@ -564,23 +564,22 @@ current tools and schemas exposed by the selected production connection, followi
 discovery pagination. Count only that endpoint's tools, including its documentation
 tools. Do not sum staging, production and duplicated host integrations.
 
-The 2026-10-29 production testing release expects **48 tools with Full access**:
-46 Consent Pro tools and two documentation tools. This is a dated release check,
-not a permanent capability contract. Read only and Custom can expose fewer tools.
-If the host cannot enumerate the complete catalogue, report the count as unverified
-instead of repeating the expected number as a measurement.
+The number of tools changes between releases and with the approved access; Read only
+and Custom can expose fewer tools, and there is no fixed count to compare against. If an
+operation the customer needs is missing after a complete discovery, follow the
+[production inventory check](../06-agent-readiness/operations.md#check-the-production-tool-inventory):
+existing connections do not receive newly introduced permissions automatically. If the
+host cannot enumerate the complete catalogue, report the inventory as unverified.
 
-If that production release still shows fewer tools after a client discovery refresh
-with Full access, follow its reconnect procedure. Retain the intended account and
-workspace, remove only that production connector, add the same production URL and
-authorize it again. Keep staging and other connections intact. Then recount and
-run the account read. If the result still differs, inspect missing operations and
-permissions; do not repeat reconnection blindly or substitute another environment.
+To reconnect, keep the intended account and workspace, reauthorize only that production
+connector with the same URL and keep staging and other connections intact. Then
+inventory again and run the account read. If the operation is still missing, report it;
+do not repeat reconnection or substitute another environment.
 
-A matching count does not prove every permission works or that edits and publishing
-were tested. Read each operation's contract when needed. A later release can change
-the count; prefer current server evidence and official documentation over a frozen
-number. Report connection, tool discovery, effective reads and untested writes separately.
+A complete inventory does not prove every permission works or that edits and publishing
+were tested. Read each operation's contract when needed. Prefer current server evidence
+and official documentation over a remembered list. Report connection, tool discovery,
+effective reads and untested writes separately.
 
 ## Recover a missing layer
 
