@@ -46,13 +46,17 @@ Preserve existing rows and unrelated initialization parameters. Do not replace t
 table to change one region. Review the complete existing table, apply only the
 agreed rows through a supported MCP operation or the GTM interface, then read it back.
 
-One region row per banner, each with its own codes and its own pattern. An opt-in banner for
-Europe and an opt-out banner for the United States are **two rows in one tag**, not two tags:
+Use one region row per banner, with its own codes and pattern. This example has
+opt-in for the EU countries plus the UK and opt-out for California.
+Both regional rows belong to one initialization tag:
 
 | Row | Regions | Fields |
 |---|---|---|
 | 1 | the EU countries plus `GB` | all Denied |
 | 2 | `US-CA` | all Granted |
+
+These example rows preserve the existing `Global` fallback and any other agreed regions.
+`US-CA` covers California only, not the whole United States.
 
 ## A note on what this controls
 

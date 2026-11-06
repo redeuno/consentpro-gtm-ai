@@ -35,9 +35,9 @@ silence does not select a mode or authorize publication.
 
 ## Configure the selected behavior
 
-Basic is the product's documented default, not permission to choose for the customer.
-Advanced requires a separate decision; do not enable it merely because analytics
-traffic falls. Source: [Consent Pro mode guide](https://docs.consentpro.com/web-app/google-consent-mode).
+Use the customer's explicit Basic or Advanced choice. A documented recommendation
+does not authorize selecting or switching the mode. Do not enable Advanced merely
+because analytics traffic falls. Source: [Consent Pro mode guide](https://docs.consentpro.com/web-app/google-consent-mode).
 
 | Setting | Basic GA4 | Advanced GA4 |
 |---|---|---|

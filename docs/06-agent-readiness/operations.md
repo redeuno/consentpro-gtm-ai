@@ -962,12 +962,16 @@ For non-essential image pixels, use `fs-consent-src` and `fs-consent-categories`
 `src` removal after revocation. See [non-GTM paths](../05-what-gtm-does-not-cover.md) and
 [image reference](https://docs.consentpro.com/runtime/image-trackers).
 
-The [runtime API](https://docs.consentpro.com/runtime/api) and
-[attributes](https://docs.consentpro.com/runtime/attributes) examples expose `.on()`, while
-[events](https://docs.consentpro.com/runtime/events) says listener methods are not public
-and documents `dataLayer` events. Check the actual runtime API before copying a placeholder
-listener. `consent-updated` includes applied/changed consent and rejection; the event alone
-does not grant permission to run a tracker.
+The [runtime API](https://docs.consentpro.com/runtime/api) exposes `.on()` and `.off()`.
+Register listeners after initialization through the documented callback queue;
+remove a listener with the same handler. `once` and `subscribe` are not public emitter methods.
+The runtime emitter's `consent-updated` payload contains `detail.choices`; DOM events
+use the `consentpro:` prefix and expose their payload through `event.detail`.
+The separate `dataLayer` notification contains only `{ event: 'consent-updated' }`,
+including after rejection and restored choices. An unchanged choice need not emit
+another runtime emitter event. None of these signals alone grants permission to run a tracker.
+Follow the [events reference](https://docs.consentpro.com/runtime/events) for the
+callback queue and event contract of the installed runtime.
 
 ## Logs, statistics and optional storage
 

@@ -136,9 +136,13 @@ Three optional settings on the same tag:
 
 | Setting | What it does | Reasonable value |
 |---|---|---|
-| Wait for consent update | how long tags are held while consent resolves | 500 to 2000 ms, default 1000 |
+| Wait for consent update | briefly delays Google consent processing while an update is expected | documented default 1000 ms; verify the installed template's value |
 | URL passthrough | carries ad click identifiers through the URL while consent is pending | review against the customer's chosen measurement and privacy policy |
 | Ads data redaction | strips ad identifiers from requests when consent is denied | review against the customer's chosen measurement and privacy policy |
+
+This setting does not wait indefinitely for a visitor, block third-party tags or
+replace additional consent checks. Review changes against the actual initialization timing.
+Source: [Consent Pro GTM settings](https://docs.consentpro.com/web-app/google-tag-manager).
 
 **More than one banner means more than one region row**, each with its own codes and its own
 granted or denied pattern. Not more than one tag.

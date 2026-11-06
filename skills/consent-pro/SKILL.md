@@ -1,6 +1,6 @@
 ---
 name: consent-pro
-description: Guide Consent Pro setup, account and project entry, installation, repairs and maintenance for a customer's site, using available tools or manual dashboard steps. Coordinate GTM when relevant without requiring a connector or terminal.
+description: Guide Consent Pro account setup, site installation, repairs and maintenance using connected tools or manual steps. Lead the client journey and coordinate GTM when needed.
 ---
 
 # Consent Pro guided setup and operation

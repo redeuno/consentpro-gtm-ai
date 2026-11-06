@@ -1,6 +1,6 @@
 ---
 name: consent-pro-gtm
-description: Guide and carry out Google Tag Manager consent setup and repairs with Consent Pro, including account connection, template installation, consent mode, regional defaults and business triggers. Use for GTM-specific work; consent-pro leads the wider client journey.
+description: Set up and repair Google Tag Manager consent with Consent Pro, including connections, templates, modes and business triggers. Use for GTM work; consent-pro leads the client journey.
 ---
 
 # Consent Pro and Google Tag Manager
